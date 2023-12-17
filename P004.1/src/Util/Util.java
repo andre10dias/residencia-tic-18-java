@@ -28,5 +28,13 @@ public class Util {
 		DecimalFormat formato = new DecimalFormat("#.##");
         return formato.format(num);
 	}
+	
+	public static boolean isNumber(char c) {
+		if (Character.isDigit(c)) {
+			return true;
+		}
+		
+		return false;
+	}
 
 }
