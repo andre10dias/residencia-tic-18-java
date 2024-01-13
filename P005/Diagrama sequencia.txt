@@ -1,0 +1,41 @@
+Empresa de transporte viário
+
+Diagrama de sequência
+
+
+a) Cadastro de veículos, motoristas, 
+colaboradores, passageiros, pontos de parada
+
+Empresa --> dados do cadastro --> Sistema
+Empresa <-- confirmação de cadastro <-- Sistema
+
+
+b) Cadastro de trajetos, com seus respectivos trechos 
+(e seus respectivos pontos de parada e intervalos estimados)
+
+Empresa --> CadastrarTrajeto(listaTrechos) --> Sistema
+Empresa <-- confirmação de cadastro <-- Sistema
+
+
+c) Registro de jornadas: seleciona trajetos, associa motorista 
+(e eventualmente cobrador), além de um veículo 
+
+Empresa --> RegistrarJornada(trajeto, motoristaCobrador, veiculo) --> Sistema
+Empresa <-- confirmação de registro <-- Sistema
+
+d) Registro de início de trajeto: de acordo com a jornada. Registra 
+a data e a hora (os demais dados estão registrados na jornada) 
+
+MotoristaCobrador --> RegistrarInicioTrajeto(dataHoraInicio) --> Sistema
+MotoristaCobrador <-- confirmação de registro <-- Sistema
+
+e) Registro de passageiro embarcado com o cartão (identifica o 
+ponto de embarque e o cartão)
+
+Passageiro --> RegistrarEmbarque(passageiro, pontoParada) --> Sistema
+Passageiro <-- confirmação de registro <-- Sistema
+
+f) Registro de checkpoint: registro de fim de trajeto
+
+Motorista / cobrador --> RegistrarFinalTrajeto(dataHoraFim) --> Sistema
+Motorista / cobrador <-- confirmação de registro <-- Sistema
