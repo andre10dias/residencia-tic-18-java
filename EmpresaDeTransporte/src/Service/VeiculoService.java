@@ -66,10 +66,10 @@ public class VeiculoService implements IService<Veiculo> {
         }
     }
     
-//    @Override
-//    public Integer buscar(List<Veiculo> dados, Veiculo veiculo) {
-//        return dados.indexOf(veiculo);
-//    }
+    @Override
+    public Veiculo buscar(List<Veiculo> dados, Integer indice) {
+        return dados.get(indice);
+    }
 
     @Override
     public Veiculo atualizar(List<Veiculo> dados, Integer indice, Veiculo veiculo) {

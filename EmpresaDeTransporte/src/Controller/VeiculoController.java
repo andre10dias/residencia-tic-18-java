@@ -13,7 +13,10 @@ public class VeiculoController {
 
     public VeiculoController() {
         this.service = new VeiculoService();
-        listaVeiculos = service.carregar();
+    }
+    
+    public void carregar() {
+    	listaVeiculos = service.carregar();
     }
 	
 	public void salvar(Veiculo veiculo) {
@@ -35,6 +38,10 @@ public class VeiculoController {
 		else {
 			System.out.println("\nNão existem resultados para serem exibidos.");			
 		}
+	}
+	
+	public Veiculo buscar(Integer indice) {
+		return service.buscar(listaVeiculos, indice);
 	}
 	
 	public void atualizar(Integer indice, Veiculo veiculo) {
