@@ -3,6 +3,8 @@ package Model;
 import java.util.Date;
 import java.util.Objects;
 
+import Util.EmpresaDeTransporteUtil;
+
 public class MotoristaCobrador {
 	
 	private String nome;
@@ -46,6 +48,22 @@ public class MotoristaCobrador {
 
 	public void setFimJornada(Date fimJornada) {
 		this.fimJornada = fimJornada;
+	}
+	
+	public String getInicioJornadaFormatado() {
+		if (this.inicioJornada != null) {
+			return EmpresaDeTransporteUtil.dateToString(this.inicioJornada);
+		}
+		
+		return "";
+	}
+	
+	public String getFimJornadaFormatado() {
+		if (this.fimJornada != null) {
+			return EmpresaDeTransporteUtil.dateToString(this.fimJornada);
+		}
+		
+		return "";
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import Model.MotoristaCobrador;
+import Util.EmpresaDeTransporteUtil;
 
 public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	
@@ -29,12 +30,12 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	public List<MotoristaCobrador> carregar() {
 		List<MotoristaCobrador> lista = new ArrayList<>();
         File arquivo = new File(MOTORISTA_COBRADOR_PATH);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         String linha;
         
         if (arquivo.exists()) {	
 	        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-	            System.out.println("Lendo arquivo " + MOTORISTA_COBRADOR_PATH + "...\n");
+	            System.err.println("Lendo arquivo " + MOTORISTA_COBRADOR_PATH + "...\n");
 	
 	            while ((linha = reader.readLine()) != null) {
 	                String[] attr = linha.split(";");
@@ -43,21 +44,17 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	                Date inicioJornada = null;
 	                Date fimJornada = null;
 	                
-					try {
-						inicioJornada = sdf.parse(attr[INICIO_JORNADA]);
-						fimJornada = sdf.parse(attr[FIM_JORNADA]);
-					} catch (ParseException e) {
-						System.err.println("Erro ao converter dados: " + e.getMessage());
-					}
-	                
 	                switch (attr.length) {
 						case 1:
 							lista.add(new MotoristaCobrador(nome));
 							break;
 						case 2:
+							inicioJornada = EmpresaDeTransporteUtil.stringToDate(attr[INICIO_JORNADA]);
 							lista.add(new MotoristaCobrador(nome, inicioJornada));
 							break;
 						default:
+							inicioJornada = EmpresaDeTransporteUtil.stringToDate(attr[INICIO_JORNADA]);
+							fimJornada = EmpresaDeTransporteUtil.stringToDate(attr[FIM_JORNADA]);
 							lista.add(new MotoristaCobrador(nome, inicioJornada, fimJornada));
 							break;
 					}
@@ -75,8 +72,8 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	public void salvar(List<MotoristaCobrador> dados) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(MOTORISTA_COBRADOR_PATH))) {
             for (MotoristaCobrador motoristaCobrador : dados) {
-                writer.write(motoristaCobrador.getNome() + ";" + motoristaCobrador.getInicioJornada() 
-                	+ ";" + motoristaCobrador.getFimJornada());
+                writer.write(motoristaCobrador.getNome() + ";" + motoristaCobrador.getInicioJornadaFormatado() 
+                	+ ";" + motoristaCobrador.getFimJornadaFormatado());
                 writer.newLine();
             }
         } catch (IOException e) {
