@@ -26,7 +26,7 @@ public class PassageiroService implements IService<Passageiro> {
         
         if (arquivo.exists()) {	
 	        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-	            System.out.println("Lendo arquivo " + PASSAGEIRO_PATH + "...\n");
+	            System.err.println("\nLendo arquivo " + PASSAGEIRO_PATH + "...\n");
 	
 	            while ((linha = reader.readLine()) != null) {
 	                String[] attr = linha.split(";");
@@ -40,7 +40,7 @@ public class PassageiroService implements IService<Passageiro> {
 	            }
 	
 	        } catch (IOException e) {
-	            System.err.println("Erro ao ler o arquivo: " + e.getMessage());
+	            System.err.println("\nErro ao ler o arquivo: " + e.getMessage());
 	        }
         }
 
@@ -55,7 +55,7 @@ public class PassageiroService implements IService<Passageiro> {
                 writer.newLine();
             }
         } catch (IOException e) {
-            System.err.println("Erro ao salvar os dados: " + e.getMessage());
+            System.err.println("\nErro ao salvar os dados: " + e.getMessage());
         }
     }
 

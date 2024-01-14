@@ -7,7 +7,6 @@ public class Veiculo {
 	private String numero;
 
 	public Veiculo(String numero) {
-		super();
 		this.numero = numero;
 	}
 

@@ -26,14 +26,14 @@ public class VeiculoService implements IService<Veiculo> {
         
         if (arquivo.exists()) {			
         	try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-        		System.err.println("Lendo arquivo " + VEICULO_PATH + "...\n");
+        		System.err.println("\nLendo arquivo " + VEICULO_PATH + "...\n");
         		
         		while ((linha = reader.readLine()) != null) {
         			lista.add(new Veiculo(linha));
         		}
         		
         	} catch (IOException e) {
-        		System.err.println("Erro ao ler o arquivo: " + e.getMessage());
+        		System.err.println("\nErro ao ler o arquivo: " + e.getMessage());
         	}
 		}
         
@@ -43,20 +43,20 @@ public class VeiculoService implements IService<Veiculo> {
     @Override
     public void salvar(List<Veiculo> dados) {
     	try (BufferedWriter writer = new BufferedWriter(new FileWriter(VEICULO_PATH))) {
-    		System.err.println("Salvando dados no arquivo " + VEICULO_PATH + "...\n");
+    		System.err.println("\nSalvando dados no arquivo " + VEICULO_PATH + "...\n");
     		
     		for (Veiculo dado : dados) {				
     			writer.write(dado.getNumero());
     			writer.newLine();
 			}
         } catch (IOException e) {
-            System.err.println("Erro ao salvar os dados: " + e.getMessage());
+            System.err.println("\nErro ao salvar os dados: " + e.getMessage());
         }
     }
 
     @Override
-    public void adicionar(List<Veiculo> dados, Veiculo veiculo) {
-        dados.add(veiculo);
+    public void adicionar(List<Veiculo> dados, Veiculo objeto) {
+        dados.add(objeto);
     }
 
     @Override
@@ -72,15 +72,15 @@ public class VeiculoService implements IService<Veiculo> {
     }
 
     @Override
-    public Veiculo atualizar(List<Veiculo> dados, Integer indice, Veiculo veiculo) {
-    	dados.set(indice, veiculo);
+    public Veiculo atualizar(List<Veiculo> dados, Integer indice, Veiculo objeto) {
+    	dados.set(indice, objeto);
     	salvar(dados);
         return dados.get(indice);
     }
 
     @Override
-    public void excluir(List<Veiculo> dados, Veiculo veiculo) {
-    	if (dados.remove(veiculo)) {
+    public void excluir(List<Veiculo> dados, Veiculo objeto) {
+    	if (dados.remove(objeto)) {
     		salvar(dados);
 			System.out.println("\nVeículo removido com sucesso.");
 		}
