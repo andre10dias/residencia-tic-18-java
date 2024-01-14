@@ -60,8 +60,8 @@ public class PassageiroService implements IService<Passageiro> {
     }
 
     @Override
-    public void adicionar(List<Passageiro> dados, Passageiro passageiro) {
-        dados.add(passageiro);
+    public void adicionar(List<Passageiro> dados, Passageiro objeto) {
+        dados.add(objeto);
     }
 
     @Override
@@ -77,15 +77,15 @@ public class PassageiroService implements IService<Passageiro> {
     }
 
     @Override
-    public Passageiro atualizar(List<Passageiro> dados, Integer indice, Passageiro passageiro) {
-    	dados.set(indice, passageiro);
+    public Passageiro atualizar(List<Passageiro> dados, Integer indice, Passageiro objeto) {
+    	dados.set(indice, objeto);
     	salvar(dados);
         return dados.get(indice);
     }
 
     @Override
-    public void excluir(List<Passageiro> dados, Passageiro passageiro) {
-    	if (dados.remove(passageiro)) {
+    public void excluir(List<Passageiro> dados, Passageiro objeto) {
+    	if (dados.remove(objeto)) {
     		salvar(dados);
 			System.out.println("\nPassageiro removido com sucesso.");
 		}

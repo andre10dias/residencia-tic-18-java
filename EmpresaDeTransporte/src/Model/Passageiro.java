@@ -43,7 +43,11 @@ public class Passageiro {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(nome, numeroCartao);
+		if (numeroCartao == null || "".equals(numeroCartao)) {			
+			return Objects.hash(nome);
+		}
+		
+		return Objects.hash(nome, numeroCartao); 
 	}
 
 	@Override
@@ -57,7 +61,7 @@ public class Passageiro {
 		}
 		
 		Passageiro other = (Passageiro) obj;
-		if ("".equals(numeroCartao) || numeroCartao == null || "".equals(other.numeroCartao) || other.numeroCartao == null) {
+		if (numeroCartao == null || "".equals(numeroCartao) || other.numeroCartao == null || "".equals(other.numeroCartao)) {
 			return Objects.equals(nome, other.nome);
 		}
 		
