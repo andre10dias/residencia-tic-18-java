@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +28,6 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	public List<MotoristaCobrador> carregar() {
 		List<MotoristaCobrador> lista = new ArrayList<>();
         File arquivo = new File(MOTORISTA_COBRADOR_PATH);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         String linha;
         
         if (arquivo.exists()) {	

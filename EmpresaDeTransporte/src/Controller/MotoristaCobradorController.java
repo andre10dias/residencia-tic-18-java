@@ -1,11 +1,9 @@
 package Controller;
 
-import java.util.Date;
 import java.util.List;
 
 import Model.MotoristaCobrador;
 import Service.MotoristaCobradorService;
-import Util.EmpresaDeTransporteUtil;
 
 public class MotoristaCobradorController {
 	
