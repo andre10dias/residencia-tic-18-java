@@ -83,7 +83,7 @@ public class TrechoService implements IService<Trecho> {
 	public void excluir(List<Trecho> dados, Trecho objeto) {
 		if (dados.remove(objeto)) {
     		salvar(dados);
-			System.out.println("\nVeículo removido com sucesso.");
+			System.out.println("\nDado removido com sucesso.");
 		}
 		else {
 			System.out.println("\nDados não localizados.");

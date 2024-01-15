@@ -94,7 +94,7 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	public void excluir(List<MotoristaCobrador> dados, MotoristaCobrador objeto) {
 		if (dados.remove(objeto)) {
     		salvar(dados);
-			System.out.println("\nMotorista/Cobrador removido com sucesso.");
+			System.out.println("\nDado removido com sucesso.");
 		}
 		else {
 			System.out.println("\nDados não localizados.");

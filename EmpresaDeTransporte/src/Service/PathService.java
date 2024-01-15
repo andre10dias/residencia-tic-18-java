@@ -8,5 +8,6 @@ public class PathService {
 	protected static final String PONTO_PARADA_PATH = "src/Bd/pontoParada.txt";
 	protected static final String TRECHO_PATH = "src/Bd/trecho.txt";
 	protected static final String TRAJETO_PATH = "src/Bd/trajeto.txt";
+	protected static final String CHECKPOINT_PATH = "src/Bd/checkpoint.txt";
 
 }

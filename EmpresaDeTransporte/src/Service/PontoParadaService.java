@@ -68,7 +68,7 @@ public class PontoParadaService implements IService<PontoParada> {
 	public void excluir(List<PontoParada> dados, PontoParada objeto) {
 		if (dados.remove(objeto)) {
     		salvar(dados);
-			System.out.println("\nPonto de parada removido com sucesso.");
+			System.out.println("\nDado removido com sucesso.");
 		}
 		else {
 			System.out.println("\nDados não localizados.");

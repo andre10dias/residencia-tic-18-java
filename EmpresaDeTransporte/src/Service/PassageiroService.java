@@ -75,7 +75,7 @@ public class PassageiroService implements IService<Passageiro> {
     public void excluir(List<Passageiro> dados, Passageiro objeto) {
     	if (dados.remove(objeto)) {
     		salvar(dados);
-			System.out.println("\nPassageiro removido com sucesso.");
+			System.out.println("\nDado removido com sucesso.");
 		}
 		else {
 			System.out.println("\nDados não localizados.");

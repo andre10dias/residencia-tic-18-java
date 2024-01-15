@@ -68,7 +68,7 @@ public class VeiculoService implements IService<Veiculo> {
     public void excluir(List<Veiculo> dados, Veiculo objeto) {
     	if (dados.remove(objeto)) {
     		salvar(dados);
-			System.out.println("\nVeículo removido com sucesso.");
+			System.out.println("\nDado removido com sucesso.");
 		}
 		else {
 			System.out.println("\nDados não localizados.");
