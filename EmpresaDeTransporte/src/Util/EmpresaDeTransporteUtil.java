@@ -28,7 +28,7 @@ public class EmpresaDeTransporteUtil {
 			}
 		}
 		
-		return null;
+		return "";
 	}
 
 }
