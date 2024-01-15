@@ -47,8 +47,8 @@ public class PontoParadaService implements IService<PontoParada> {
 
 	@Override
 	public void listar(List<PontoParada> dados) {
-		for (PontoParada pontoParada : dados) {
-            System.out.println(pontoParada);
+		for (PontoParada dado : dados) {
+            System.out.println(dado);
         }
 	}
 

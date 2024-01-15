@@ -8,12 +8,6 @@ public class Trecho {
 	private PontoParada origem;
     private PontoParada destino;
     private Integer intervaloEstimado;
-    
-//	public Trecho(PontoParada origem, PontoParada destino, Integer intervaloEstimado) {
-//		this.origem = origem;
-//		this.destino = destino;
-//		this.intervaloEstimado = intervaloEstimado;
-//	}
 	
 	public Trecho(Trajeto codigoTrajeto, PontoParada origem, PontoParada destino, Integer intervaloEstimado) {
 		this.codigoTrajeto = codigoTrajeto;

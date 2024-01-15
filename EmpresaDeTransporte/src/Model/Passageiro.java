@@ -11,11 +11,6 @@ public class Passageiro {
 		this.nome = nome;
 		this.numeroCartao = numeroCartao;
 	}
-	
-	public Passageiro(String nome) {
-		this.nome = nome;
-		this.numeroCartao = "";
-	}
 
 	public String getNome() {
 		return nome;
@@ -43,29 +38,19 @@ public class Passageiro {
 
 	@Override
 	public int hashCode() {
-		if (numeroCartao == null || "".equals(numeroCartao)) {			
-			return Objects.hash(nome);
-		}
-		
-		return Objects.hash(nome, numeroCartao); 
+		return Objects.hash(nome, numeroCartao);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		
-		if (obj == null || getClass() != obj.getClass()) {			
+		if (obj == null)
 			return false;
-		}
-		
+		if (getClass() != obj.getClass())
+			return false;
 		Passageiro other = (Passageiro) obj;
-		if (numeroCartao == null || "".equals(numeroCartao) || other.numeroCartao == null || "".equals(other.numeroCartao)) {
-			return Objects.equals(nome, other.nome);
-		}
-		
-		return (Objects.equals(nome, other.nome) && Objects.equals(numeroCartao, other.numeroCartao));
+		return Objects.equals(nome, other.nome) && Objects.equals(numeroCartao, other.numeroCartao);
 	}
     
 }

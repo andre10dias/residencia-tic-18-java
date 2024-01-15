@@ -47,8 +47,8 @@ public class VeiculoService implements IService<Veiculo> {
 
     @Override
     public void listar(List<Veiculo> dados) {
-    	for (Veiculo veiculo : dados) {
-            System.out.println(veiculo);
+    	for (Veiculo dado : dados) {
+            System.out.println(dado);
         }
     }
     

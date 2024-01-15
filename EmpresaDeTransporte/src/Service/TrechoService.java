@@ -62,8 +62,8 @@ public class TrechoService implements IService<Trecho> {
 
 	@Override
 	public void listar(List<Trecho> dados) {
-		for (Trecho trecho : dados) {
-            System.out.println(trecho);
+		for (Trecho dado : dados) {
+            System.out.println(dado);
         }
 	}
 

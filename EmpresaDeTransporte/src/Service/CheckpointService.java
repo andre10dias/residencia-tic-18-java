@@ -62,8 +62,8 @@ public class CheckpointService implements IService<Checkpoint> {
 
 	@Override
 	public void listar(List<Checkpoint> dados) {
-		for (Checkpoint trecho : dados) {
-            System.out.println(trecho);
+		for (Checkpoint dado : dados) {
+            System.out.println(dado);
         }
 	}
 

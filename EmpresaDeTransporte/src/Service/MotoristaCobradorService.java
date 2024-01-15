@@ -73,8 +73,8 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 
 	@Override
 	public void listar(List<MotoristaCobrador> dados) {
-		for (MotoristaCobrador motoristaCobrador : dados) {
-            System.out.println(motoristaCobrador);
+		for (MotoristaCobrador dado : dados) {
+            System.out.println(dado);
         }
 	}
 

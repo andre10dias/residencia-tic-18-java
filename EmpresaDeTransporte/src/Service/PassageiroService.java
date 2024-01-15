@@ -21,13 +21,7 @@ public class PassageiroService implements IService<Passageiro> {
         List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
         for (String linha : dados) {
         	String[] attr = linha.split(";");
-            
-            if (attr.length > 1) {						
-            	lista.add(new Passageiro(attr[0], attr[1]));
-			}
-            else {
-            	lista.add(new Passageiro(attr[0]));
-            }
+        	lista.add(new Passageiro(attr[0], attr[1]));
         }
 
         return lista;
@@ -54,8 +48,8 @@ public class PassageiroService implements IService<Passageiro> {
 
     @Override
     public void listar(List<Passageiro> dados) {
-    	for (Passageiro passageiro : dados) {
-            System.out.println(passageiro);
+    	for (Passageiro dado : dados) {
+            System.out.println(dado);
         }
     }
     

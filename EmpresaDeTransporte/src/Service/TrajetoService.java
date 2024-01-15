@@ -53,8 +53,8 @@ public class TrajetoService implements IService<Trajeto> {
 
 	@Override
 	public void listar(List<Trajeto> dados) {
-		for (Trajeto trajeto : dados) {
-            System.out.println(trajeto);
+		for (Trajeto dado : dados) {
+            System.out.println(dado);
         }
 	}
 
