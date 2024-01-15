@@ -1,11 +1,6 @@
 package Service;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +8,7 @@ import Model.PontoParada;
 
 public class PontoParadaService implements IService<PontoParada> {
 	
-	private static final String PONTO_PARADA_PATH = "src/Bd/pontoParada.txt";
+	private static final String PONTO_PARADA_PATH = PathService.PONTO_PARADA_PATH;
 	
     public PontoParadaService() {
 	}
@@ -22,19 +17,10 @@ public class PontoParadaService implements IService<PontoParada> {
 	public List<PontoParada> carregar() {
 		List<PontoParada> lista = new ArrayList<>();
         File arquivo = new File(PONTO_PARADA_PATH);
-        String linha;
-        
-        if (arquivo.exists()) {			
-        	try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-        		System.err.println("\nLendo arquivo " + PONTO_PARADA_PATH + "...\n");
-        		
-        		while ((linha = reader.readLine()) != null) {
-        			lista.add(new PontoParada(linha));
-        		}
-        		
-        	} catch (IOException e) {
-        		System.err.println("\nErro ao ler o arquivo: " + e.getMessage());
-        	}
+
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        for (String linha : dados) {
+        	lista.add(new PontoParada(linha));
 		}
         
         return lista;
@@ -42,16 +28,16 @@ public class PontoParadaService implements IService<PontoParada> {
 
 	@Override
 	public void salvar(List<PontoParada> dados) {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(PONTO_PARADA_PATH))) {
-    		System.err.println("\nSalvando dados no arquivo " + PONTO_PARADA_PATH + "...\n");
-    		
-    		for (PontoParada dado : dados) {				
-    			writer.write(dado.getNome());
-    			writer.newLine();
-			}
-        } catch (IOException e) {
-            System.err.println("\nErro ao salvar os dados: " + e.getMessage());
-        }
+		List<String> lista = new ArrayList<>();
+    	File arquivo = new File(PONTO_PARADA_PATH);
+    	
+    	for (PontoParada dado : dados) {
+			lista.add(dado.getNome());
+		}
+    	
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+			System.out.println("\nDados gravados com sucesso.");
+		}
 	}
 
 	@Override

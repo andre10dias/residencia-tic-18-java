@@ -4,14 +4,30 @@ import java.util.Objects;
 
 public class Trecho {
 	
+	private String codigo;
 	private PontoParada origem;
     private PontoParada destino;
-    private int intervaloEstimado;
+    private Integer intervaloEstimado;
     
-	public Trecho(PontoParada origem, PontoParada destino, Integer intervaloEstimado) {
+//	public Trecho(PontoParada origem, PontoParada destino, Integer intervaloEstimado) {
+//		this.origem = origem;
+//		this.destino = destino;
+//		this.intervaloEstimado = intervaloEstimado;
+//	}
+	
+	public Trecho(String codigo, PontoParada origem, PontoParada destino, Integer intervaloEstimado) {
+		this.codigo = codigo;
 		this.origem = origem;
 		this.destino = destino;
 		this.intervaloEstimado = intervaloEstimado;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public PontoParada getOrigem() {
@@ -30,7 +46,7 @@ public class Trecho {
 		this.destino = destino;
 	}
 	
-	public int getIntervaloEstimado() {
+	public Integer getIntervaloEstimado() {
 		return intervaloEstimado;
 	}
 	
@@ -49,7 +65,7 @@ public class Trecho {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(destino, intervaloEstimado, origem);
+		return Objects.hash(codigo);
 	}
 
 	@Override
@@ -61,8 +77,7 @@ public class Trecho {
 		if (getClass() != obj.getClass())
 			return false;
 		Trecho other = (Trecho) obj;
-		return Objects.equals(destino, other.destino) && intervaloEstimado == other.intervaloEstimado
-				&& Objects.equals(origem, other.origem);
+		return Objects.equals(codigo, other.codigo);
 	}
 
 }

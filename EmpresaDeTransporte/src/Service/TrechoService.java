@@ -1,11 +1,6 @@
 package Service;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +9,12 @@ import Model.Trecho;
 
 public class TrechoService implements IService<Trecho> {
 	
-	private static final String TRECHO_PATH = "src/Bd/trecho.txt";
+	private static final String TRECHO_PATH = PathService.TRECHO_PATH;
 	
-	private final Integer ORIGEM = 0;
-	private final Integer DESTINO = 1;
-	private final Integer INTERVALO = 2;
+	private final Integer CODIGO = 0;
+	private final Integer ORIGEM = 1;
+	private final Integer DESTINO = 2;
+	private final Integer INTERVALO = 3;
 	
     public TrechoService() {
 	}
@@ -27,25 +23,17 @@ public class TrechoService implements IService<Trecho> {
 	public List<Trecho> carregar() {
 		List<Trecho> lista = new ArrayList<>();
         File arquivo = new File(TRECHO_PATH);
-        String linha;
-        
-        if (arquivo.exists()) {			
-        	try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-        		System.err.println("\nLendo arquivo " + TRECHO_PATH + "...\n");
-        		
-        		while ((linha = reader.readLine()) != null) {
-        			String[] attr = linha.split(";");
-        			
-        			PontoParada origem = new PontoParada(attr[ORIGEM]);
-        			PontoParada destino = new PontoParada(attr[DESTINO]);
-        			Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
-        			
-        			lista.add(new Trecho(origem, destino, intervaloEstimado));
-        		}
-        		
-        	} catch (IOException e) {
-        		System.err.println("\nErro ao ler o arquivo: " + e.getMessage());
-        	}
+
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        for (String linha : dados) {
+        	String[] attr = linha.split(";");
+			
+			String codigoTrajeto = attr[CODIGO];
+			PontoParada origem = new PontoParada(attr[ORIGEM]);
+			PontoParada destino = new PontoParada(attr[DESTINO]);
+			Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
+			
+			lista.add(new Trecho(codigoTrajeto, origem, destino, intervaloEstimado));
 		}
         
         return lista;
@@ -53,17 +41,18 @@ public class TrechoService implements IService<Trecho> {
 
 	@Override
 	public void salvar(List<Trecho> dados) {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(TRECHO_PATH))) {
-    		System.err.println("\nSalvando dados no arquivo " + TRECHO_PATH + "...\n");
-    		
-    		for (Trecho dado : dados) {				
-    			writer.write(dado.getOrigem().getNome() + ";" + dado.getDestino().getNome() 
-    					+ ";" + dado.getIntervaloEstimado());
-    			writer.newLine();
-			}
-        } catch (IOException e) {
-            System.err.println("\nErro ao salvar os dados: " + e.getMessage());
-        }
+		List<String> lista = new ArrayList<>();
+    	File arquivo = new File(TRECHO_PATH);
+    	
+		for (Trecho dado : dados) {
+//			String codigoTrajeto = dado.getCodigoTrajeto() != null ? dado.getCodigoTrajeto() : "";
+			lista.add(dado.getCodigo() + ";" + dado.getOrigem().getNome() 
+					+ ";" + dado.getDestino().getNome() + ";" + dado.getIntervaloEstimado());
+		}
+    	
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+			System.out.println("\nDados gravados com sucesso.");
+		}
 	}
 
 	@Override

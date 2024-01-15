@@ -1,11 +1,6 @@
 package Service;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +8,7 @@ import Model.Passageiro;
 
 public class PassageiroService implements IService<Passageiro> {
 	
-	private static final String PASSAGEIRO_PATH = "src/Bd/passageiro.txt";
+	private static final String PASSAGEIRO_PATH = PathService.PASSAGEIRO_PATH;
 	
     public PassageiroService() {
 	}
@@ -22,26 +17,17 @@ public class PassageiroService implements IService<Passageiro> {
     public List<Passageiro> carregar() {
     	List<Passageiro> lista = new ArrayList<>();
         File arquivo = new File(PASSAGEIRO_PATH);
-        String linha;
         
-        if (arquivo.exists()) {	
-	        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-	            System.err.println("\nLendo arquivo " + PASSAGEIRO_PATH + "...\n");
-	
-	            while ((linha = reader.readLine()) != null) {
-	                String[] attr = linha.split(";");
-	                
-	                if (attr.length > 1) {						
-	                	lista.add(new Passageiro(attr[0], attr[1]));
-					}
-	                else {
-	                	lista.add(new Passageiro(attr[0]));
-	                }
-	            }
-	
-	        } catch (IOException e) {
-	            System.err.println("\nErro ao ler o arquivo: " + e.getMessage());
-	        }
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        for (String linha : dados) {
+        	String[] attr = linha.split(";");
+            
+            if (attr.length > 1) {						
+            	lista.add(new Passageiro(attr[0], attr[1]));
+			}
+            else {
+            	lista.add(new Passageiro(attr[0]));
+            }
         }
 
         return lista;
@@ -49,14 +35,16 @@ public class PassageiroService implements IService<Passageiro> {
 
     @Override
     public void salvar(List<Passageiro> dados) {
-    	try (BufferedWriter writer = new BufferedWriter(new FileWriter(PASSAGEIRO_PATH))) {
-            for (Passageiro passageiro : dados) {
-                writer.write(passageiro.getNome() + ";" + passageiro.getNumeroCartao());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.err.println("\nErro ao salvar os dados: " + e.getMessage());
-        }
+    	List<String> lista = new ArrayList<>();
+    	File arquivo = new File(PASSAGEIRO_PATH);
+    	
+    	for (Passageiro dado : dados) {
+			lista.add(dado.getNome() + ";" + dado.getNumeroCartao());
+		}
+    	
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+			System.out.println("\nDados gravados com sucesso.");
+		}
     }
 
     @Override

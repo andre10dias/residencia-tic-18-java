@@ -1,11 +1,6 @@
 package Service;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +10,7 @@ import Util.EmpresaDeTransporteUtil;
 
 public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	
-	private static final String MOTORISTA_COBRADOR_PATH = "src/Bd/motoristaCobrador.txt";
+	private static final String MOTORISTA_COBRADOR_PATH = PathService.MOTORISTA_COBRADOR_PATH;
 	
 	private final Integer NOME = 0;
 	private final Integer INICIO_JORNADA = 1;
@@ -28,54 +23,47 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	public List<MotoristaCobrador> carregar() {
 		List<MotoristaCobrador> lista = new ArrayList<>();
         File arquivo = new File(MOTORISTA_COBRADOR_PATH);
-        String linha;
         
-        if (arquivo.exists()) {	
-	        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-	            System.err.println("\nLendo arquivo " + MOTORISTA_COBRADOR_PATH + "...\n");
-	
-	            while ((linha = reader.readLine()) != null) {
-	                String[] attr = linha.split(";");
-	                
-	                String nome = attr[NOME];
-	                Date inicioJornada = null;
-	                Date fimJornada = null;
-	                
-	                switch (attr.length) {
-						case 1:
-							lista.add(new MotoristaCobrador(nome));
-							break;
-						case 2:
-							inicioJornada = EmpresaDeTransporteUtil.stringToDate(attr[INICIO_JORNADA]);
-							lista.add(new MotoristaCobrador(nome, inicioJornada));
-							break;
-						default:
-							inicioJornada = EmpresaDeTransporteUtil.stringToDate(attr[INICIO_JORNADA]);
-							fimJornada = EmpresaDeTransporteUtil.stringToDate(attr[FIM_JORNADA]);
-							lista.add(new MotoristaCobrador(nome, inicioJornada, fimJornada));
-							break;
-					}
-	            }
-	
-	        } catch (IOException e) {
-	            System.err.println("\nErro ao ler o arquivo: " + e.getMessage());
-	        }
-        }
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        for (String linha : dados) {
+        	String[] attr = linha.split(";");
+            
+            String nome = attr[NOME];
+            Date inicioJornada = null;
+            Date fimJornada = null;
+            
+            switch (attr.length) {
+				case 1:
+					lista.add(new MotoristaCobrador(nome));
+					break;
+				case 2:
+					inicioJornada = EmpresaDeTransporteUtil.stringToDate(attr[INICIO_JORNADA]);
+					lista.add(new MotoristaCobrador(nome, inicioJornada));
+					break;
+				default:
+					inicioJornada = EmpresaDeTransporteUtil.stringToDate(attr[INICIO_JORNADA]);
+					fimJornada = EmpresaDeTransporteUtil.stringToDate(attr[FIM_JORNADA]);
+					lista.add(new MotoristaCobrador(nome, inicioJornada, fimJornada));
+					break;
+			}
+		}
         
         return lista;
 	}
 
 	@Override
 	public void salvar(List<MotoristaCobrador> dados) {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(MOTORISTA_COBRADOR_PATH))) {
-            for (MotoristaCobrador motoristaCobrador : dados) {
-                writer.write(motoristaCobrador.getNome() + ";" + motoristaCobrador.getInicioJornadaFormatado() 
-                	+ ";" + motoristaCobrador.getFimJornadaFormatado());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.err.println("\nErro ao salvar os dados: " + e.getMessage());
-        }
+		List<String> lista = new ArrayList<>();
+		File arquivo = new File(MOTORISTA_COBRADOR_PATH);
+    	
+    	for (MotoristaCobrador dado : dados) {
+			lista.add(dado.getNome() + ";" + dado.getInicioJornadaFormatado() 
+					+ ";" + dado.getFimJornadaFormatado());
+		}
+    	
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+			System.out.println("\nDados gravados com sucesso.");
+		}
 	}
 
 	@Override
