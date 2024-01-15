@@ -7,27 +7,38 @@ import Util.EmpresaDeTransporteUtil;
 
 public class Jornada {
 	
+	private Integer codigo;
 	private Date inicio;
     private Date fim;
     private Trajeto trajeto;
     private MotoristaCobrador motoristaCobrador;
     private Veiculo veiculo;
     
-	public Jornada(Date inicio, Trajeto trajeto, 
-			MotoristaCobrador motoristaCobrador, Veiculo veiculo) {
+	public Jornada(Integer codigo, Date inicio, Trajeto trajeto, Veiculo veiculo) {
+		this.codigo = codigo;
 		this.inicio = inicio;
 		this.trajeto = trajeto;
-		this.motoristaCobrador = motoristaCobrador;
 		this.veiculo = veiculo;
 	}
 
-	public Jornada(Date inicio, Date fim, Trajeto trajeto, 
-			MotoristaCobrador motoristaCobrador, Veiculo veiculo) {
+	public Jornada(Integer codigo, Date inicio, Date fim, Trajeto trajeto, Veiculo veiculo) {
+		this.codigo = codigo;
 		this.inicio = inicio;
 		this.fim = fim;
 		this.trajeto = trajeto;
-		this.motoristaCobrador = motoristaCobrador;
 		this.veiculo = veiculo;
+	}
+
+	public Jornada(Integer codigo) {
+		this.codigo = codigo;
+	}
+
+	public Integer getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
 	}
 
 	public Date getInicio() {
@@ -71,27 +82,35 @@ public class Jornada {
 	}
 	
 	public String getDataInicioFormatada() {
-		return EmpresaDeTransporteUtil.dateToString(this.inicio);
+		if (this.inicio != null) {			
+			return EmpresaDeTransporteUtil.dateToString(this.inicio);
+		}
+		
+		return "";
 	}
 	
 	public String getDataFimFormatada() {
-		return EmpresaDeTransporteUtil.dateToString(this.fim);
+		if (this.fim != null) {
+			return EmpresaDeTransporteUtil.dateToString(this.fim);
+		}
+		
+		return "";
 	}
 
 	@Override
 	public String toString() {
-		return "Veiculo{" +
+		return "Jornada{" +
+                "codigo='" + codigo + '\'' +
                 "inicio='" + inicio + '\'' +
                 "fim='" + fim + '\'' +
                 "trajeto='" + trajeto + '\'' +
-                "motoristaCobrador='" + motoristaCobrador + '\'' +
                 "veiculo='" + veiculo + '\'' +
                 '}';
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(inicio, motoristaCobrador, trajeto, veiculo);
+		return Objects.hash(inicio, trajeto, veiculo);
 	}
 
 	@Override
@@ -103,8 +122,8 @@ public class Jornada {
 		if (getClass() != obj.getClass())
 			return false;
 		Jornada other = (Jornada) obj;
-		return Objects.equals(inicio, other.inicio) && Objects.equals(motoristaCobrador, other.motoristaCobrador)
-				&& Objects.equals(trajeto, other.trajeto) && Objects.equals(veiculo, other.veiculo);
+		return Objects.equals(inicio, other.inicio) && Objects.equals(trajeto, other.trajeto) 
+				&& Objects.equals(veiculo, other.veiculo);
 	}
 
 }

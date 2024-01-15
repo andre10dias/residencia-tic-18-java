@@ -65,7 +65,7 @@ public class EmpresaDeTransporteService {
 		for (String linha : lista) {
 			String[] attr = linha.split(";");
 			
-			Trajeto codigoTrajeto = new Trajeto(attr[CODIGO]);
+			Trajeto codigoTrajeto = new Trajeto(Integer.valueOf(attr[CODIGO]));
 			if (codigoTrajeto.equals(trajeto)) {
 				PontoParada origem = new PontoParada(attr[ORIGEM]);
 				PontoParada destino = new PontoParada(attr[DESTINO]);

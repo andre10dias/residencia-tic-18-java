@@ -30,7 +30,7 @@ public class CheckpointService implements IService<Checkpoint> {
         for (String linha : dados) {
         	String[] attr = linha.split(";");
 			
-			Trajeto trajeto = new Trajeto(attr[TRAJETO]);
+			Trajeto trajeto = new Trajeto(Integer.valueOf(attr[TRAJETO]));
 			PontoParada pontoParada = new PontoParada(attr[PONTO_PARADA]);
 			Date dataHora = EmpresaDeTransporteUtil.stringToDate(attr[DATA_HORA]);
 			

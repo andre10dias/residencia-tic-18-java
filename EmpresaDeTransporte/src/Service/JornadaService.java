@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import Model.Jornada;
-import Model.MotoristaCobrador;
 import Model.Trajeto;
 import Model.Veiculo;
 import Util.EmpresaDeTransporteUtil;
@@ -15,10 +14,10 @@ public class JornadaService implements IService<Jornada> {
 	
 	private static final String JORNADA_PATH = PathService.JORNADA_PATH;
 	
-	private final Integer INICIO = 0;
-	private final Integer FIM = 1;
-	private final Integer TRAJETO = 2;
-	private final Integer MOTORISTA_COBRADOR = 3;
+	private final Integer CODIGO = 0;
+	private final Integer INICIO = 1;
+	private final Integer FIM = 2;
+	private final Integer TRAJETO = 3;
 	private final Integer VEICULO = 4;
 	
     public JornadaService() {
@@ -33,13 +32,13 @@ public class JornadaService implements IService<Jornada> {
         for (String linha : dados) {
         	String[] attr = linha.split(";");
 			
+        	Integer codigo = Integer.valueOf(attr[CODIGO]);
         	Date inicio = EmpresaDeTransporteUtil.stringToDate(attr[INICIO]);
         	Date fim = EmpresaDeTransporteUtil.stringToDate(attr[FIM]);
-			Trajeto trajeto = new Trajeto(attr[TRAJETO]);
-			MotoristaCobrador motoristaCobrador = new MotoristaCobrador(attr[MOTORISTA_COBRADOR]);
+			Trajeto trajeto = new Trajeto(Integer.valueOf(attr[TRAJETO]));
 			Veiculo veiculo = new Veiculo(attr[VEICULO]);
 			
-			lista.add(new Jornada(inicio, fim, trajeto, motoristaCobrador, veiculo));
+			lista.add(new Jornada(codigo, inicio, fim, trajeto, veiculo));
 		}
         
         return lista;

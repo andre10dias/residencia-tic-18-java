@@ -21,7 +21,7 @@ public class TrajetoService implements IService<Trajeto> {
 
         List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
         for (String linha : dados) {
-        	Trajeto trajeto = new Trajeto(linha);
+        	Trajeto trajeto = new Trajeto(Integer.valueOf(linha));
 			lista.add(trajeto);
 			
 			List<Trecho> listaTrecho = EmpresaDeTransporteService
@@ -38,7 +38,7 @@ public class TrajetoService implements IService<Trajeto> {
     	File arquivo = new File(TRAJETO_PATH);
     	
 		for (Trajeto dado : dados) {
-			lista.add(dado.getCodigo());
+			lista.add(dado.getCodigo().toString());
 		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {

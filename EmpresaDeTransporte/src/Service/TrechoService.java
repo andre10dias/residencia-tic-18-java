@@ -29,7 +29,7 @@ public class TrechoService implements IService<Trecho> {
         for (String linha : dados) {
         	String[] attr = linha.split(";");
 			
-			Trajeto codigoTrajeto = new Trajeto(attr[CODIGO]);
+			Trajeto codigoTrajeto = new Trajeto(Integer.valueOf(attr[CODIGO]));
 			PontoParada origem = new PontoParada(attr[ORIGEM]);
 			PontoParada destino = new PontoParada(attr[DESTINO]);
 			Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);

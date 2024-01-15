@@ -34,8 +34,8 @@ public class MotoristaCobradorController {
 			for (MotoristaCobrador motoristaCobrador : listaMotoristaCobradores) {
 				System.out.println(
 						motoristaCobrador.getNome() 
-						+ "\t" + motoristaCobrador.getInicioJornadaFormatado()
-						+ "\t" + motoristaCobrador.getFimJornadaFormatado()
+						+ "\t" + motoristaCobrador.getJornada().getDataInicioFormatada()
+						+ "\t" + motoristaCobrador.getJornada().getDataFimFormatada()
 				);
 			}
 		}

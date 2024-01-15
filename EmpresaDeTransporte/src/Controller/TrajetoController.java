@@ -33,7 +33,7 @@ public class TrajetoController {
 		if (!listaTrajetos.isEmpty()) {
 			System.out.println("\nLista de Trajetos cadastrados:\n");
 			for (int i = 0; i < listaTrajetos.size(); i++) {
-				String codigoTrajeto = listaTrajetos.get(i).getCodigo();
+				Integer codigoTrajeto = listaTrajetos.get(i).getCodigo();
 				List<Trecho> listaTrechos = listaTrajetos.get(i).getListaTrechos();
 				
 				if (listaTrechos.isEmpty()) {					

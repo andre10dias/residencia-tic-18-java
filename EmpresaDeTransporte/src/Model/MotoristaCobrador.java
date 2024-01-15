@@ -1,29 +1,15 @@
 package Model;
 
-import java.util.Date;
 import java.util.Objects;
-
-import Util.EmpresaDeTransporteUtil;
 
 public class MotoristaCobrador {
 	
 	private String nome;
-    private Date inicioJornada;
-    private Date fimJornada;
-    
-	public MotoristaCobrador(String nome, Date inicioJornada, Date fimJornada) {
-		this.nome = nome;
-		this.inicioJornada = inicioJornada;
-		this.fimJornada = fimJornada;
-	}
-	
-	public MotoristaCobrador(String nome, Date inicioJornada) {
-		this.nome = nome;
-		this.inicioJornada = inicioJornada;
-	}
+    private Jornada codigoJornada;
 
-	public MotoristaCobrador(String nome) {
+	public MotoristaCobrador(String nome, Jornada codigoJornada) {
 		this.nome = nome;
+		this.codigoJornada = codigoJornada;
 	}
 
 	public String getNome() {
@@ -34,80 +20,37 @@ public class MotoristaCobrador {
 		this.nome = nome;
 	}
 
-	public Date getInicioJornada() {
-		return inicioJornada;
+	public Jornada getJornada() {
+		return codigoJornada;
 	}
 
-	public void setInicioJornada(Date inicioJornada) {
-		this.inicioJornada = inicioJornada;
-	}
-
-	public Date getFimJornada() {
-		return fimJornada;
-	}
-
-	public void setFimJornada(Date fimJornada) {
-		this.fimJornada = fimJornada;
-	}
-	
-	public String getInicioJornadaFormatado() {
-		if (this.inicioJornada != null) {
-			return EmpresaDeTransporteUtil.dateToString(this.inicioJornada);
-		}
-		
-		return "";
-	}
-	
-	public String getFimJornadaFormatado() {
-		if (this.fimJornada != null) {
-			return EmpresaDeTransporteUtil.dateToString(this.fimJornada);
-		}
-		
-		return "";
+	public void setJornada(Jornada codigoJornada) {
+		this.codigoJornada = codigoJornada;
 	}
 
 	@Override
 	public String toString() {
 		return "MotoristaCobrador{" +
                 "nome='" + nome + '\'' +
-                "inicioJornada='" + inicioJornada + '\'' +
-                "fimJornada='" + fimJornada + '\'' +
+                "codigoJornada='" + codigoJornada + '\'' +
                 '}';
 	}
 
 	@Override
 	public int hashCode() {
-		if (inicioJornada == null && fimJornada == null) {
-			return Objects.hash(nome);
-		}
-		else if (inicioJornada != null) {
-			return Objects.hash(nome, inicioJornada);
-		}
-		
-		return Objects.hash(fimJornada, inicioJornada, nome);
+		return Objects.hash(codigoJornada, nome);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		
-		if (obj == null || getClass() != obj.getClass()) {
+		if (obj == null)
 			return false;
-		}
-		
+		if (getClass() != obj.getClass())
+			return false;
 		MotoristaCobrador other = (MotoristaCobrador) obj;
-		
-		if (inicioJornada == null && fimJornada == null) {
-			return Objects.equals(nome, other.nome);
-		}
-		else if (inicioJornada != null) {
-			return Objects.equals(nome, other.nome) && Objects.equals(fimJornada, other.fimJornada);
-		}
-		
-		return Objects.equals(fimJornada, other.fimJornada) && Objects.equals(inicioJornada, other.inicioJornada)
-				&& Objects.equals(nome, other.nome);
+		return Objects.equals(codigoJornada, other.codigoJornada) && Objects.equals(nome, other.nome);
 	}
 
 }

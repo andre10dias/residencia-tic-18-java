@@ -6,10 +6,10 @@ import java.util.Objects;
 
 public class Trajeto {
 	
-	private String codigo;
+	private Integer codigo;
 	private List<Trecho> listaTrechos;
 
-	public Trajeto(String codigo) {
+	public Trajeto(Integer codigo) {
 		this.codigo = codigo;
 		this.listaTrechos = new ArrayList<>();
 	}
@@ -22,11 +22,11 @@ public class Trajeto {
 		this.listaTrechos = listaTrechos;
 	}
 
-	public String getCodigo() {
+	public Integer getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
+	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
 

@@ -2,19 +2,14 @@ package Service;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import Model.Jornada;
 import Model.MotoristaCobrador;
-import Util.EmpresaDeTransporteUtil;
 
 public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	
 	private static final String MOTORISTA_COBRADOR_PATH = PathService.MOTORISTA_COBRADOR_PATH;
-	
-	private final Integer NOME = 0;
-	private final Integer INICIO_JORNADA = 1;
-	private final Integer FIM_JORNADA = 2;
 	
     public MotoristaCobradorService() {
 	}
@@ -27,25 +22,7 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
         List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
         for (String linha : dados) {
         	String[] attr = linha.split(";");
-            
-            String nome = attr[NOME];
-            Date inicioJornada = null;
-            Date fimJornada = null;
-            
-            switch (attr.length) {
-				case 1:
-					lista.add(new MotoristaCobrador(nome));
-					break;
-				case 2:
-					inicioJornada = EmpresaDeTransporteUtil.stringToDate(attr[INICIO_JORNADA]);
-					lista.add(new MotoristaCobrador(nome, inicioJornada));
-					break;
-				default:
-					inicioJornada = EmpresaDeTransporteUtil.stringToDate(attr[INICIO_JORNADA]);
-					fimJornada = EmpresaDeTransporteUtil.stringToDate(attr[FIM_JORNADA]);
-					lista.add(new MotoristaCobrador(nome, inicioJornada, fimJornada));
-					break;
-			}
+            lista.add(new MotoristaCobrador(attr[0], new Jornada(Integer.valueOf(attr[1]))));
 		}
         
         return lista;
@@ -57,8 +34,7 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 		File arquivo = new File(MOTORISTA_COBRADOR_PATH);
     	
     	for (MotoristaCobrador dado : dados) {
-			lista.add(dado.getNome() + ";" + dado.getInicioJornadaFormatado() 
-					+ ";" + dado.getFimJornadaFormatado());
+			lista.add(dado.getNome() + ";" + dado.getJornada().getCodigo());
 		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
