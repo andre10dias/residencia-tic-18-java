@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Trecho {
 	
-	private String codigo;
+	private Trajeto codigoTrajeto;
 	private PontoParada origem;
     private PontoParada destino;
     private Integer intervaloEstimado;
@@ -15,19 +15,19 @@ public class Trecho {
 //		this.intervaloEstimado = intervaloEstimado;
 //	}
 	
-	public Trecho(String codigo, PontoParada origem, PontoParada destino, Integer intervaloEstimado) {
-		this.codigo = codigo;
+	public Trecho(Trajeto codigoTrajeto, PontoParada origem, PontoParada destino, Integer intervaloEstimado) {
+		this.codigoTrajeto = codigoTrajeto;
 		this.origem = origem;
 		this.destino = destino;
 		this.intervaloEstimado = intervaloEstimado;
 	}
 
-	public String getCodigo() {
-		return codigo;
+	public Trajeto getCodigoTrajeto() {
+		return codigoTrajeto;
 	}
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	public void setCodigoTrajeto(Trajeto codigoTrajeto) {
+		this.codigoTrajeto = codigoTrajeto;
 	}
 
 	public PontoParada getOrigem() {
@@ -57,6 +57,7 @@ public class Trecho {
 	@Override
 	public String toString() {
 		return "Trecho{" +
+				"codigoTrajeto='" + codigoTrajeto + '\'' +
                 "origem='" + origem + '\'' +
                 "destino='" + destino + '\'' +
                 "intervaloEstimado='" + intervaloEstimado + '\'' +
@@ -65,7 +66,7 @@ public class Trecho {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(codigo);
+		return Objects.hash(codigoTrajeto, destino, intervaloEstimado, origem);
 	}
 
 	@Override
@@ -77,7 +78,8 @@ public class Trecho {
 		if (getClass() != obj.getClass())
 			return false;
 		Trecho other = (Trecho) obj;
-		return Objects.equals(codigo, other.codigo);
+		return Objects.equals(codigoTrajeto, other.codigoTrajeto) && Objects.equals(destino, other.destino)
+				&& Objects.equals(intervaloEstimado, other.intervaloEstimado) && Objects.equals(origem, other.origem);
 	}
 
 }

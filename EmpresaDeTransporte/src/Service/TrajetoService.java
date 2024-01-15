@@ -4,18 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.PontoParada;
 import Model.Trajeto;
 import Model.Trecho;
 
 public class TrajetoService implements IService<Trajeto> {
 	
 	private static final String TRAJETO_PATH = PathService.TRAJETO_PATH;
-	
-	private final Integer CODIGO = 0;
-	private final Integer ORIGEM = 1;
-	private final Integer DESTINO = 2;
-	private final Integer INTERVALO = 3;
 	
     public TrajetoService() {
 	}
@@ -27,19 +21,12 @@ public class TrajetoService implements IService<Trajeto> {
 
         List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
         for (String linha : dados) {
-        	List<Trecho> listaTrechos = new ArrayList<>();
-        	String[] attr = linha.split(";");
+        	Trajeto trajeto = new Trajeto(linha);
+			lista.add(trajeto);
 			
-        	String codigo = attr[CODIGO];
-			PontoParada origem = new PontoParada(attr[ORIGEM]);
-			PontoParada destino = new PontoParada(attr[DESTINO]);
-			Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
-			
-			Trecho trecho = new Trecho(codigo, origem, destino, intervaloEstimado);
-//			trecho.setCodigoTrajeto(codigo);
-			listaTrechos.add(trecho);
-			
-			lista.add(new Trajeto(codigo, listaTrechos));
+			List<Trecho> listaTrecho = EmpresaDeTransporteService
+					.buscarTrechosPorCodigoTrajeto(trajeto);
+			trajeto.setListaTrechos(listaTrecho);
 		}
         
         return lista;
@@ -51,31 +38,12 @@ public class TrajetoService implements IService<Trajeto> {
     	File arquivo = new File(TRAJETO_PATH);
     	
 		for (Trajeto dado : dados) {
-//			String codigoTrajeto = dado.getCodigo();
-			
-			for (Trecho trecho : dado.getListaTrechos()) {				
-    			lista.add(trecho.getCodigo() + ";" + trecho.getOrigem().getNome() 
-    					+ ";" + trecho.getDestino().getNome() + ";" + trecho.getIntervaloEstimado());
-			}
+			lista.add(dado.getCodigo());
 		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
 			System.out.println("\nDados gravados com sucesso.");
 		}
-		
-//		try (BufferedWriter writer = new BufferedWriter(new FileWriter(TRAJETO_PATH))) {
-//    		System.err.println("\nSalvando dados no arquivo " + TRAJETO_PATH + "...\n");
-//    		
-//    		for (Trajeto trajeto : dados) {	
-//    			for (Trecho trecho : trajeto.getListaTrechos()) {				
-//        			writer.write(trecho.getOrigem().getNome() + ";" + trecho.getDestino().getNome() 
-//        					+ ";" + trecho.getIntervaloEstimado());
-//        			writer.newLine();
-//    			}
-//			}
-//        } catch (IOException e) {
-//            System.err.println("\nErro ao salvar os dados: " + e.getMessage());
-//        }
 	}
 
 	@Override

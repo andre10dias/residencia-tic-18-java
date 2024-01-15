@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,9 +9,9 @@ public class Trajeto {
 	private String codigo;
 	private List<Trecho> listaTrechos;
 
-	public Trajeto(String codigo, List<Trecho> listaTrechos) {
+	public Trajeto(String codigo) {
 		this.codigo = codigo;
-		this.listaTrechos = listaTrechos;
+		this.listaTrechos = new ArrayList<>();
 	}
 
 	public List<Trecho> getListaTrechos() {
@@ -32,7 +33,7 @@ public class Trajeto {
 	@Override
 	public String toString() {
 		return "Trajeto{" +
-        "listaTrechos='" + listaTrechos + '\'' +
+        "codigo='" + codigo + '\'' +
         '}';
 	}
 

@@ -9,13 +9,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.Passageiro;
 import Model.PontoParada;
+import Model.Trajeto;
 import Model.Trecho;
 
 public class EmpresaDeTransporteService {
 	
-	public static List<String> recuperarDados(File arquivo) {
+	private static final String TRECHO_PATH = PathService.TRECHO_PATH;
+	
+	private final static Integer CODIGO = 0;
+	private final static Integer ORIGEM = 1;
+	private final static Integer DESTINO = 2;
+	private final static Integer INTERVALO = 3;
+	
+	protected static List<String> recuperarDados(File arquivo) {
 		List<String> lista = new ArrayList<>();
 		String linha;
 		
@@ -35,7 +42,7 @@ public class EmpresaDeTransporteService {
         return lista;
 	}
 	
-	public static Boolean gravarDados(File arquivo, List<String> listaDados) {
+	protected static Boolean gravarDados(File arquivo, List<String> listaDados) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))) {
             for (String dado : listaDados) {
                 writer.write(dado);
@@ -50,18 +57,25 @@ public class EmpresaDeTransporteService {
 		return false;
 	}
 	
-//	public static PontoParada getPontoParadaByOrigemOrDestino(String origemDestino) {
-//        File arquivo = new File(PONTO_PARADA_PATH);
-//        PontoParada pontoParada = null;
-//        
-//        List<String> lista = recuperarDados(arquivo);
-//        for (String linha : lista) {
-//        	if (origemDestino.equals(linha)) {						
-//				pontoParada = new PontoParada(linha);
-//			}
-//		}
-//        
-//        return pontoParada;
-//	}
+	protected static List<Trecho> buscarTrechosPorCodigoTrajeto(Trajeto trajeto) {
+		File arquivo = new File(TRECHO_PATH);
+		List<Trecho> listaTrecho = new ArrayList<>();
+		
+		List<String> lista = recuperarDados(arquivo);
+		for (String linha : lista) {
+			String[] attr = linha.split(";");
+			
+			Trajeto codigoTrajeto = new Trajeto(attr[CODIGO]);
+			if (codigoTrajeto.equals(trajeto)) {
+				PontoParada origem = new PontoParada(attr[ORIGEM]);
+				PontoParada destino = new PontoParada(attr[DESTINO]);
+				Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
+				
+				listaTrecho.add(new Trecho(codigoTrajeto, origem, destino, intervaloEstimado));
+			}
+		}
+		
+		return listaTrecho;
+	}
 
 }

@@ -24,7 +24,6 @@ public class TrajetoController {
 		try {
 			service.adicionar(listaTrajetos, trajeto);
 			service.salvar(listaTrajetos);
-//			atualizarCodigoTrecho();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -32,12 +31,19 @@ public class TrajetoController {
 	
 	public void listar() {
 		if (!listaTrajetos.isEmpty()) {
-			System.out.println("\nLista de Trajetos cadastrados:");
+			System.out.println("\nLista de Trajetos cadastrados:\n");
 			for (int i = 0; i < listaTrajetos.size(); i++) {
-				System.out.println("\nTrecho " + (i+1) + ":\n");
-				for (Trecho trecho : listaTrajetos.get(i).getListaTrechos()) {					
-					System.out.println(trecho.getOrigem().getNome() + "\t" + trecho.getDestino().getNome() 
-							+ "\t" + trecho.getIntervaloEstimado());
+				String codigoTrajeto = listaTrajetos.get(i).getCodigo();
+				List<Trecho> listaTrechos = listaTrajetos.get(i).getListaTrechos();
+				
+				if (listaTrechos.isEmpty()) {					
+					System.out.println(codigoTrajeto);
+				}
+				else {					
+					for (Trecho trecho : listaTrechos) {					
+						System.out.println(codigoTrajeto + "\t" + trecho.getOrigem().getNome() 
+								+ "\t" + trecho.getDestino().getNome() + "\t" + trecho.getIntervaloEstimado());
+					}
 				}
 			}
 		}
@@ -68,25 +74,5 @@ public class TrajetoController {
 			System.out.println("\nDados não localizados.");
 		}
 	}
-	
-//	private void atualizarCodigoTrecho() {
-//		TrechoController controller = new TrechoController();
-//		controller.carregar();
-//		List<Trecho> listaTrechos = TrechoController.listaTrechos;
-//		
-//		for (Trajeto t : listaTrajetos) {
-//			String codigoTrajeto = t.getCodigo();
-//			List<Trecho> listaTrechosTrajeto = t.getListaTrechos();
-//
-//			for (Trecho trecho : listaTrechosTrajeto) {
-//				for (int i = 0; i < listaTrechos.size(); i++) {
-//					if (listaTrechos.get(i).equals(trecho)) {
-//						listaTrechos.get(i).setCodigoTrajeto(codigoTrajeto);
-//						controller.atualizar(i, listaTrechos.get(i));
-//					}
-//				}
-//			}
-//		}
-//	}
 
 }
