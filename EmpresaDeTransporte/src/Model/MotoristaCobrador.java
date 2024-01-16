@@ -7,6 +7,8 @@ public class MotoristaCobrador {
 	private String nome;
     private Jornada codigoJornada;
 
+	public MotoristaCobrador() {}
+
 	public MotoristaCobrador(String nome) {
 		this.nome = nome;
 	}

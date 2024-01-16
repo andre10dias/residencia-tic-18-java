@@ -8,7 +8,7 @@ import java.util.List;
 import Model.Checkpoint;
 import Model.PontoParada;
 import Model.Trajeto;
-import Util.EmpresaDeTransporteUtil;
+import Util.ConversaoDeDatasUtil;
 
 public class CheckpointService implements IService<Checkpoint> {
 	
@@ -32,7 +32,7 @@ public class CheckpointService implements IService<Checkpoint> {
 			
 			Trajeto trajeto = new Trajeto(Integer.valueOf(attr[TRAJETO]));
 			PontoParada pontoParada = new PontoParada(attr[PONTO_PARADA]);
-			Date dataHora = EmpresaDeTransporteUtil.stringToDate(attr[DATA_HORA]);
+			Date dataHora = ConversaoDeDatasUtil.stringToDate(attr[DATA_HORA]);
 			
 			lista.add(new Checkpoint(trajeto, pontoParada, dataHora));
 		}

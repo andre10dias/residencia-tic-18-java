@@ -3,7 +3,7 @@ package Util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class EmpresaDeTransporteUtil {
+public class ConversaoDeDatasUtil {
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	

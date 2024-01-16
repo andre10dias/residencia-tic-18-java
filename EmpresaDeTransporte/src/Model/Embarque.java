@@ -3,7 +3,7 @@ package Model;
 import java.util.Date;
 import java.util.Objects;
 
-import Util.EmpresaDeTransporteUtil;
+import Util.ConversaoDeDatasUtil;
 
 public class Embarque {
 	
@@ -52,7 +52,7 @@ public class Embarque {
 	}
 	
 	public String getDataHoraFormatada() {
-		return EmpresaDeTransporteUtil.dateToString(this.dataHora);
+		return ConversaoDeDatasUtil.dateToString(this.dataHora);
 	}
 
 	@Override

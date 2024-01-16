@@ -6,6 +6,8 @@ public class Veiculo {
 	
 	private String numero;
 
+	public Veiculo() {}
+	
 	public Veiculo(String numero) {
 		this.numero = numero;
 	}

@@ -7,6 +7,8 @@ public class Passageiro {
 	private String nome;
     private String numeroCartao;
     
+    public Passageiro() {}
+    
 	public Passageiro(String nome, String numeroCartao) {
 		this.nome = nome;
 		this.numeroCartao = numeroCartao;

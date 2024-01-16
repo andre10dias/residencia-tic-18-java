@@ -8,7 +8,7 @@ import java.util.List;
 import Model.Jornada;
 import Model.Trajeto;
 import Model.Veiculo;
-import Util.EmpresaDeTransporteUtil;
+import Util.ConversaoDeDatasUtil;
 
 public class JornadaService implements IService<Jornada> {
 	
@@ -33,8 +33,8 @@ public class JornadaService implements IService<Jornada> {
         	String[] attr = linha.split(";");
 			
         	Integer codigo = Integer.valueOf(attr[CODIGO]);
-        	Date inicio = EmpresaDeTransporteUtil.stringToDate(attr[INICIO]);
-        	Date fim = EmpresaDeTransporteUtil.stringToDate(attr[FIM]);
+        	Date inicio = ConversaoDeDatasUtil.stringToDate(attr[INICIO]);
+        	Date fim = ConversaoDeDatasUtil.stringToDate(attr[FIM]);
 			Trajeto trajeto = new Trajeto(Integer.valueOf(attr[TRAJETO]));
 			Veiculo veiculo = new Veiculo(attr[VEICULO]);
 			

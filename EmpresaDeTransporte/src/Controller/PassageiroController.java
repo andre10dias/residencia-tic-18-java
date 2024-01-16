@@ -1,24 +1,37 @@
 package Controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 import Menu.Menu;
 import Model.Passageiro;
 import Service.PassageiroService;
+import Util.ControllerUtil;
+import Util.MenuUtil;
 
-public class PassageiroController {
+public class PassageiroController implements IController<PassageiroController> {
 	
 	public static List<Passageiro> listaPassageiros;
 	
 	private static PassageiroService service = new PassageiroService();
-	private static Scanner entrada = new Scanner(System.in);
+	private Scanner entrada = new Scanner(System.in);
 
 //    public PassageiroController() {
 //        PassageiroController.service = new PassageiroService();
 //    }
+	
+	public static PassageiroController getInstance() {
+		return new PassageiroController();
+	}
+	
+	@Override
+	public String getNome() {
+		return "passageiro";
+	}
     
-    public static void cadastrarPassageiro() {
+	@Override
+    public void cadastrar() {
     	carregar();
     	System.out.println("\n======================== Cadastrar passageiro ========================");
 		
@@ -32,12 +45,17 @@ public class PassageiroController {
 		salvar(passageiro);
     }
     
-    public static void editarPassageiro() {
+	@Override
+    public void editar() {
     	carregar();
     	System.out.println("\n======================== Editar passageiros ========================\n");
     	
-		Integer indice = Menu.menuSelecionarPassageiro(listaPassageiros);
-		Passageiro passageiro = listaPassageiros.get(indice);
+    	Passageiro passageiro = new Passageiro();
+		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(passageiro);
+		Integer indice = MenuUtil.menuSelecionarElemento(listaPassageiros, nomesAtributos);
+		passageiro = listaPassageiros.get(indice);
+		
+		System.out.println("\nDeixe o campo em branco caso não deseje altera-lo (apenas pressione ENTER).");
 		
 		System.out.print("\nNome: ");
 		String nome = entrada.nextLine();
@@ -56,7 +74,8 @@ public class PassageiroController {
 		atualizar(indice, passageiro);
     }
     
-    public static void listar() {
+	@Override
+    public void listar() {
     	carregar();
 		System.out.println("\n======================== Listar passageiros ========================\n");
 		
@@ -71,12 +90,15 @@ public class PassageiroController {
 		}
 	}
 	
-	public static void removerPassageiro() {
+	@Override
+	public void remover() {
 		carregar();
     	System.out.println("\n======================== Editar passageiros ========================\n");
     	
-		Integer indice = Menu.menuSelecionarPassageiro(listaPassageiros);
-		Passageiro passageiro = listaPassageiros.get(indice);
+    	Passageiro passageiro = new Passageiro();
+		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(passageiro);
+		Integer indice = MenuUtil.menuSelecionarElemento(listaPassageiros, nomesAtributos);
+		passageiro = listaPassageiros.get(indice);
 		excluir(passageiro);
 	}
 	

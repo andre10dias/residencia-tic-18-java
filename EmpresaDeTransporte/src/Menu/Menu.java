@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import Controller.MotoristaCobradorController;
 import Controller.PassageiroController;
+import Controller.PontoParadaController;
+import Controller.TrajetoController;
+import Controller.TrechoController;
+import Controller.VeiculoController;
+import Model.MotoristaCobrador;
 import Model.Passageiro;
+import Model.PontoParada;
+import Model.Veiculo;
 import Util.MenuUtil;
 
 public class Menu {
@@ -54,15 +62,33 @@ public class Menu {
 			
 			switch (opcao) {
 				case 1:
-					menuPassageiros();
+					MenuUtil.menuController(PassageiroController.getInstance());
+					opcao = 0;
 					break;
 					
 				case 2:
-//					FaturaController.listarFaturas(false);
+					MenuUtil.menuController(MotoristaCobradorController.getInstance());
+					opcao = 0;
 					break;
 					
 				case 3:
-//					FaturaController.listarFaturas(true);
+					MenuUtil.menuController(VeiculoController.getInstance());
+					opcao = 0;
+					break;
+					
+				case 4:
+//					MenuUtil.menuController(PontoParadaController.getInstance());
+					opcao = 0;
+					break;
+					
+				case 5:
+//					MenuUtil.menuController(TrechoController.getInstance());
+					opcao = 0;
+					break;
+					
+				case 6:
+//					MenuUtil.menuController(TrajetoController.getInstance());
+					opcao = 0;
 					break;
 					
 				case 0:
@@ -108,175 +134,5 @@ public class Menu {
 			}
 		} while (opcao != 0);
 	}
-	
-	public static void menuPassageiros() {
-		List<String> itens = new ArrayList<>(Arrays.asList(
-				"[ 1 ] Cadastrar", "[ 2 ] Editar", "[ 3 ] Listar", "[ 4 ] Remover", "[ 0 ] Sair"
-		));
-		int opcao;
-		
-		do {
-			MenuUtil.montaMenu(itens, "Menu passageiros");
-			opcao = MenuUtil.obterOpcao(itens.size());
-			
-			switch (opcao) {
-				case 1:
-					PassageiroController.cadastrarPassageiro();
-					opcao = 0;
-					break;
-					
-				case 2:
-					PassageiroController.editarPassageiro();
-					opcao = 0;
-					break;
-				
-				case 3:
-					PassageiroController.listar();
-					opcao = 0;
-					break;
-					
-				case 4:
-					PassageiroController.removerPassageiro();
-					opcao = 0;
-					break;
-					
-				case 0:
-					menuPrincipal();
-					break;
-	
-				default:
-					break;
-			}
-		} while (opcao != 0);
-	}
-	
-	public static void menuPagamento() {
-		List<String> itens = new ArrayList<>(Arrays.asList(
-				"[ 1 ] Realizar pagamento", "[ 2 ] Listar todos os pagamentos", "[ 3 ] Consultar pagamento de fatura", "[ 0 ] Sair"
-		));
-		int opcao;
-		
-		do {
-			MenuUtil.montaMenu(itens, "Menu Fatura");
-			opcao = MenuUtil.obterOpcao(itens.size());
-			
-			switch (opcao) {
-				case 1:
-//					PagamentoController.realizarPagamento();
-					break;
-					
-				case 2:
-//					PagamentoController.listarTodos();
-					break;
-					
-				case 3:
-//					PagamentoController.consultarPagFatura();
-					break;
-					
-				case 0:
-					menuPrincipal();
-					break;
-	
-				default:
-					break;
-			}
-		} while (opcao != 0);
-	}
-	
-	private static void menuReembolso() {
-		List<String> itens = new ArrayList<>(Arrays.asList(
-				"[ 1 ] Listar todos os reembolsos", "[ 2 ] Consultar reembolsos da fatura", "[ 0 ] Sair"
-		));
-		int opcao;
-		
-		do {
-			MenuUtil.montaMenu(itens, "Menu Reembolso");
-			opcao = MenuUtil.obterOpcao(itens.size());
-			
-			switch (opcao) {
-				case 1:
-//					ReembolsoController.listarTodos();
-					break;
-					
-				case 2:
-//					ReembolsoController.consultarReembolsoFatura();
-					break;
-					
-				case 0:
-					menuPrincipal();
-					break;
-	
-				default:
-					break;
-			}
-		} while (opcao != 0);
-	}
-	
-	public static Integer menuSelecionarPassageiro(List<Passageiro> listaPassageiros) {
-		Integer indice = null;
-		
-		if (!listaPassageiros.isEmpty()) {			
-			List<String> itensMenu = new ArrayList<>();
-			int opcao;
-			
-			for (int i = 0; i < listaPassageiros.size(); i++) {
-				itensMenu.add("[ " + (i+1) + " ] " + listaPassageiros.get(i).getNome()  
-						+ "\t" +  listaPassageiros.get(i).getNumeroCartao());
-			}
-			
-			System.out.println("Passageiros cadastrados:\n");
-			System.out.println("\tNome \t Número cartão");
-			MenuUtil.montaMenu(itensMenu, "");
-			opcao = MenuUtil.obterOpcao(itensMenu.size());
-			
-			indice = opcao-1;
-		}
-		
-		return indice;
-	}
-//	
-//	public static Imovel menuSelecionarImovel(List<Imovel> imoveis) {
-//		Imovel imovel = null;
-//		
-//		if (!imoveis.isEmpty()) {			
-//			List<String> itensMenu = new ArrayList<>();
-//			int opcao;
-//			
-//			for (int i = 0; i < imoveis.size(); i++) {
-//				itensMenu.add("[ " + (i+1) + " ] " + imoveis.get(i).getMatricula());
-//			}
-//			
-//			System.out.println("\nMatrículas dos imíveis cadastrados:");
-//			MenuUtil.montaMenu(itensMenu, "");
-//			opcao = MenuUtil.obterOpcao(itensMenu.size());
-//			
-//			imovel = imoveis.get(opcao-1);
-//		}
-//		
-//		return imovel;
-//	}
-//	
-//	public static Fatura menuSelecionarFatura(List<Fatura> faturas) {
-//		Fatura fatura = null;
-//		
-//		if (!faturas.isEmpty()) {			
-//			List<String> itensMenu = new ArrayList<>();
-//			int opcao;
-//			
-//			for (int i = 0; i < faturas.size(); i++) {
-//				itensMenu.add("[ " + (i+1) + " ] " + faturas.get(i).getDataEmissao() 
-//						+ "\t" + faturas.get(i).getValorCalculado() + "\t" + faturas.get(i).isQuitada());
-//			}
-//			
-//			System.out.println("Faturas em aberto:");
-//			System.out.println("Data Emissão \t Valor \t\t Quitada");
-//			MenuUtil.montaMenu(itensMenu, "");
-//			opcao = MenuUtil.obterOpcao(itensMenu.size());
-//			
-//			fatura = faturas.get(opcao-1);
-//		}
-//		
-//		return fatura;
-//	}
 	
 }

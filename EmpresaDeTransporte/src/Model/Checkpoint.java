@@ -3,7 +3,7 @@ package Model;
 import java.util.Date;
 import java.util.Objects;
 
-import Util.EmpresaDeTransporteUtil;
+import Util.ConversaoDeDatasUtil;
 
 public class Checkpoint {
 	
@@ -42,7 +42,7 @@ public class Checkpoint {
 	}
 	
 	public String getDataHoraFormatada() {
-		return EmpresaDeTransporteUtil.dateToString(this.dataHoraChegada);
+		return ConversaoDeDatasUtil.dateToString(this.dataHoraChegada);
 	}
 
 	@Override

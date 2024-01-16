@@ -8,7 +8,7 @@ import java.util.List;
 import Model.Embarque;
 import Model.Passageiro;
 import Model.PontoParada;
-import Util.EmpresaDeTransporteUtil;
+import Util.ConversaoDeDatasUtil;
 
 public class EmbarqueService implements IService<Embarque> {
 	
@@ -35,7 +35,7 @@ public class EmbarqueService implements IService<Embarque> {
 			Passageiro passageiro = new Passageiro(attr[PASSAGEIRO_NOME], attr[PASSAGEIRO_NUM_CARTAO]);
 			PontoParada pontoEmbarque = new PontoParada(attr[PONTO_EMBARQUE]);
 			String tipoCartao = attr[TIPO_CARTAO];
-			Date dataHora = EmpresaDeTransporteUtil.stringToDate(attr[DATA_HORA]);
+			Date dataHora = ConversaoDeDatasUtil.stringToDate(attr[DATA_HORA]);
 			
 			lista.add(new Embarque(passageiro, pontoEmbarque, tipoCartao, dataHora));
 		}

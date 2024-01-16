@@ -22,7 +22,13 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
         List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
         for (String linha : dados) {
         	String[] attr = linha.split(";");
-            lista.add(new MotoristaCobrador(attr[0], new Jornada(Integer.valueOf(attr[1]))));
+        	
+        	if (attr.length > 1) {				
+        		lista.add(new MotoristaCobrador(attr[0], new Jornada(Integer.valueOf(attr[1]))));
+			}
+        	else {        		
+        		lista.add(new MotoristaCobrador(attr[0]));
+        	}
 		}
         
         return lista;
@@ -34,7 +40,8 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 		File arquivo = new File(MOTORISTA_COBRADOR_PATH);
     	
     	for (MotoristaCobrador dado : dados) {
-			lista.add(dado.getNome() + ";" + dado.getJornada().getCodigo());
+//			lista.add(dado.getNome() + ";" + dado.getJornada().getCodigo());
+			lista.add(dado.getNome());
 		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {

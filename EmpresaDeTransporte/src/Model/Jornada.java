@@ -3,7 +3,7 @@ package Model;
 import java.util.Date;
 import java.util.Objects;
 
-import Util.EmpresaDeTransporteUtil;
+import Util.ConversaoDeDatasUtil;
 
 public class Jornada {
 	
@@ -83,7 +83,7 @@ public class Jornada {
 	
 	public String getDataInicioFormatada() {
 		if (this.inicio != null) {			
-			return EmpresaDeTransporteUtil.dateToString(this.inicio);
+			return ConversaoDeDatasUtil.dateToString(this.inicio);
 		}
 		
 		return "";
@@ -91,7 +91,7 @@ public class Jornada {
 	
 	public String getDataFimFormatada() {
 		if (this.fim != null) {
-			return EmpresaDeTransporteUtil.dateToString(this.fim);
+			return ConversaoDeDatasUtil.dateToString(this.fim);
 		}
 		
 		return "";

@@ -1,25 +1,103 @@
 package Controller;
 
 import java.util.List;
+import java.util.Scanner;
 
+import Menu.Menu;
+import Model.Veiculo;
+import Model.Veiculo;
 import Model.Veiculo;
 import Service.VeiculoService;
+import Util.ControllerUtil;
+import Util.MenuUtil;
 
-public class VeiculoController {
+public class VeiculoController implements IController<VeiculoController> {
 	
 	public static List<Veiculo> listaVeiculos;
 	
-	private final VeiculoService service;
+	private static final VeiculoService service = new VeiculoService();
+	private Scanner entrada = new Scanner(System.in);
 
-    public VeiculoController() {
-        this.service = new VeiculoService();
-    }
+//    public VeiculoController() {
+//        this.service = new VeiculoService();
+//    }
+	
+	public static VeiculoController getInstance() {
+		return new VeiculoController();
+	}
+	
+	@Override
+	public String getNome() {
+		return "veiculo";
+	}
     
-    public void carregar() {
+	@Override
+	public void cadastrar() {
+    	carregar();
+    	System.out.println("\n======================== Cadastrar veiculo ========================");
+		
+		System.out.print("\nNúmero: ");
+		String numero = entrada.nextLine();;
+		
+		Veiculo veiculo = new Veiculo(numero);
+		salvar(veiculo);
+    }
+	
+	@Override
+	public void editar() {
+    	carregar();
+    	System.out.println("\n======================== Editar veiculo ========================\n");
+    	
+    	Veiculo veiculo = new Veiculo();
+		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(veiculo);
+		Integer indice = MenuUtil.menuSelecionarElemento(listaVeiculos, nomesAtributos);
+		veiculo = listaVeiculos.get(indice);
+		
+		System.out.println("\nDeixe o campo em branco caso não deseje altera-lo (apenas pressione ENTER).");
+		
+		System.out.print("\nNúmero: ");
+		String nome = entrada.nextLine();
+		
+		if (nome != null && nome != "") {
+			veiculo.setNumero(nome);
+		}
+		
+		atualizar(indice, veiculo);
+    }
+	
+	@Override
+	public void listar() {
+		carregar();
+		System.out.println("\n======================== Listar veiculo ========================\n");
+		
+		if (listaVeiculos != null && !listaVeiculos.isEmpty()) {
+			System.out.println("Número");
+			for (Veiculo veiculo : listaVeiculos) {
+				System.out.println(veiculo.getNumero());
+			}
+		}
+		else {
+			System.err.println("\nNão existem resultados para serem exibidos.");			
+		}
+	}
+	
+	@Override
+	public void remover() {
+		carregar();
+    	System.out.println("\n======================== Editar veiculos ========================\n");
+    	
+    	Veiculo veiculo = new Veiculo();
+		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(veiculo);
+		Integer indice = MenuUtil.menuSelecionarElemento(listaVeiculos, nomesAtributos);
+		veiculo = listaVeiculos.get(indice);
+		excluir(veiculo);
+	}
+    
+    private static void carregar() {
     	listaVeiculos = service.carregar();
     }
 	
-	public void salvar(Veiculo veiculo) {
+    private static void salvar(Veiculo veiculo) {
 		try {
 			service.adicionar(listaVeiculos, veiculo);
 			service.salvar(listaVeiculos);
@@ -28,23 +106,11 @@ public class VeiculoController {
 		}
 	}
 	
-	public void listar() {
-		if (!listaVeiculos.isEmpty()) {
-			System.out.println("\nLista de veículos cadastrados:\n");
-			for (Veiculo veiculo : listaVeiculos) {
-				System.out.println(veiculo.getNumero());
-			}
-		}
-		else {
-			System.out.println("\nNão existem resultados para serem exibidos.");			
-		}
-	}
-	
 	public Veiculo buscar(Integer indice) {
 		return service.buscar(listaVeiculos, indice);
 	}
 	
-	public void atualizar(Integer indice, Veiculo veiculo) {
+	private static void atualizar(Integer indice, Veiculo veiculo) {
 		if (service.atualizar(listaVeiculos, indice, veiculo) != null) {
 			System.out.println("\nDados atualizados com sucesso.");
 		}
@@ -53,7 +119,7 @@ public class VeiculoController {
 		}
 	}
 	
-	public void excluir(Veiculo veiculo) {
+	private static void excluir(Veiculo veiculo) {
 		if (listaVeiculos.indexOf(veiculo) != -1) {
 			service.excluir(listaVeiculos, veiculo);
 			System.out.println("\nDados atualizados com sucesso.");
