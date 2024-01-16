@@ -7,6 +7,10 @@ public class MotoristaCobrador {
 	private String nome;
     private Jornada codigoJornada;
 
+	public MotoristaCobrador(String nome) {
+		this.nome = nome;
+	}
+	
 	public MotoristaCobrador(String nome, Jornada codigoJornada) {
 		this.nome = nome;
 		this.codigoJornada = codigoJornada;
