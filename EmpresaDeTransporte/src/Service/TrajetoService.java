@@ -25,7 +25,7 @@ public class TrajetoService implements IService<Trajeto> {
 			lista.add(trajeto);
 			
 			List<Trecho> listaTrecho = EmpresaDeTransporteService
-					.buscarTrechosPorCodigoTrajeto(trajeto);
+					.buscarTrechosPorCodigoTrajeto(trajeto.getCodigo());
 			trajeto.setListaTrechos(listaTrecho);
 		}
         

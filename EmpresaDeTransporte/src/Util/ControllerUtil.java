@@ -2,6 +2,7 @@ package Util;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ControllerUtil {
@@ -15,5 +16,13 @@ public class ControllerUtil {
 
 	    return listaNomesAtributos;
 	}
+	
+	public static int obterCodigo(List<Integer> lista) {
+        if (lista.isEmpty()) {
+            return 1;
+        } else {
+            return Collections.max(lista)+1;
+        }
+    }
 
 }

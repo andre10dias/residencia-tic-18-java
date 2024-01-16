@@ -42,7 +42,7 @@ public class MenuUtil {
                     break;
 
                 case 0:
-                    Menu.menuPrincipal();
+                    Menu.menuCadastrosBasicos();
                     break;
 
                 default:
@@ -51,7 +51,7 @@ public class MenuUtil {
         } while (opcao != 0);
     }
     
-    public static <T> Integer menuSelecionarElemento(List<T> lista, List<String> nomesAtributos) {
+    public static <T> Integer menuSelecionarElemento(List<T> lista, List<String> nomesAtributos, String textoAdicional) {
         Integer indice = null;
 
         if (!lista.isEmpty()) {
@@ -61,7 +61,11 @@ public class MenuUtil {
             for (int i = 0; i < lista.size(); i++) {
                 itensMenu.add("[ " + (i + 1) + " ] " + getAtributos(lista.get(i), nomesAtributos));
             }
-
+            
+            if (textoAdicional != null && textoAdicional != "") {				
+            	System.out.println(textoAdicional+"\n");
+			}
+            
             System.out.println("Elementos cadastrados:\n");
             System.out.println("\t" + String.join("\t", nomesAtributos));
             montaMenu(itensMenu, "");
@@ -72,30 +76,6 @@ public class MenuUtil {
 
         return indice;
     }
-	
-    private static <T> String getAtributos(T elemento, List<String> nomesAtributos) {
-        StringBuilder result = new StringBuilder();
-
-        try {
-            for (String nomeAtributo : nomesAtributos) {
-                Field field = elemento.getClass().getDeclaredField(nomeAtributo);
-                field.setAccessible(true);
-                Object value = field.get(elemento);
-
-                if (result.length() > 0) {
-                    result.append("\t");
-                }
-
-                result.append(value.toString());
-            }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-            return "";
-        }
-
-        return result.toString();
-    }
-
 	
 	public static void montaMenu(List<String> itens, String titulo) {
 		if (titulo != "") {			
@@ -121,5 +101,28 @@ public class MenuUtil {
 	    
 	    return opcao;
 	}
+	
+    private static <T> String getAtributos(T elemento, List<String> nomesAtributos) {
+        StringBuilder result = new StringBuilder();
+
+        try {
+            for (String nomeAtributo : nomesAtributos) {
+                Field field = elemento.getClass().getDeclaredField(nomeAtributo);
+                field.setAccessible(true);
+                Object value = field.get(elemento);
+
+                if (result.length() > 0) {
+                    result.append("\t");
+                }
+
+                result.append(value.toString());
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            return "";
+        }
+
+        return result.toString();
+    }
 
 }

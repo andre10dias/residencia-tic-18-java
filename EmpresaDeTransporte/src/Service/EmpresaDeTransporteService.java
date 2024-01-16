@@ -16,6 +16,7 @@ import Model.Trecho;
 public class EmpresaDeTransporteService {
 	
 	private static final String TRECHO_PATH = PathService.TRECHO_PATH;
+	private static final String TRAJETO_PATH = PathService.TRAJETO_PATH;
 	
 	private final static Integer CODIGO = 0;
 	private final static Integer ORIGEM = 1;
@@ -57,7 +58,24 @@ public class EmpresaDeTransporteService {
 		return false;
 	}
 	
-	protected static List<Trecho> buscarTrechosPorCodigoTrajeto(Trajeto trajeto) {
+	public static List<Trajeto> buscarTrajetosPorCodigoTrecho(Integer codigoTrecho) {
+		File arquivo = new File(TRAJETO_PATH);
+		List<Trajeto> listaTrajeto = new ArrayList<>();
+		
+		List<String> lista = recuperarDados(arquivo);
+		for (String linha : lista) {
+			String[] attr = linha.split(";");
+			
+			Integer codigoTrajeto = Integer.valueOf(attr[CODIGO]);
+			if (codigoTrajeto.equals(codigoTrecho)) {
+				listaTrajeto.add(new Trajeto(codigoTrajeto));
+			}
+		}
+		
+		return listaTrajeto;
+	}
+	
+	protected static List<Trecho> buscarTrechosPorCodigoTrajeto(Integer codigoTrajeto) {
 		File arquivo = new File(TRECHO_PATH);
 		List<Trecho> listaTrecho = new ArrayList<>();
 		
@@ -65,13 +83,13 @@ public class EmpresaDeTransporteService {
 		for (String linha : lista) {
 			String[] attr = linha.split(";");
 			
-			Trajeto codigoTrajeto = new Trajeto(Integer.valueOf(attr[CODIGO]));
-			if (codigoTrajeto.equals(trajeto)) {
+			Integer codigoTrecho = Integer.valueOf(attr[CODIGO]);
+			if (codigoTrecho.equals(codigoTrajeto)) {
 				PontoParada origem = new PontoParada(attr[ORIGEM]);
 				PontoParada destino = new PontoParada(attr[DESTINO]);
 				Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
 				
-				listaTrecho.add(new Trecho(codigoTrajeto, origem, destino, intervaloEstimado));
+				listaTrecho.add(new Trecho(codigoTrecho, origem, destino, intervaloEstimado));
 			}
 		}
 		

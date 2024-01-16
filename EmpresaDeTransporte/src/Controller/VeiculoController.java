@@ -50,7 +50,7 @@ public class VeiculoController implements IController<VeiculoController> {
     	
     	Veiculo veiculo = new Veiculo();
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(veiculo);
-		Integer indice = MenuUtil.menuSelecionarElemento(listaVeiculos, nomesAtributos);
+		Integer indice = MenuUtil.menuSelecionarElemento(listaVeiculos, nomesAtributos, "");
 		veiculo = listaVeiculos.get(indice);
 		
 		System.out.println("\nDeixe o campo em branco caso não deseje altera-lo (apenas pressione ENTER).");
@@ -84,11 +84,11 @@ public class VeiculoController implements IController<VeiculoController> {
 	@Override
 	public void remover() {
 		carregar();
-    	System.out.println("\n======================== Editar veiculos ========================\n");
+    	System.out.println("\n======================== Remover veiculos ========================\n");
     	
     	Veiculo veiculo = new Veiculo();
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(veiculo);
-		Integer indice = MenuUtil.menuSelecionarElemento(listaVeiculos, nomesAtributos);
+		Integer indice = MenuUtil.menuSelecionarElemento(listaVeiculos, nomesAtributos, "");
 		veiculo = listaVeiculos.get(indice);
 		excluir(veiculo);
 	}

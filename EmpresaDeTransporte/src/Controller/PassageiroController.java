@@ -52,7 +52,7 @@ public class PassageiroController implements IController<PassageiroController> {
     	
     	Passageiro passageiro = new Passageiro();
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(passageiro);
-		Integer indice = MenuUtil.menuSelecionarElemento(listaPassageiros, nomesAtributos);
+		Integer indice = MenuUtil.menuSelecionarElemento(listaPassageiros, nomesAtributos, "");
 		passageiro = listaPassageiros.get(indice);
 		
 		System.out.println("\nDeixe o campo em branco caso não deseje altera-lo (apenas pressione ENTER).");
@@ -97,7 +97,7 @@ public class PassageiroController implements IController<PassageiroController> {
     	
     	Passageiro passageiro = new Passageiro();
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(passageiro);
-		Integer indice = MenuUtil.menuSelecionarElemento(listaPassageiros, nomesAtributos);
+		Integer indice = MenuUtil.menuSelecionarElemento(listaPassageiros, nomesAtributos, "");
 		passageiro = listaPassageiros.get(indice);
 		excluir(passageiro);
 	}

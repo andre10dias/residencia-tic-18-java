@@ -49,7 +49,7 @@ public class MotoristaCobradorController implements IController<MotoristaCobrado
     	
     	MotoristaCobrador motoristaCobrador = new MotoristaCobrador();
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(motoristaCobrador);
-		Integer indice = MenuUtil.menuSelecionarElemento(listaMotoristaCobradores, nomesAtributos);
+		Integer indice = MenuUtil.menuSelecionarElemento(listaMotoristaCobradores, nomesAtributos, "");
 		motoristaCobrador = listaMotoristaCobradores.get(indice);
 		
 		System.out.println("\nDeixe o campo em branco caso não deseje altera-lo (apenas pressione ENTER).");
@@ -87,11 +87,11 @@ public class MotoristaCobradorController implements IController<MotoristaCobrado
 	@Override
 	public void remover() {
 		carregar();
-    	System.out.println("\n======================== Editar motoristaCobradors ========================\n");
+    	System.out.println("\n======================== Remover motoristaCobradors ========================\n");
     	
     	MotoristaCobrador motoristaCobrador = new MotoristaCobrador();
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(motoristaCobrador);
-		Integer indice = MenuUtil.menuSelecionarElemento(listaMotoristaCobradores, nomesAtributos);
+		Integer indice = MenuUtil.menuSelecionarElemento(listaMotoristaCobradores, nomesAtributos, "");
 		motoristaCobrador = listaMotoristaCobradores.get(indice);
 		excluir(motoristaCobrador);
 	}

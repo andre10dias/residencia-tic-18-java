@@ -5,6 +5,8 @@ import java.util.Objects;
 public class PontoParada {
 	
 	private String nome;
+	
+	public PontoParada() {}
 
 	public PontoParada(String nome) {
 		this.nome = nome;

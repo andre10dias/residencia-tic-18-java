@@ -77,12 +77,12 @@ public class Menu {
 					break;
 					
 				case 4:
-//					MenuUtil.menuController(PontoParadaController.getInstance());
+					MenuUtil.menuController(PontoParadaController.getInstance());
 					opcao = 0;
 					break;
 					
 				case 5:
-//					MenuUtil.menuController(TrechoController.getInstance());
+					MenuUtil.menuController(TrechoController.getInstance());
 					opcao = 0;
 					break;
 					

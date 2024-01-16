@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Model.PontoParada;
-import Model.Trajeto;
 import Model.Trecho;
 
 public class TrechoService implements IService<Trecho> {
+	
+	public static List<Trecho> listaTrechos;
 	
 	private static final String TRECHO_PATH = PathService.TRECHO_PATH;
 	
@@ -29,12 +30,12 @@ public class TrechoService implements IService<Trecho> {
         for (String linha : dados) {
         	String[] attr = linha.split(";");
 			
-			Trajeto codigoTrajeto = new Trajeto(Integer.valueOf(attr[CODIGO]));
+			Integer codigo = Integer.valueOf(attr[CODIGO]);
 			PontoParada origem = new PontoParada(attr[ORIGEM]);
 			PontoParada destino = new PontoParada(attr[DESTINO]);
 			Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
 			
-			lista.add(new Trecho(codigoTrajeto, origem, destino, intervaloEstimado));
+			lista.add(new Trecho(codigo, origem, destino, intervaloEstimado));
 		}
         
         return lista;
@@ -46,7 +47,7 @@ public class TrechoService implements IService<Trecho> {
     	File arquivo = new File(TRECHO_PATH);
     	
 		for (Trecho dado : dados) {
-			lista.add(dado.getCodigoTrajeto().getCodigo() + ";" + dado.getOrigem().getNome() 
+			lista.add(dado.getCodigo() + ";" + dado.getOrigem().getNome() 
 					+ ";" + dado.getDestino().getNome() + ";" + dado.getIntervaloEstimado());
 		}
     	
@@ -88,6 +89,16 @@ public class TrechoService implements IService<Trecho> {
 		else {
 			System.out.println("\nDados não localizados.");
 		}
+	}
+	
+	public static Trecho buscarTrechoPorCodigo(List<Trecho> dados, Integer codigo) {
+		for (Trecho dado : dados) {
+			if (dado.getCodigo().equals(codigo)) {
+				return dado;
+			}
+		}
+
+		return null;
 	}
 	
 }
