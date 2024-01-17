@@ -9,9 +9,16 @@ public class Trajeto {
 	private Integer codigo;
 	private List<Trecho> listaTrechos;
 
+	public Trajeto() {}
+
 	public Trajeto(Integer codigo) {
 		this.codigo = codigo;
 		this.listaTrechos = new ArrayList<>();
+	}
+
+	public Trajeto(Integer codigo, List<Trecho> listaTrechos) {
+		this.codigo = codigo;
+		this.listaTrechos = listaTrechos;
 	}
 
 	public List<Trecho> getListaTrechos() {
@@ -34,6 +41,7 @@ public class Trajeto {
 	public String toString() {
 		return "Trajeto{" +
         "codigo='" + codigo + '\'' +
+        "listaTrechos='" + listaTrechos + '\'' +
         '}';
 	}
 

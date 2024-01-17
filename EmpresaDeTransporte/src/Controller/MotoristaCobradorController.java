@@ -3,9 +3,7 @@ package Controller;
 import java.util.List;
 import java.util.Scanner;
 
-import Menu.Menu;
 import Model.MotoristaCobrador;
-import Model.Passageiro;
 import Service.MotoristaCobradorService;
 import Util.ControllerUtil;
 import Util.MenuUtil;

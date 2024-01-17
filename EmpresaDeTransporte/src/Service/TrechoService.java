@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Model.PontoParada;
+import Model.Trajeto;
 import Model.Trecho;
 
 public class TrechoService implements IService<Trecho> {
@@ -27,15 +28,15 @@ public class TrechoService implements IService<Trecho> {
         File arquivo = new File(TRECHO_PATH);
 
         List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
-        for (String linha : dados) {
-        	String[] attr = linha.split(";");
-			
-			Integer codigo = Integer.valueOf(attr[CODIGO]);
-			PontoParada origem = new PontoParada(attr[ORIGEM]);
-			PontoParada destino = new PontoParada(attr[DESTINO]);
-			Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
-			
-			lista.add(new Trecho(codigo, origem, destino, intervaloEstimado));
+        for (String linha : dados) {		
+    		String[] attr = linha.split(";");
+    		
+    		Integer codigo = Integer.valueOf(attr[CODIGO]);
+    		PontoParada origem = new PontoParada(attr[ORIGEM]);
+    		PontoParada destino = new PontoParada(attr[DESTINO]);
+    		Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
+    		
+    		lista.add(new Trecho(codigo, origem, destino, intervaloEstimado));
 		}
         
         return lista;
@@ -47,6 +48,7 @@ public class TrechoService implements IService<Trecho> {
     	File arquivo = new File(TRECHO_PATH);
     	
 		for (Trecho dado : dados) {
+			
 			lista.add(dado.getCodigo() + ";" + dado.getOrigem().getNome() 
 					+ ";" + dado.getDestino().getNome() + ";" + dado.getIntervaloEstimado());
 		}

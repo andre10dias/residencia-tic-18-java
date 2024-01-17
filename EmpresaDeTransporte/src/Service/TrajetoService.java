@@ -9,6 +9,8 @@ import Model.Trecho;
 
 public class TrajetoService implements IService<Trajeto> {
 	
+	public static List<Trajeto> listaTrajetos;
+	
 	private static final String TRAJETO_PATH = PathService.TRAJETO_PATH;
 	
     public TrajetoService() {
@@ -18,15 +20,28 @@ public class TrajetoService implements IService<Trajeto> {
 	public List<Trajeto> carregar() {
 		List<Trajeto> lista = new ArrayList<>();
         File arquivo = new File(TRAJETO_PATH);
+        
+        TrechoService trechoService = new TrechoService();
+        List<Trecho> listaTrechos = trechoService.carregar();
 
         List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
         for (String linha : dados) {
-        	Trajeto trajeto = new Trajeto(Integer.valueOf(linha));
+        	List<Trecho> listaTT = new ArrayList<>();
+        	Trecho trecho = null;
+        	String[] attr = linha.split(";");
+    		
+    		Integer codigoTrajeto = Integer.valueOf(attr[0]);
+    		for (int i = 1; i < attr.length; i++) {
+				trecho = TrechoService.buscarTrechoPorCodigo(listaTrechos, Integer.valueOf(attr[i]));
+				listaTT.add(trecho);
+			}
+    		
+        	Trajeto trajeto = new Trajeto(codigoTrajeto, listaTT);
 			lista.add(trajeto);
 			
-			List<Trecho> listaTrecho = EmpresaDeTransporteService
-					.buscarTrechosPorCodigoTrajeto(trajeto.getCodigo());
-			trajeto.setListaTrechos(listaTrecho);
+//			List<Trecho> listaTrecho = EmpresaDeTransporteService
+//					.buscarTrechosPorCodigoTrajeto(trajeto.getCodigo());
+//			trajeto.setListaTrechos(listaTrecho);
 		}
         
         return lista;
@@ -38,7 +53,16 @@ public class TrajetoService implements IService<Trajeto> {
     	File arquivo = new File(TRAJETO_PATH);
     	
 		for (Trajeto dado : dados) {
-			lista.add(dado.getCodigo().toString());
+			String str = "";
+			str += dado.getCodigo().toString();
+			
+			for (Trecho tt : dado.getListaTrechos()) {
+				str += ";" + tt.getCodigo().toString();
+			}
+			
+			if (str != "") {
+				lista.add(str);
+			}
 		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
@@ -79,6 +103,16 @@ public class TrajetoService implements IService<Trajeto> {
 		else {
 			System.out.println("\nDados não localizados.");
 		}
+	}
+	
+	public static Trajeto retornarTrajetoPorCodigo(Integer codigoTrajeto, List<Trajeto> listaTrajetos) {
+		for (Trajeto trajeto : listaTrajetos) {
+			if (trajeto.getCodigo().equals(codigoTrajeto)) {
+				return trajeto;
+			}
+		}
+		
+		return null;
 	}
 
 }

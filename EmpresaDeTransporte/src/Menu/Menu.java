@@ -10,10 +10,6 @@ import Controller.PontoParadaController;
 import Controller.TrajetoController;
 import Controller.TrechoController;
 import Controller.VeiculoController;
-import Model.MotoristaCobrador;
-import Model.Passageiro;
-import Model.PontoParada;
-import Model.Veiculo;
 import Util.MenuUtil;
 
 public class Menu {
@@ -24,7 +20,7 @@ public class Menu {
 		
 		do {
 			if (opcao != 0) {				
-				MenuUtil.montaMenu(itens, "Empresa de Transporte");
+				MenuUtil.montaMenu(itens, "Empresa de Transporte", "");
 				opcao = MenuUtil.obterOpcao(itens.size());
 				
 				switch (opcao) {
@@ -57,7 +53,7 @@ public class Menu {
 		int opcao;
 		
 		do {
-			MenuUtil.montaMenu(itens, "Menu cadastros básicos");
+			MenuUtil.montaMenu(itens, "Menu cadastros básicos", "");
 			opcao = MenuUtil.obterOpcao(itens.size());
 			
 			switch (opcao) {
@@ -87,7 +83,7 @@ public class Menu {
 					break;
 					
 				case 6:
-//					MenuUtil.menuController(TrajetoController.getInstance());
+					MenuUtil.menuController(TrajetoController.getInstance());
 					opcao = 0;
 					break;
 					
@@ -109,20 +105,20 @@ public class Menu {
 		int opcao;
 		
 		do {
-			MenuUtil.montaMenu(itens, "Menu jornada");
+			MenuUtil.montaMenu(itens, "Menu jornada", "Ainda não implementado.");
 			opcao = MenuUtil.obterOpcao(itens.size());
 			
 			switch (opcao) {
 				case 1:
-//					ClienteController.cadastrarCliente();
+					System.out.println("Ainda não implementado.");
 					break;
 					
 				case 2:
-//					ClienteController.listarClientes();
+					System.out.println("Ainda não implementado.");
 					break;
 
 				case 3:
-//					ClienteController.removerCliente();
+					System.out.println("Ainda não implementado.");
 					break;
 					
 				case 0:

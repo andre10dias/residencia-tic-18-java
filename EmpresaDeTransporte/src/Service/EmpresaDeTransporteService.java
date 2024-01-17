@@ -58,7 +58,7 @@ public class EmpresaDeTransporteService {
 		return false;
 	}
 	
-	public static List<Trajeto> buscarTrajetosPorCodigoTrecho(Integer codigoTrecho) {
+	public static List<Trajeto> buscarTrajetosPorCodigo(Integer codigoTrajeto) {
 		File arquivo = new File(TRAJETO_PATH);
 		List<Trajeto> listaTrajeto = new ArrayList<>();
 		
@@ -66,8 +66,8 @@ public class EmpresaDeTransporteService {
 		for (String linha : lista) {
 			String[] attr = linha.split(";");
 			
-			Integer codigoTrajeto = Integer.valueOf(attr[CODIGO]);
-			if (codigoTrajeto.equals(codigoTrecho)) {
+			Integer codigo = Integer.valueOf(attr[CODIGO]);
+			if (codigo.equals(codigoTrajeto)) {
 				listaTrajeto.add(new Trajeto(codigoTrajeto));
 			}
 		}
@@ -75,7 +75,46 @@ public class EmpresaDeTransporteService {
 		return listaTrajeto;
 	}
 	
-	protected static List<Trecho> buscarTrechosPorCodigoTrajeto(Integer codigoTrajeto) {
+	public static List<Trecho> buscarTrechosPorPontoParada(String origemDestino) {
+		List<Trecho> listaTrecho = recuperaTrecho();
+		List<Trecho> lista = new ArrayList<>();
+		
+		for (Trecho trecho : listaTrecho) {
+			if (trecho.getOrigem().getNome().equals(origemDestino) 
+					|| trecho.getDestino().getNome().equals(origemDestino)) {
+				lista.add(trecho);
+			}
+		}
+		
+		return lista;
+	}
+	
+	public static List<Trecho> buscarTrechosSemTrajetosAssociados() {
+		List<Trajeto> listaTrajeto = recuperaTrajeto();
+		List<Trecho> listaTrecho = recuperaTrecho();
+		List<Trecho> listaTrechosSemTrajetosAssociados = new ArrayList<>();
+		
+		for (Trecho trecho : listaTrecho) {
+            boolean estaPresente = false;
+
+            for (Trajeto trajeto : listaTrajeto) {
+                for (Trecho tt : trajeto.getListaTrechos()) {
+					if (tt.getCodigo().equals(trecho.getCodigo())) {
+						estaPresente = true;
+						break;
+					}
+				}
+            }
+
+            if (!estaPresente) {
+            	listaTrechosSemTrajetosAssociados.add(trecho);
+            }
+        }
+		
+		return listaTrechosSemTrajetosAssociados;
+	}
+	
+	private static List<Trecho> recuperaTrecho() {
 		File arquivo = new File(TRECHO_PATH);
 		List<Trecho> listaTrecho = new ArrayList<>();
 		
@@ -84,37 +123,40 @@ public class EmpresaDeTransporteService {
 			String[] attr = linha.split(";");
 			
 			Integer codigoTrecho = Integer.valueOf(attr[CODIGO]);
-			if (codigoTrecho.equals(codigoTrajeto)) {
-				PontoParada origem = new PontoParada(attr[ORIGEM]);
-				PontoParada destino = new PontoParada(attr[DESTINO]);
-				Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
-				
-				listaTrecho.add(new Trecho(codigoTrecho, origem, destino, intervaloEstimado));
-			}
+			PontoParada origem = new PontoParada(attr[ORIGEM]);
+			PontoParada destino = new PontoParada(attr[DESTINO]);
+			Integer intervalo = Integer.valueOf(attr[INTERVALO]);
+			
+			listaTrecho.add(new Trecho(codigoTrecho, origem, destino, intervalo));
 		}
 		
 		return listaTrecho;
 	}
 	
-	public static List<Trecho> buscarTrechosPorPontoParada(String origemDestino) {
-		File arquivo = new File(TRECHO_PATH);
-		List<Trecho> listaTrecho = new ArrayList<>();
+	private static List<Trajeto> recuperaTrajeto() {
+		File arquivo = new File(TRAJETO_PATH);
+		List<Trecho> listaTrecho = recuperaTrecho();
+		List<Trajeto> listaTrajeto = new ArrayList<>();
 		
 		List<String> lista = recuperarDados(arquivo);
 		for (String linha : lista) {
+			List<Trecho> listaT = new ArrayList<>();
 			String[] attr = linha.split(";");
 			
-			PontoParada origem = new PontoParada(attr[ORIGEM]);
-			PontoParada destino = new PontoParada(attr[DESTINO]);
+			String codigoTrajeto = attr[0];
 			
-			if (origem.getNome().equals(origemDestino) || destino.getNome().equals(origemDestino)) {
-				Integer codigoTrecho = Integer.valueOf(attr[CODIGO]);
-				Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
-				listaTrecho.add(new Trecho(codigoTrecho, origem, destino, intervaloEstimado));
+			for (int i = 1; i < attr.length; i++) {
+				for (Trecho tt : listaTrecho) {
+					if (tt.getCodigo().equals(Integer.valueOf(attr[i]))) {
+						listaT.add(tt);
+					}
+				}
 			}
+			
+			listaTrajeto.add(new Trajeto(Integer.valueOf(codigoTrajeto), listaT));
 		}
-		
-		return listaTrecho;
+    	
+    	return listaTrajeto;
 	}
 
 }

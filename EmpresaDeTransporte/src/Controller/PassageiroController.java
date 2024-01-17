@@ -1,10 +1,8 @@
 package Controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import Menu.Menu;
 import Model.Passageiro;
 import Service.PassageiroService;
 import Util.ControllerUtil;

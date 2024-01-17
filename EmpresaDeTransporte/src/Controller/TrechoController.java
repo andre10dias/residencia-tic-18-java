@@ -6,9 +6,7 @@ import java.util.Scanner;
 
 import Converter.TrechoConverter;
 import DTO.TrechoDTO;
-import Model.Passageiro;
 import Model.PontoParada;
-import Model.Trajeto;
 import Model.Trecho;
 import Service.EmpresaDeTransporteService;
 import Service.TrechoService;
@@ -41,7 +39,7 @@ public class TrechoController implements IController<TrechoController> {
     	PontoParadaController pontoParadaController = PontoParadaController.getInstance();
     	pontoParadaController.carregar();
     	
-    	List<Integer> listaCodigos = getListaCodigos();
+    	List<Integer> listaCodigos = getListaCodigosTrecho();
     	
     	Integer codigo = ControllerUtil.obterCodigo(listaCodigos);
     	
@@ -126,14 +124,30 @@ public class TrechoController implements IController<TrechoController> {
 	@Override
 	public void remover() {
 		carregar();
-		List<Trecho> listaTrechosSemTrajetosAssociados = getListaTrechosSemTrajetosAssociados();
+		List<Trecho> listaTrechosSemTrajetosAssociados = EmpresaDeTransporteService
+				.buscarTrechosSemTrajetosAssociados();
 
 		System.out.println("\n======================== Remover trechos ========================\n");
 		
-		if (!listaTrechosSemTrajetosAssociados.isEmpty()) {			
-			Trecho trecho = new Trecho();
-			List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(trecho);
-			Integer indice = MenuUtil.menuSelecionarElemento(listaTrechosSemTrajetosAssociados, nomesAtributos, "");
+		if (!listaTrechosSemTrajetosAssociados.isEmpty()) {	
+			TrechoDTO trechoDto = new TrechoDTO();
+			List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(trechoDto);
+			
+			// Removendo o atributo cógigo para não aparecer na listagem
+			for (int i = 0; i < nomesAtributos.size(); i++) {
+				if (nomesAtributos.get(i).equals("codigo")) {
+					nomesAtributos.remove(i);
+				}
+			}
+			
+			List<TrechoDTO> listaTrechosDto = TrechoConverter.convertToDTO(listaTrechosSemTrajetosAssociados);
+			
+			Integer indice = MenuUtil.menuSelecionarElemento(listaTrechosDto, nomesAtributos, "");
+			trechoDto = listaTrechosDto.get(indice);
+			
+			Trecho trecho = buscarTrechoPorCodigo(trechoDto.getCodigo());
+			indice = listaTrechos.indexOf(trecho);
+			
 			trecho = listaTrechosSemTrajetosAssociados.get(indice);
 			excluir(trecho, listaTrechosSemTrajetosAssociados);
 		}
@@ -178,33 +192,19 @@ public class TrechoController implements IController<TrechoController> {
 		}
 	}
 	
-	private List<Integer> getListaCodigos() {
+	private List<Integer> getListaCodigosTrecho() {
 		List<Integer> listaCodigos = new ArrayList<>();
     	for (Trecho trecho : listaTrechos) {
-    		listaCodigos.add(trecho.getCodigo());
+    		if (trecho.getCodigo() != null) {				
+    			listaCodigos.add(trecho.getCodigo());
+			}
     	}
     	
     	return listaCodigos;
 	}
 	
-	private Trecho buscarTrechoPorCodigo(Integer codigo) {
+	public static Trecho buscarTrechoPorCodigo(Integer codigo) {
 		return TrechoService.buscarTrechoPorCodigo(listaTrechos, codigo);
-	}
-	
-	private List<Trecho> getListaTrechosSemTrajetosAssociados() {
-		List<Integer> listaCodigos = getListaCodigos();
-    	List<Trecho> listaTrechosSemTrajetosAssociados = new ArrayList<>();
-    	
-    	for (Integer codigo : listaCodigos) {
-    		List<Trajeto> listaTrajetos = EmpresaDeTransporteService.buscarTrajetosPorCodigoTrecho(codigo);
-    		
-    		if (listaTrajetos.isEmpty()) {
-    			Trecho trecho = buscarTrechoPorCodigo(codigo);
-    			listaTrechosSemTrajetosAssociados.add(trecho);
-			}
-		}
-    	
-    	return listaTrechosSemTrajetosAssociados;
 	}
 	
 	private PontoParada selecionarPontoParada(String texto) {

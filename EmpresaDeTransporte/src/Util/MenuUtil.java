@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 import Controller.IController;
 import Menu.Menu;
-import Model.Passageiro;
 
 public class MenuUtil {
 	
@@ -21,7 +20,7 @@ public class MenuUtil {
         int opcao;
 
         do {
-            montaMenu(itens, "Menu " + controller.getNome());
+            montaMenu(itens, "Menu " + controller.getNome(), "");
             opcao = obterOpcao(itens.size());
 
             switch (opcao) {
@@ -63,12 +62,12 @@ public class MenuUtil {
             }
             
             if (textoAdicional != null && textoAdicional != "") {				
-            	System.out.println(textoAdicional+"\n");
+            	System.out.println(textoAdicional);
 			}
             
             System.out.println("Elementos cadastrados:\n");
             System.out.println("\t" + String.join("\t", nomesAtributos));
-            montaMenu(itensMenu, "");
+            montaMenu(itensMenu, "", "");
             opcao = obterOpcao(itensMenu.size());
 
             indice = opcao - 1;
@@ -77,9 +76,13 @@ public class MenuUtil {
         return indice;
     }
 	
-	public static void montaMenu(List<String> itens, String titulo) {
+	public static void montaMenu(List<String> itens, String titulo, String textoAdicional) {
 		if (titulo != "") {			
 			System.out.println("\n======================== " + titulo + " ========================\n");
+		}
+		
+		if (textoAdicional != "") {
+			System.out.println("\n" + textoAdicional + "\n");
 		}
 	    
 	    for (String item : itens) {
@@ -114,8 +117,10 @@ public class MenuUtil {
                 if (result.length() > 0) {
                     result.append("\t");
                 }
-
-                result.append(value.toString());
+                
+                if (value != null) {					
+                	result.append(value.toString());
+				}
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
