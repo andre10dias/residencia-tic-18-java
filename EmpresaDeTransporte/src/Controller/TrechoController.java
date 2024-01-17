@@ -120,6 +120,9 @@ public class TrechoController implements IController<TrechoController> {
 		}
 	}
 	
+	/*
+	 * Deleta os Trechos sem Trajetos associados
+	 * */
 	@Override
 	public void remover() {
 		carregar();

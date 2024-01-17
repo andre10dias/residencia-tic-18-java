@@ -95,5 +95,26 @@ public class EmpresaDeTransporteService {
 		
 		return listaTrecho;
 	}
+	
+	public static List<Trecho> buscarTrechosPorPontoParada(String origemDestino) {
+		File arquivo = new File(TRECHO_PATH);
+		List<Trecho> listaTrecho = new ArrayList<>();
+		
+		List<String> lista = recuperarDados(arquivo);
+		for (String linha : lista) {
+			String[] attr = linha.split(";");
+			
+			PontoParada origem = new PontoParada(attr[ORIGEM]);
+			PontoParada destino = new PontoParada(attr[DESTINO]);
+			
+			if (origem.getNome().equals(origemDestino) || destino.getNome().equals(origemDestino)) {
+				Integer codigoTrecho = Integer.valueOf(attr[CODIGO]);
+				Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
+				listaTrecho.add(new Trecho(codigoTrecho, origem, destino, intervaloEstimado));
+			}
+		}
+		
+		return listaTrecho;
+	}
 
 }
