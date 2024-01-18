@@ -81,9 +81,10 @@ public class TrajetoController implements IController<TrajetoController> {
     	int opcao = -1;
     	
     	do {			
-    		//System.out.println("\n======================== Editar trajeto ========================");
     		List<Trecho> listaTrechosSemTrajetosAssociados = EmpresaDeTransporteService
     				.buscarTrechosSemTrajetosAssociados();
+    		
+    		System.out.println("\n======================== Editar trajeto ========================");
     		
     		if (!listaTrechosSemTrajetosAssociados.isEmpty()) {				
     			Trecho trecho = selecionarTrecho(listaTrechosSemTrajetosAssociados);
@@ -244,7 +245,7 @@ public class TrajetoController implements IController<TrajetoController> {
 			System.err.println("Erro ao converter os dados: " + e.getMessage());
 		}
 		
-		Integer indice = MenuUtil.menuSelecionarElemento(listaTrechosDto, nomesAtributos, "");
+		Integer indice = MenuUtil.menuSelecionarElemento(listaTrechosDto, nomesAtributos, "\nExibindo trechos sem trajeto associado:");
 		trechoDto = listaTrechosDto.get(indice);
 		
 		Trecho trecho = TrechoController.buscarTrechoPorCodigo(trechoDto.getCodigo());

@@ -156,7 +156,7 @@ public class TrechoController implements IController<TrechoController> {
 				System.err.println("Erro ao converter os dados: " + e.getMessage());
 			}
 			
-			Integer indice = MenuUtil.menuSelecionarElemento(listaTrechosDto, nomesAtributos, "");
+			Integer indice = MenuUtil.menuSelecionarElemento(listaTrechosDto, nomesAtributos, "Exibindo trechos sem trajeto associado:");
 			trechoDto = listaTrechosDto.get(indice);
 			
 			Trecho trecho = buscarTrechoPorCodigo(trechoDto.getCodigo());
