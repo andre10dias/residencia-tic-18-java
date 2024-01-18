@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import Converter.TrajetoConverter;
 import Converter.TrechoConverter;
+import DTO.TrajetoDTO;
 import DTO.TrechoDTO;
-import Model.Trecho;
 import Model.Trajeto;
+import Model.Trecho;
+import Service.EmpresaDeTransporteService;
 import Service.TrajetoService;
 import Util.ControllerUtil;
 import Util.MenuUtil;
@@ -61,27 +64,72 @@ public class TrajetoController implements IController<TrajetoController> {
 
 	@Override
 	public void editar() {
-		// TODO Auto-generated method stub
+		carregar();
+		TrechoController trechoController = TrechoController.getInstance();
+		trechoController.carregar();
 		
+//    	List<Trecho> listaTrechos = TrechoController.listaTrechos;
+    	
+    	System.out.println("\n======================== Editar trajetos ========================\n");
+    	
+    	Trajeto trajeto = selecionarTrajeto(listaTrajetos);
+    	Integer indice = listaTrajetos.indexOf(trajeto);
+		
+//		System.out.println("\nDeixe o campo em branco caso não deseje altera-lo (apenas pressione ENTER).");
+		
+		List<Trecho> lista = new ArrayList<>();
+    	int opcao = -1;
+    	
+    	do {			
+    		//System.out.println("\n======================== Editar trajeto ========================");
+    		List<Trecho> listaTrechosSemTrajetosAssociados = EmpresaDeTransporteService
+    				.buscarTrechosSemTrajetosAssociados();
+    		
+    		if (!listaTrechosSemTrajetosAssociados.isEmpty()) {				
+    			Trecho trecho = selecionarTrecho(listaTrechosSemTrajetosAssociados);
+    			lista.add(trecho);
+    			
+    			List<String> itens = new ArrayList<>(Arrays.asList("[ 1 ] Sim", "[ 0 ] Não"));
+    			
+    			MenuUtil.montaMenu(itens, "", "Deseja incluir um novo trecho ao trajeto?");
+    			opcao = MenuUtil.obterOpcao(itens.size());
+			}
+    		else {
+    			System.out.println("\nNão existem resultados para serem exibidos.");
+    		}
+		} while (opcao != 0);
+		
+		trajeto.setListaTrechos(lista);
+		atualizar(indice, trajeto);
 	}
 	
 	@Override
 	public void listar() {
+		carregar();
+		System.out.println("\n======================== Listar trajetos ========================\n");
+		
 		if (!listaTrajetos.isEmpty()) {
 			System.out.println("\nLista de Trajetos cadastrados:\n");
+			
+//			System.out.println("\t Origem \t Destino \t Intervalo estimado");
 			for (int i = 0; i < listaTrajetos.size(); i++) {
-				Integer codigoTrajeto = listaTrajetos.get(i).getCodigo();
 				List<Trecho> listaTrechos = listaTrajetos.get(i).getListaTrechos();
 				
-				if (listaTrechos.isEmpty()) {					
-					System.out.println(codigoTrajeto);
-				}
-				else {					
-					for (Trecho trecho : listaTrechos) {					
-						System.out.println(codigoTrajeto + "\t" + trecho.getOrigem().getNome() 
-								+ "\t" + trecho.getDestino().getNome() + "\t" + trecho.getIntervaloEstimado());
+				for (int j = 0; j < listaTrechos.size(); j++) {
+					if (j == 0) {
+						System.out.print("Trajeto " + (i+1) + " - ");
+					}
+					
+					System.out.print("Trecho " + (j+1) + ": " + listaTrechos.get(j).getOrigem().getNome() 
+							+ " -> " + listaTrechos.get(j).getDestino().getNome() 
+							+ " Intervalo: " + listaTrechos.get(j).getIntervaloEstimado());
+					
+					if (j != listaTrechos.size()-1) {
+						System.out.print(" - ");
 					}
 				}
+				
+				System.out.println();
 			}
 		}
 		else {
@@ -91,8 +139,14 @@ public class TrajetoController implements IController<TrajetoController> {
 
 	@Override
 	public void remover() {
-		// TODO Auto-generated method stub
-		
+		carregar();
+		TrechoController trechoController = TrechoController.getInstance();
+		trechoController.carregar();
+    	
+    	System.out.println("\n======================== Remover trajetos ========================\n");
+    	
+    	Trajeto trajeto = selecionarTrajeto(listaTrajetos);
+    	excluir(trajeto);
 	}
     
     public void carregar() {
@@ -140,6 +194,36 @@ public class TrajetoController implements IController<TrajetoController> {
     	return listaCodigos;
 	}
 	
+	public static Trajeto buscarTrajetoPorCodigo(Integer codigo) {
+		return TrajetoService.buscarTrajetoPorCodigo(listaTrajetos, codigo);
+	}
+	
+	private Trajeto selecionarTrajeto(List<Trajeto> listaTrajetos) {
+		TrajetoDTO trajetoDto = new TrajetoDTO();
+		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(trajetoDto);
+		
+		// Removendo o atributo cógigo para não aparecer na listagem
+		for (int i = 0; i < nomesAtributos.size(); i++) {
+			if (nomesAtributos.get(i).equals("codigo")) {
+				nomesAtributos.remove(i);
+			}
+		}
+		
+		List<TrajetoDTO> listaTrajetosDto = null;
+		
+		try {
+			TrajetoConverter converter = TrajetoConverter.getInstance();
+			listaTrajetosDto = converter.convertToDTO(listaTrajetos);
+		} catch (Exception e) {
+			System.err.println("Erro ao converter os dados: " + e.getMessage());
+		}
+		
+		Integer indice = MenuUtil.menuSelecionarElemento(listaTrajetosDto, nomesAtributos, "");
+		trajetoDto = listaTrajetosDto.get(indice);
+		
+		return buscarTrajetoPorCodigo(trajetoDto.getCodigo());
+	}
+	
 	private Trecho selecionarTrecho(List<Trecho> listaTrechos) {
     	TrechoDTO trechoDto = new TrechoDTO();
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(trechoDto);
@@ -151,7 +235,14 @@ public class TrajetoController implements IController<TrajetoController> {
 			}
 		}
 		
-		List<TrechoDTO> listaTrechosDto = TrechoConverter.convertToDTO(listaTrechos);
+		List<TrechoDTO> listaTrechosDto = null;
+		
+		try {
+			TrechoConverter converter = TrechoConverter.getInstance();
+			listaTrechosDto = converter.convertToDTO(listaTrechos);
+		} catch (Exception e) {
+			System.err.println("Erro ao converter os dados: " + e.getMessage());
+		}
 		
 		Integer indice = MenuUtil.menuSelecionarElemento(listaTrechosDto, nomesAtributos, "");
 		trechoDto = listaTrechosDto.get(indice);

@@ -53,5 +53,10 @@ public class TrechoDTO {
 	public void setIntervaloEstimado(Integer intervaloEstimado) {
 		this.intervaloEstimado = intervaloEstimado;
 	}
+
+	@Override
+	public String toString() {
+		return origem + ", " + destino + ", " + intervaloEstimado;
+	}
     
 }

@@ -105,7 +105,7 @@ public class TrajetoService implements IService<Trajeto> {
 		}
 	}
 	
-	public static Trajeto retornarTrajetoPorCodigo(Integer codigoTrajeto, List<Trajeto> listaTrajetos) {
+	public static Trajeto buscarTrajetoPorCodigo(List<Trajeto> listaTrajetos, Integer codigoTrajeto) {
 		for (Trajeto trajeto : listaTrajetos) {
 			if (trajeto.getCodigo().equals(codigoTrajeto)) {
 				return trajeto;

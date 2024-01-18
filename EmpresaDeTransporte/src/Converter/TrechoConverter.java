@@ -7,12 +7,17 @@ import DTO.TrechoDTO;
 import Model.PontoParada;
 import Model.Trecho;
 
-public class TrechoConverter {
+public class TrechoConverter implements IConverter<TrechoDTO, Trecho> {
 	
-	public static List<TrechoDTO> convertToDTO(List<Trecho> lista) {
+	public static TrechoConverter getInstance() {
+		return new TrechoConverter();
+	}
+
+	@Override
+	public List<TrechoDTO> convertToDTO(List<Trecho> listaEntity) {
 		List<TrechoDTO> listaTrechoDto = new ArrayList<>();
 		
-		for (Trecho trecho : lista) {
+		for (Trecho trecho : listaEntity) {
 			TrechoDTO trechoDto = new TrechoDTO(trecho.getCodigo(), trecho.getOrigem().getNome(), 
 					trecho.getDestino().getNome(), trecho.getIntervaloEstimado());
 			
@@ -21,8 +26,9 @@ public class TrechoConverter {
 		
 		return listaTrechoDto;
 	}
-	
-	public static List<Trecho> convertToClass(List<TrechoDTO> listaDto) {
+
+	@Override
+	public List<Trecho> convertToEntity(List<TrechoDTO> listaDto) {
 		List<Trecho> listaTrecho = new ArrayList<>();
 		
 		for (TrechoDTO trechoDto : listaDto) {

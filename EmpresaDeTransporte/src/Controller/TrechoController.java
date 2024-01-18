@@ -70,7 +70,14 @@ public class TrechoController implements IController<TrechoController> {
 			}
 		}
 		
-		List<TrechoDTO> listaTrechosDto = TrechoConverter.convertToDTO(listaTrechos);
+		List<TrechoDTO> listaTrechosDto = null;
+		
+		try {
+			TrechoConverter converter = TrechoConverter.getInstance();
+			listaTrechosDto = converter.convertToDTO(listaTrechos);
+		} catch (Exception e) {
+			System.err.println("Erro ao converter os dados: " + e.getMessage());
+		}
 		
 		Integer indice = MenuUtil.menuSelecionarElemento(listaTrechosDto, nomesAtributos, "");
 		trechoDto = listaTrechosDto.get(indice);
@@ -140,7 +147,14 @@ public class TrechoController implements IController<TrechoController> {
 				}
 			}
 			
-			List<TrechoDTO> listaTrechosDto = TrechoConverter.convertToDTO(listaTrechosSemTrajetosAssociados);
+			List<TrechoDTO> listaTrechosDto = null;
+			
+			try {
+				TrechoConverter converter = TrechoConverter.getInstance();
+				listaTrechosDto = converter.convertToDTO(listaTrechosSemTrajetosAssociados);
+			} catch (Exception e) {
+				System.err.println("Erro ao converter os dados: " + e.getMessage());
+			}
 			
 			Integer indice = MenuUtil.menuSelecionarElemento(listaTrechosDto, nomesAtributos, "");
 			trechoDto = listaTrechosDto.get(indice);
