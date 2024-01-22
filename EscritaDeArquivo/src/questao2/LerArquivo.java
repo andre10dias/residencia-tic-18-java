@@ -32,14 +32,32 @@ public class LerArquivo {
             String linha;
             System.out.println("Lendo arquivo " + nomeArquivo + "...\n");
             while ((linha = bufferedReader.readLine()) != null) {
-//            	JSONObject json = new JSONObject();
-//            	json.getJSONArray(linha);
-//                System.out.println(json);
-                System.out.println(linha);
+            	JSONObject json = new JSONObject(linha);
+            	
+            	if (json.get("Estudante") != null) {					
+            		String estudanteJson = json.get("Estudante").toString();
+            		json = new JSONObject(estudanteJson.replace("[", "").replace("]", ""));
+				}
+            	
+            	String nome = json.getString("nome");
+            	String cpf = json.getString("cpf");
+            	Float cra = json.getFloat("cra");
+            	Integer anoDeAdmissão = json.getInt("anoDeAdmissao");
+            	
+            	Estudante e = new Estudante(nome, cpf, cra, anoDeAdmissão);
+            	lista.add(e);
             }
+            
+            imprimeDados(lista);
 
         } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo: " + e.getMessage());
         }
     }
+	
+	private static void imprimeDados(List<Estudante> lista) {
+		for (Estudante estudante : lista) {
+			System.out.println(estudante.toString());
+		}
+	}
 }

@@ -62,6 +62,8 @@ public class EscreverArquivo {
             if (!lista.isEmpty()) {	
             	gravarArquivo(lista);
 			}
+        	
+        	//gravarArquivo(mock());
             
             if (opcao.equals("0")) {
 				System.out.println("\nFinalizando programa...");
@@ -76,10 +78,12 @@ public class EscreverArquivo {
 		try (Scanner scanner = new Scanner(System.in);
 	             BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo))) {
 			for (Estudante e : lista) {
-				json.put("nome", e.getNome());
-				json.put("cpf", e.getCpf());
-				json.put("cra", e.getCra());
-				json.put("anoDeAdmissao", e.getAnoDeAdmissão());
+//				json.put("nome", e.getNome());
+//				json.put("cpf", e.getCpf());
+//				json.put("cra", e.getCra());
+//				json.put("anoDeAdmissao", e.getAnoDeAdmissão());
+				
+				json.put("Estudante", lista);
 				
 				writer.write(json.toString());
                 writer.newLine();

@@ -5,13 +5,13 @@ public class Estudante {
 	private String nome;
 	private String cpf;
 	private Float cra;
-	private Integer AnoDeAdmissão;
+	private Integer anoDeAdmissao;
 
-	public Estudante(String nome, String cpf, Float cra, Integer anoDeAdmissão) {
+	public Estudante(String nome, String cpf, Float cra, Integer anoDeAdmissao) {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.cra = cra;
-		AnoDeAdmissão = anoDeAdmissão;
+		this.anoDeAdmissao = anoDeAdmissao;
 	}
 
 	public String getNome() {
@@ -38,12 +38,22 @@ public class Estudante {
 		this.cra = cra;
 	}
 
-	public Integer getAnoDeAdmissão() {
-		return AnoDeAdmissão;
+	public Integer getAnoDeAdmissao() {
+		return anoDeAdmissao;
 	}
 
-	public void setAnoDeAdmissão(Integer anoDeAdmissão) {
-		AnoDeAdmissão = anoDeAdmissão;
+	public void setAnoDeAdmissão(Integer anoDeAdmissao) {
+		this.anoDeAdmissao = anoDeAdmissao;
+	}
+	
+	@Override
+	public String toString() {
+		return "{" +
+                "nome='" + nome + '\'' +
+                "cpf='" + cpf + '\'' +
+                "cra='" + cra + '\'' +
+                "anoDeAdmissão='" + anoDeAdmissao + '\'' +
+                '}';
 	}
 
 }
