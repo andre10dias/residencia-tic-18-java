@@ -1,4 +1,4 @@
-package Questao1;
+package questao2;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class LerArquivo {
-
 	public static void main(String[] args) {
         String nomeArquivo = "entrada.txt";
         File arquivo = new File(nomeArquivo);
@@ -33,5 +32,4 @@ public class LerArquivo {
             System.err.println("Erro ao ler o arquivo: " + e.getMessage());
         }
     }
-
 }

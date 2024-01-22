@@ -1,7 +1,4 @@
 .metadata
-.classpath
-.project
-.settings/
-bin/
+/bin/
 EscritaDeArquivo/saida.txt
 EmpresaDeTransporte/src/Bd/*.txt
