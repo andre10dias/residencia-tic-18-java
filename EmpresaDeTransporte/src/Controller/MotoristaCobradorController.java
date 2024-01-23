@@ -12,15 +12,10 @@ public class MotoristaCobradorController implements IController<MotoristaCobrado
 	
 	public static List<MotoristaCobrador> listaMotoristaCobradores;
 	
-	private static MotoristaCobradorService service = new MotoristaCobradorService();
 	private Scanner entrada = new Scanner(System.in);
-
-//    public MotoristaCobradorController() {
-//        this.service = new MotoristaCobradorService();
-//    }
 	
-	public static PassageiroController getInstance() {
-		return new PassageiroController();
+	public static MotoristaCobradorController getInstance() {
+		return new MotoristaCobradorController();
 	}
 	
 	@Override
@@ -95,11 +90,13 @@ public class MotoristaCobradorController implements IController<MotoristaCobrado
 	}
     
     private static void carregar() {
+    	MotoristaCobradorService service = MotoristaCobradorService.getInstance();
     	listaMotoristaCobradores = service.carregar();
     }
 	
 	private static void salvar(MotoristaCobrador motoristaCobrador) {
 		try {
+			MotoristaCobradorService service = MotoristaCobradorService.getInstance();
 			service.adicionar(listaMotoristaCobradores, motoristaCobrador);
 			service.salvar(listaMotoristaCobradores);
 		} catch (Exception e) {
@@ -108,10 +105,13 @@ public class MotoristaCobradorController implements IController<MotoristaCobrado
 	}
 	
 	public MotoristaCobrador buscar(Integer indice) {
+		MotoristaCobradorService service = MotoristaCobradorService.getInstance();
 		return service.buscar(listaMotoristaCobradores, indice);
 	}
 	
 	private static void atualizar(Integer indice, MotoristaCobrador motoristaCobrador) {
+		MotoristaCobradorService service = MotoristaCobradorService.getInstance();
+		
 		if (service.atualizar(listaMotoristaCobradores, indice, motoristaCobrador) != null) {
 			System.out.println("\nDados atualizados com sucesso.");
 		}
@@ -121,6 +121,8 @@ public class MotoristaCobradorController implements IController<MotoristaCobrado
 	}
 	
 	public static void excluir(MotoristaCobrador motoristaCobrador) {
+		MotoristaCobradorService service = MotoristaCobradorService.getInstance();
+		
 		if (listaMotoristaCobradores.indexOf(motoristaCobrador) != -1) {
 			service.excluir(listaMotoristaCobradores, motoristaCobrador);
 			System.out.println("\nDados atualizados com sucesso.");

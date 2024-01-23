@@ -4,6 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Factory.EmpresaDeTransporteFactory;
 import Model.Jornada;
 import Model.MotoristaCobrador;
 import Util.ControllerUtil;
@@ -12,7 +16,8 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	
 	private static final String MOTORISTA_COBRADOR_PATH = PathService.MOTORISTA_COBRADOR_PATH;
 	
-    public MotoristaCobradorService() {
+    public static MotoristaCobradorService getInstance() {
+    	return new MotoristaCobradorService();
 	}
 
 	@Override
@@ -21,16 +26,12 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
         File arquivo = new File(MOTORISTA_COBRADOR_PATH);
         
         List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new MotoristaCobrador());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, MotoristaCobrador.class, nomesAtributos);
-        for (String linha : dados) {
-        	String[] attr = linha.split(";");
-        	
-        	if (attr.length > 1) {				
-        		lista.add(new MotoristaCobrador(attr[0], new Jornada(Integer.valueOf(attr[1]))));
-			}
-        	else {        		
-        		lista.add(new MotoristaCobrador(attr[0]));
-        	}
+        JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, MotoristaCobrador.class, nomesAtributos);
+        
+        for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+            MotoristaCobrador motoristaCobrador = EmpresaDeTransporteFactory.criarMotoristaCobradorDeJSONObject(objJson);
+            lista.add(motoristaCobrador);
 		}
         
         return lista;
@@ -38,12 +39,7 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 
 	@Override
 	public void salvar(List<MotoristaCobrador> dados) {
-//		List<String> lista = new ArrayList<>();
 		File arquivo = new File(MOTORISTA_COBRADOR_PATH);
-    	
-//    	for (MotoristaCobrador dado : dados) {
-//			lista.add(dado.getNome());
-//		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, MotoristaCobrador.class)) {
 			System.out.println("\nDados gravados com sucesso.");

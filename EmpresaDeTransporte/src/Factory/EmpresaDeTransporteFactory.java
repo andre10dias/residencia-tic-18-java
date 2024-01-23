@@ -102,25 +102,33 @@ public class EmpresaDeTransporteFactory {
 		String dataInicio = objJson.getString("inicio");
 		Date inicio = ConversaoDeDatasUtil.stringToDate(dataInicio);
 		
-		String dataFim = objJson.getString("fim");
-		Date fim = ConversaoDeDatasUtil.stringToDate(dataFim);
-		
 		JSONObject jsonObjectTrajeto = objJson.getJSONObject("trajeto");
 		Trajeto trajeto = criarTrajetoDeJSONObject(jsonObjectTrajeto);
 		
 		JSONObject jsonObjectVeiculo = objJson.getJSONObject("veiculo");
 		Veiculo veiculo = criarVeiculoDeJSONObject(jsonObjectVeiculo);
 		
-		return new Jornada(codigo, inicio, fim, trajeto, veiculo);
+		if (objJson.has("fim")) {			
+			String dataFim = objJson.getString("fim");
+			Date fim = ConversaoDeDatasUtil.stringToDate(dataFim);
+			
+			return new Jornada(codigo, inicio, fim, trajeto, veiculo);
+		}
+		
+		return new Jornada(codigo, inicio, trajeto, veiculo);
 	}
 	
 	public static MotoristaCobrador criarMotoristaCobradorDeJSONObject(JSONObject objJson) {
 		String nome = objJson.getString("nome");
 		
-		JSONObject jsonObjectJornada = objJson.getJSONObject("jornada");
-		Jornada jornada = criarJornadaDeJSONObject(jsonObjectJornada);
+		if (objJson.has("jornada")) {			
+			JSONObject jsonObjectJornada = objJson.getJSONObject("jornada");
+			Jornada jornada = criarJornadaDeJSONObject(jsonObjectJornada);
+			
+			return new MotoristaCobrador(nome, jornada);
+		}
 		
-		return new MotoristaCobrador(nome, jornada);
+		return new MotoristaCobrador(nome);
 	}
 
 }
