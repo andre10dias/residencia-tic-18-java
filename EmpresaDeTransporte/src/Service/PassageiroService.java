@@ -3,12 +3,10 @@ package Service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Factory.PassageiroFactory;
+import Factory.EmpresaDeTransporteFactory;
 import Model.Passageiro;
 import Util.ControllerUtil;
 
@@ -23,7 +21,6 @@ public class PassageiroService implements IService<Passageiro> {
     @Override
     public List<Passageiro> carregar() {
     	List<Passageiro> lista = new ArrayList<>();
-    	PassageiroFactory factory = PassageiroFactory.getInstance();
         File arquivo = new File(PASSAGEIRO_PATH);
         
         List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Passageiro());
@@ -31,7 +28,7 @@ public class PassageiroService implements IService<Passageiro> {
         
         for (int i = 0; i < dados.length(); i++) {
         	JSONObject objJson = dados.getJSONObject(i);
-            Passageiro passageiro = factory.criarObjetoDeJSONObject(objJson);
+            Passageiro passageiro = EmpresaDeTransporteFactory.criarPassageiroDeJSONObject(objJson);
             lista.add(passageiro);
 		}
 

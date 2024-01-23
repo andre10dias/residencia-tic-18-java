@@ -4,6 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Factory.EmpresaDeTransporteFactory;
 import Model.Veiculo;
 import Util.ControllerUtil;
 
@@ -11,7 +15,8 @@ public class VeiculoService implements IService<Veiculo> {
 	
 	private static final String VEICULO_PATH = PathService.VEICULO_PATH;
 	
-    public VeiculoService() {
+    public static VeiculoService getInstance() {
+    	return new VeiculoService();
 	}
 
 	@Override
@@ -20,9 +25,12 @@ public class VeiculoService implements IService<Veiculo> {
         File arquivo = new File(VEICULO_PATH);
         
         List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Veiculo());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Veiculo.class, nomesAtributos);
-        for (String linha : dados) {
-        	lista.add(new Veiculo(linha));
+        JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, Veiculo.class, nomesAtributos);
+        
+        for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+            Veiculo veiculo = EmpresaDeTransporteFactory.criarVeiculoDeJSONObject(objJson);
+            lista.add(veiculo);
 		}
         
         return lista;
@@ -30,12 +38,7 @@ public class VeiculoService implements IService<Veiculo> {
 
     @Override
     public void salvar(List<Veiculo> dados) {
-//    	List<String> lista = new ArrayList<>();
     	File arquivo = new File(VEICULO_PATH);
-    	
-//    	for (Veiculo dado : dados) {
-//			lista.add(dado.getNumero());
-//		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Veiculo.class)) {
 			System.out.println("\nDados gravados com sucesso.");
