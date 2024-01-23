@@ -3,9 +3,6 @@ package Controller;
 import java.util.List;
 import java.util.Scanner;
 
-import Menu.Menu;
-import Model.Veiculo;
-import Model.Veiculo;
 import Model.Veiculo;
 import Service.VeiculoService;
 import Util.ControllerUtil;
@@ -15,12 +12,7 @@ public class VeiculoController implements IController<VeiculoController> {
 	
 	public static List<Veiculo> listaVeiculos;
 	
-	private static final VeiculoService service = new VeiculoService();
 	private Scanner entrada = new Scanner(System.in);
-
-//    public VeiculoController() {
-//        this.service = new VeiculoService();
-//    }
 	
 	public static VeiculoController getInstance() {
 		return new VeiculoController();
@@ -94,11 +86,13 @@ public class VeiculoController implements IController<VeiculoController> {
 	}
     
     private static void carregar() {
+    	VeiculoService service = VeiculoService.getInstance();
     	listaVeiculos = service.carregar();
     }
 	
     private static void salvar(Veiculo veiculo) {
 		try {
+			VeiculoService service = VeiculoService.getInstance();
 			service.adicionar(listaVeiculos, veiculo);
 			service.salvar(listaVeiculos);
 		} catch (Exception e) {
@@ -107,10 +101,13 @@ public class VeiculoController implements IController<VeiculoController> {
 	}
 	
 	public Veiculo buscar(Integer indice) {
+		VeiculoService service = VeiculoService.getInstance();
 		return service.buscar(listaVeiculos, indice);
 	}
 	
 	private static void atualizar(Integer indice, Veiculo veiculo) {
+		VeiculoService service = VeiculoService.getInstance();
+		
 		if (service.atualizar(listaVeiculos, indice, veiculo) != null) {
 			System.out.println("\nDados atualizados com sucesso.");
 		}
@@ -120,6 +117,8 @@ public class VeiculoController implements IController<VeiculoController> {
 	}
 	
 	private static void excluir(Veiculo veiculo) {
+		VeiculoService service = VeiculoService.getInstance();
+		
 		if (listaVeiculos.indexOf(veiculo) != -1) {
 			service.excluir(listaVeiculos, veiculo);
 			System.out.println("\nDados atualizados com sucesso.");
