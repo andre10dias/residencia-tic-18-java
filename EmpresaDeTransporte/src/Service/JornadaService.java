@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Factory.EmpresaDeTransporteFactory;
 import Model.Jornada;
 import Model.Trajeto;
 import Model.Veiculo;
@@ -15,13 +19,8 @@ public class JornadaService implements IService<Jornada> {
 	
 	private static final String JORNADA_PATH = PathService.JORNADA_PATH;
 	
-	private final Integer CODIGO = 0;
-	private final Integer INICIO = 1;
-	private final Integer FIM = 2;
-	private final Integer TRAJETO = 3;
-	private final Integer VEICULO = 4;
-	
-    public JornadaService() {
+    public static JornadaService getInstance() {
+    	return new JornadaService();
 	}
 
 	@Override
@@ -30,17 +29,12 @@ public class JornadaService implements IService<Jornada> {
         File arquivo = new File(JORNADA_PATH);
 
         List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Jornada());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Jornada.class, nomesAtributos);
-        for (String linha : dados) {
-        	String[] attr = linha.split(";");
-			
-        	Integer codigo = Integer.valueOf(attr[CODIGO]);
-        	Date inicio = ConversaoDeDatasUtil.stringToDate(attr[INICIO]);
-        	Date fim = ConversaoDeDatasUtil.stringToDate(attr[FIM]);
-			Trajeto trajeto = new Trajeto(Integer.valueOf(attr[TRAJETO]));
-			Veiculo veiculo = new Veiculo(attr[VEICULO]);
-			
-			lista.add(new Jornada(codigo, inicio, fim, trajeto, veiculo));
+        JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, Jornada.class, nomesAtributos);
+        
+        for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+            Jornada jornada = EmpresaDeTransporteFactory.criarJornadaDeJSONObject(objJson);
+            lista.add(jornada);
 		}
         
         return lista;
@@ -48,14 +42,7 @@ public class JornadaService implements IService<Jornada> {
 
 	@Override
 	public void salvar(List<Jornada> dados) {
-//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(JORNADA_PATH);
-    	
-//		for (Jornada dado : dados) {
-//			lista.add(dado.getDataInicioFormatada() + ";" + dado.getDataFimFormatada() 
-//					+ ";" + dado.getTrajeto().getCodigo()+ ";" + dado.getMotoristaCobrador().getNome()
-//					+ ";" + dado.getVeiculo().getNumero());
-//		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Jornada.class)) {
 			System.out.println("\nDados gravados com sucesso.");

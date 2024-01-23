@@ -8,19 +8,19 @@ import Service.JornadaService;
 public class JornadaController {
 	
 	public static List<Jornada> listaJornadas;
-	
-	private final JornadaService service;
 
-    public JornadaController() {
-        this.service = new JornadaService();
+    public static JornadaController getInstance() {
+        return new JornadaController();
     }
     
     public void carregar() {
+    	JornadaService service = JornadaService.getInstance();
     	listaJornadas = service.carregar();
     }
 	
 	public void salvar(Jornada jornada) {
 		try {
+			JornadaService service = JornadaService.getInstance();
 			service.adicionar(listaJornadas, jornada);
 			service.salvar(listaJornadas);
 		} catch (Exception e) {
@@ -43,10 +43,13 @@ public class JornadaController {
 	}
 	
 	public Jornada buscar(Integer indice) {
+		JornadaService service = JornadaService.getInstance();
 		return service.buscar(listaJornadas, indice);
 	}
 	
 	public void atualizar(Integer indice, Jornada jornada) {
+		JornadaService service = JornadaService.getInstance();
+		
 		if (service.atualizar(listaJornadas, indice, jornada) != null) {
 			System.out.println("\nDados atualizados com sucesso.");
 		}
@@ -56,6 +59,8 @@ public class JornadaController {
 	}
 	
 	public void excluir(Jornada jornada) {
+		JornadaService service = JornadaService.getInstance();
+		
 		if (listaJornadas.indexOf(jornada) != -1) {
 			service.excluir(listaJornadas, jornada);
 			System.out.println("\nDados atualizados com sucesso.");

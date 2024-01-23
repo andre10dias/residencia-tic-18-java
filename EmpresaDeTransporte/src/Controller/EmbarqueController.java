@@ -8,19 +8,19 @@ import Service.EmbarqueService;
 public class EmbarqueController {
 	
 	public static List<Embarque> listaEmbarques;
-	
-	private final EmbarqueService service;
 
-    public EmbarqueController() {
-        this.service = new EmbarqueService();
+    public static EmbarqueController getInstance() {
+        return new EmbarqueController();
     }
     
     public void carregar() {
+    	EmbarqueService service = EmbarqueService.getInstance();
     	listaEmbarques = service.carregar();
     }
 	
 	public void salvar(Embarque embarque) {
 		try {
+			EmbarqueService service = EmbarqueService.getInstance();
 			service.adicionar(listaEmbarques, embarque);
 			service.salvar(listaEmbarques);
 		} catch (Exception e) {
@@ -42,10 +42,13 @@ public class EmbarqueController {
 	}
 	
 	public Embarque buscar(Integer indice) {
+		EmbarqueService service = EmbarqueService.getInstance();
 		return service.buscar(listaEmbarques, indice);
 	}
 	
 	public void atualizar(Integer indice, Embarque embarque) {
+		EmbarqueService service = EmbarqueService.getInstance();
+		
 		if (service.atualizar(listaEmbarques, indice, embarque) != null) {
 			System.out.println("\nDados atualizados com sucesso.");
 		}
@@ -55,6 +58,8 @@ public class EmbarqueController {
 	}
 	
 	public void excluir(Embarque embarque) {
+		EmbarqueService service = EmbarqueService.getInstance();
+		
 		if (listaEmbarques.indexOf(embarque) != -1) {
 			service.excluir(listaEmbarques, embarque);
 			System.out.println("\nDados atualizados com sucesso.");

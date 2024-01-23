@@ -2,26 +2,21 @@ package Service;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Factory.EmpresaDeTransporteFactory;
 import Model.Embarque;
-import Model.Passageiro;
-import Model.PontoParada;
 import Util.ControllerUtil;
-import Util.ConversaoDeDatasUtil;
 
 public class EmbarqueService implements IService<Embarque> {
 	
 	private static final String EMBARQUE_PATH = PathService.EMBARQUE_PATH;
 	
-	private final Integer PASSAGEIRO_NOME = 0;
-	private final Integer PASSAGEIRO_NUM_CARTAO = 1;
-	private final Integer PONTO_EMBARQUE = 2;
-	private final Integer TIPO_CARTAO = 3;
-	private final Integer DATA_HORA = 4;
-	
-    public EmbarqueService() {
+    public static EmbarqueService getInstance() {
+    	return new EmbarqueService();
 	}
 
 	@Override
@@ -30,16 +25,12 @@ public class EmbarqueService implements IService<Embarque> {
         File arquivo = new File(EMBARQUE_PATH);
 
         List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Embarque());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Embarque.class, nomesAtributos);
-        for (String linha : dados) {
-        	String[] attr = linha.split(";");
-			
-			Passageiro passageiro = new Passageiro(attr[PASSAGEIRO_NOME], attr[PASSAGEIRO_NUM_CARTAO]);
-			PontoParada pontoEmbarque = new PontoParada(attr[PONTO_EMBARQUE]);
-			String tipoCartao = attr[TIPO_CARTAO];
-			Date dataHora = ConversaoDeDatasUtil.stringToDate(attr[DATA_HORA]);
-			
-			lista.add(new Embarque(passageiro, pontoEmbarque, tipoCartao, dataHora));
+        JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, Embarque.class, nomesAtributos);
+        
+        for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+            Embarque embarque = EmpresaDeTransporteFactory.criarEmbarqueDeJSONObject(objJson);
+            lista.add(embarque);
 		}
         
         return lista;
@@ -47,14 +38,7 @@ public class EmbarqueService implements IService<Embarque> {
 
 	@Override
 	public void salvar(List<Embarque> dados) {
-//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(EMBARQUE_PATH);
-    	
-//		for (Embarque dado : dados) {
-//			lista.add(dado.getPassageiro().getNome() + ";" + dado.getPassageiro().getNumeroCartao() 
-//					+ ";" + dado.getPontoDeEmbarque().getNome()+ ";" + dado.getTipoCartao() 
-//					+ ";" + dado.getDataHoraFormatada());
-//		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Embarque.class)) {
 			System.out.println("\nDados gravados com sucesso.");

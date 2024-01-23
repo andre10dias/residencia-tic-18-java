@@ -8,6 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import Model.Checkpoint;
+import Model.Embarque;
+import Model.Jornada;
+import Model.MotoristaCobrador;
 import Model.Passageiro;
 import Model.PontoParada;
 import Model.Trajeto;
@@ -76,6 +79,48 @@ public class EmpresaDeTransporteFactory {
 		Date dataHora = ConversaoDeDatasUtil.stringToDate(data);
 		
 		return new Checkpoint(trajeto, pontoParada, dataHora);
+	}
+	
+	public static Embarque criarEmbarqueDeJSONObject(JSONObject objJson) {
+		JSONObject jsonObjectPassageiro = objJson.getJSONObject("passageiro");
+		Passageiro passageiro = criarPassageiroDeJSONObject(jsonObjectPassageiro);
+		
+		JSONObject jsonObjectPontoEmbarque = objJson.getJSONObject("pontoDeEmbarque");
+		PontoParada pontoDeEmbarque = criarPontoParadaDeJSONObject(jsonObjectPontoEmbarque);
+		
+		String tipoCartao = objJson.getString("tipoCartao");
+		
+		String data = objJson.getString("dataHora");
+		Date dataHora = ConversaoDeDatasUtil.stringToDate(data);
+		
+		return new Embarque(passageiro, pontoDeEmbarque, tipoCartao, dataHora);
+	}
+	
+	public static Jornada criarJornadaDeJSONObject(JSONObject objJson) {
+		Integer codigo = objJson.getInt("codigo");
+		
+		String dataInicio = objJson.getString("inicio");
+		Date inicio = ConversaoDeDatasUtil.stringToDate(dataInicio);
+		
+		String dataFim = objJson.getString("fim");
+		Date fim = ConversaoDeDatasUtil.stringToDate(dataFim);
+		
+		JSONObject jsonObjectTrajeto = objJson.getJSONObject("trajeto");
+		Trajeto trajeto = criarTrajetoDeJSONObject(jsonObjectTrajeto);
+		
+		JSONObject jsonObjectVeiculo = objJson.getJSONObject("veiculo");
+		Veiculo veiculo = criarVeiculoDeJSONObject(jsonObjectVeiculo);
+		
+		return new Jornada(codigo, inicio, fim, trajeto, veiculo);
+	}
+	
+	public static MotoristaCobrador criarMotoristaCobradorDeJSONObject(JSONObject objJson) {
+		String nome = objJson.getString("nome");
+		
+		JSONObject jsonObjectJornada = objJson.getJSONObject("jornada");
+		Jornada jornada = criarJornadaDeJSONObject(jsonObjectJornada);
+		
+		return new MotoristaCobrador(nome, jornada);
 	}
 
 }
