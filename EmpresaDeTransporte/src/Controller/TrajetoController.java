@@ -61,15 +61,11 @@ public class TrajetoController implements IController<TrajetoController> {
 		carregar();
 		TrechoController trechoController = TrechoController.getInstance();
 		trechoController.carregar();
-		
-//    	List<Trecho> listaTrechos = TrechoController.listaTrechos;
     	
     	System.out.println("\n======================== Editar trajetos ========================\n");
     	
     	Trajeto trajeto = selecionarTrajeto(listaTrajetos);
     	Integer indice = listaTrajetos.indexOf(trajeto);
-		
-//		System.out.println("\nDeixe o campo em branco caso não deseje altera-lo (apenas pressione ENTER).");
 		
 		List<Trecho> lista = new ArrayList<>();
     	int opcao = -1;

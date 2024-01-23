@@ -25,9 +25,6 @@ public class TrajetoService implements IService<Trajeto> {
 	public List<Trajeto> carregar() {
 		List<Trajeto> lista = new ArrayList<>();
         File arquivo = new File(TRAJETO_PATH);
-        
-//        TrechoService trechoService = new TrechoService();
-//        List<Trecho> listaTrechos = trechoService.carregar();
 
         List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trajeto());
         JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trajeto.class, nomesAtributos);
