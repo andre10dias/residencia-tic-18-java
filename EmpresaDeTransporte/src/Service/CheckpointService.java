@@ -2,24 +2,21 @@ package Service;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Factory.EmpresaDeTransporteFactory;
 import Model.Checkpoint;
-import Model.PontoParada;
-import Model.Trajeto;
 import Util.ControllerUtil;
-import Util.ConversaoDeDatasUtil;
 
 public class CheckpointService implements IService<Checkpoint> {
 	
 	private static final String CHECKPOINT_PATH = PathService.CHECKPOINT_PATH;
 	
-	private final Integer TRAJETO = 0;
-	private final Integer PONTO_PARADA = 1;
-	private final Integer DATA_HORA = 2;
-	
-    public CheckpointService() {
+    public static CheckpointService getInstance() {
+    	return new CheckpointService();
 	}
 
 	@Override
@@ -28,15 +25,12 @@ public class CheckpointService implements IService<Checkpoint> {
         File arquivo = new File(CHECKPOINT_PATH);
         
         List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Checkpoint());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Checkpoint.class, nomesAtributos);
-        for (String linha : dados) {
-        	String[] attr = linha.split(";");
-			
-			Trajeto trajeto = new Trajeto(Integer.valueOf(attr[TRAJETO]));
-			PontoParada pontoParada = new PontoParada(attr[PONTO_PARADA]);
-			Date dataHora = ConversaoDeDatasUtil.stringToDate(attr[DATA_HORA]);
-			
-			lista.add(new Checkpoint(trajeto, pontoParada, dataHora));
+        JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, Checkpoint.class, nomesAtributos);
+        
+        for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+            Checkpoint checkpoint = EmpresaDeTransporteFactory.criarChekpointDeJSONObject(objJson);
+            lista.add(checkpoint);
 		}
         
         return lista;
@@ -44,13 +38,7 @@ public class CheckpointService implements IService<Checkpoint> {
 
 	@Override
 	public void salvar(List<Checkpoint> dados) {
-//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(CHECKPOINT_PATH);
-    	
-//		for (Checkpoint dado : dados) {
-//			lista.add(dado.getTrajeto().getCodigo() + ";" + dado.getPontoDeParada().getNome() 
-//					+ ";" + dado.getDataHoraFormatada());
-//		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Checkpoint.class)) {
 			System.out.println("\nDados gravados com sucesso.");

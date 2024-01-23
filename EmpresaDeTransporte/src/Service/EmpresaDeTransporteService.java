@@ -13,8 +13,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import Factory.EmpresaDeTransporteFactory;
-import Model.Passageiro;
-import Model.PontoParada;
 import Model.Trajeto;
 import Model.Trecho;
 import Util.ControllerUtil;
@@ -23,11 +21,6 @@ public class EmpresaDeTransporteService {
 	
 	private static final String TRECHO_PATH = PathService.TRECHO_PATH;
 	private static final String TRAJETO_PATH = PathService.TRAJETO_PATH;
-	
-	private final static Integer CODIGO = 0;
-	private final static Integer ORIGEM = 1;
-	private final static Integer DESTINO = 2;
-	private final static Integer INTERVALO = 3;
 	
 	protected static JSONArray recuperarDados(File arquivo, Class<?> classe, List<String> nomesAtributos) {
 		JSONArray jsonArray = new JSONArray();
@@ -71,21 +64,16 @@ public class EmpresaDeTransporteService {
 	}
 	
 	public static List<Trajeto> buscarTrajetosPorCodigo(Integer codigoTrajeto) {
-		File arquivo = new File(TRAJETO_PATH);
-		List<Trajeto> listaTrajeto = new ArrayList<>();
+		List<Trajeto> listaTrajeto = recuperaTrajeto();
+		List<Trajeto> lista = new ArrayList<>();
 		
-		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trajeto());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trajeto.class, nomesAtributos);
-		for (String linha : dados) {
-			String[] attr = linha.split(";");
-			
-			Integer codigo = Integer.valueOf(attr[CODIGO]);
-			if (codigo.equals(codigoTrajeto)) {
-				listaTrajeto.add(new Trajeto(codigoTrajeto));
+		for (Trajeto trajeto : listaTrajeto) {
+			if (trajeto.getCodigo().equals(codigoTrajeto)) {
+				lista.add(trajeto);
 			}
 		}
 		
-		return listaTrajeto;
+		return lista;
 	}
 	
 	public static List<Trecho> buscarTrechosPorPontoParada(String origemDestino) {

@@ -1,16 +1,19 @@
 package Factory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import Model.Checkpoint;
 import Model.Passageiro;
 import Model.PontoParada;
 import Model.Trajeto;
 import Model.Trecho;
 import Model.Veiculo;
+import Util.ConversaoDeDatasUtil;
 
 public class EmpresaDeTransporteFactory {
 
@@ -60,6 +63,19 @@ public class EmpresaDeTransporteFactory {
 		}
 		
 		return new Trajeto(codigo, listaTrechos);
+	}
+	
+	public static Checkpoint criarChekpointDeJSONObject(JSONObject objJson) {
+		JSONObject jsonObjectTrajeto = objJson.getJSONObject("trajeto");
+		Trajeto trajeto = criarTrajetoDeJSONObject(jsonObjectTrajeto);
+		
+		JSONObject jsonObjectPontoParada = objJson.getJSONObject("pontoDeParada");
+		PontoParada pontoParada = criarPontoParadaDeJSONObject(jsonObjectPontoParada);
+		
+		String data = objJson.getString("dataHoraChegada");
+		Date dataHora = ConversaoDeDatasUtil.stringToDate(data);
+		
+		return new Checkpoint(trajeto, pontoParada, dataHora);
 	}
 
 }
