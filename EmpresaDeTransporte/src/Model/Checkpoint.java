@@ -10,6 +10,8 @@ public class Checkpoint {
 	private Trajeto trajeto;
     private PontoParada pontoDeParada;
     private Date dataHoraChegada;
+    
+    public Checkpoint() {}
 	
 	public Checkpoint(Trajeto trajeto, PontoParada pontoDeParada, Date dataHoraChegada) {
 		this.trajeto = trajeto;

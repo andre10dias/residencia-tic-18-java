@@ -8,6 +8,7 @@ import java.util.List;
 import Model.Jornada;
 import Model.Trajeto;
 import Model.Veiculo;
+import Util.ControllerUtil;
 import Util.ConversaoDeDatasUtil;
 
 public class JornadaService implements IService<Jornada> {
@@ -28,7 +29,8 @@ public class JornadaService implements IService<Jornada> {
 		List<Jornada> lista = new ArrayList<>();
         File arquivo = new File(JORNADA_PATH);
 
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Jornada());
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Jornada.class, nomesAtributos);
         for (String linha : dados) {
         	String[] attr = linha.split(";");
 			
@@ -46,16 +48,16 @@ public class JornadaService implements IService<Jornada> {
 
 	@Override
 	public void salvar(List<Jornada> dados) {
-		List<String> lista = new ArrayList<>();
+//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(JORNADA_PATH);
     	
-		for (Jornada dado : dados) {
-			lista.add(dado.getDataInicioFormatada() + ";" + dado.getDataFimFormatada() 
-					+ ";" + dado.getTrajeto().getCodigo()+ ";" + dado.getMotoristaCobrador().getNome()
-					+ ";" + dado.getVeiculo().getNumero());
-		}
+//		for (Jornada dado : dados) {
+//			lista.add(dado.getDataInicioFormatada() + ";" + dado.getDataFimFormatada() 
+//					+ ";" + dado.getTrajeto().getCodigo()+ ";" + dado.getMotoristaCobrador().getNome()
+//					+ ";" + dado.getVeiculo().getNumero());
+//		}
     	
-    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Jornada.class)) {
 			System.out.println("\nDados gravados com sucesso.");
 		}
 	}

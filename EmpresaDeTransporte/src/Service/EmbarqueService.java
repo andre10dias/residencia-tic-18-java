@@ -8,6 +8,7 @@ import java.util.List;
 import Model.Embarque;
 import Model.Passageiro;
 import Model.PontoParada;
+import Util.ControllerUtil;
 import Util.ConversaoDeDatasUtil;
 
 public class EmbarqueService implements IService<Embarque> {
@@ -28,7 +29,8 @@ public class EmbarqueService implements IService<Embarque> {
 		List<Embarque> lista = new ArrayList<>();
         File arquivo = new File(EMBARQUE_PATH);
 
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Embarque());
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Embarque.class, nomesAtributos);
         for (String linha : dados) {
         	String[] attr = linha.split(";");
 			
@@ -45,16 +47,16 @@ public class EmbarqueService implements IService<Embarque> {
 
 	@Override
 	public void salvar(List<Embarque> dados) {
-		List<String> lista = new ArrayList<>();
+//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(EMBARQUE_PATH);
     	
-		for (Embarque dado : dados) {
-			lista.add(dado.getPassageiro().getNome() + ";" + dado.getPassageiro().getNumeroCartao() 
-					+ ";" + dado.getPontoDeEmbarque().getNome()+ ";" + dado.getTipoCartao() 
-					+ ";" + dado.getDataHoraFormatada());
-		}
+//		for (Embarque dado : dados) {
+//			lista.add(dado.getPassageiro().getNome() + ";" + dado.getPassageiro().getNumeroCartao() 
+//					+ ";" + dado.getPontoDeEmbarque().getNome()+ ";" + dado.getTipoCartao() 
+//					+ ";" + dado.getDataHoraFormatada());
+//		}
     	
-    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Embarque.class)) {
 			System.out.println("\nDados gravados com sucesso.");
 		}
 	}

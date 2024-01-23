@@ -9,9 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import Model.PontoParada;
 import Model.Trajeto;
 import Model.Trecho;
+import Util.ControllerUtil;
 
 public class EmpresaDeTransporteService {
 	
@@ -23,16 +27,20 @@ public class EmpresaDeTransporteService {
 	private final static Integer DESTINO = 2;
 	private final static Integer INTERVALO = 3;
 	
-	protected static List<String> recuperarDados(File arquivo) {
-		List<String> lista = new ArrayList<>();
+	protected static JSONArray recuperarDados(File arquivo, Class<?> classe, List<String> nomesAtributos) {
+		JSONArray jsonArray = new JSONArray();
 		String linha;
 		
-		if (arquivo.exists()) {			
+		if (arquivo.exists()) {		
         	try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
         		System.err.println("\nLendo arquivo " + arquivo + "...\n");
         		
         		while ((linha = reader.readLine()) != null) {
-        			lista.add(linha);
+        			JSONObject json = new JSONObject(linha);
+                	
+                	if (json.get(classe.getSimpleName()) != null) {					
+                		jsonArray = json.getJSONArray(classe.getSimpleName());
+    				}
         		}
         		
         	} catch (IOException e) {
@@ -40,15 +48,17 @@ public class EmpresaDeTransporteService {
         	}
 		}
         
-        return lista;
+        return jsonArray;
 	}
 	
-	protected static Boolean gravarDados(File arquivo, List<String> listaDados) {
+	protected static Boolean gravarDados(File arquivo, List<?> listaDados, Class<?> classe) {
+		JSONObject json = new JSONObject();
+		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))) {
-            for (String dado : listaDados) {
-                writer.write(dado);
-                writer.newLine();
-            }
+			json.put(classe.getSimpleName(), listaDados);
+			
+			writer.write(json.toString());
+            writer.newLine();
             
             return true;
         } catch (IOException e) {
@@ -62,8 +72,9 @@ public class EmpresaDeTransporteService {
 		File arquivo = new File(TRAJETO_PATH);
 		List<Trajeto> listaTrajeto = new ArrayList<>();
 		
-		List<String> lista = recuperarDados(arquivo);
-		for (String linha : lista) {
+		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trajeto());
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trajeto.class, nomesAtributos);
+		for (String linha : dados) {
 			String[] attr = linha.split(";");
 			
 			Integer codigo = Integer.valueOf(attr[CODIGO]);
@@ -118,8 +129,9 @@ public class EmpresaDeTransporteService {
 		File arquivo = new File(TRECHO_PATH);
 		List<Trecho> listaTrecho = new ArrayList<>();
 		
-		List<String> lista = recuperarDados(arquivo);
-		for (String linha : lista) {
+		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trecho());
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trecho.class, nomesAtributos);
+		for (String linha : dados) {
 			String[] attr = linha.split(";");
 			
 			Integer codigoTrecho = Integer.valueOf(attr[CODIGO]);
@@ -138,8 +150,9 @@ public class EmpresaDeTransporteService {
 		List<Trecho> listaTrecho = recuperaTrecho();
 		List<Trajeto> listaTrajeto = new ArrayList<>();
 		
-		List<String> lista = recuperarDados(arquivo);
-		for (String linha : lista) {
+		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trajeto());
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trajeto.class, nomesAtributos);
+		for (String linha : dados) {
 			List<Trecho> listaT = new ArrayList<>();
 			String[] attr = linha.split(";");
 			

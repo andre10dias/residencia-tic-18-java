@@ -14,6 +14,8 @@ public class Jornada {
     private MotoristaCobrador motoristaCobrador;
     private Veiculo veiculo;
     
+    public Jornada() {}
+    
 	public Jornada(Integer codigo, Date inicio, Trajeto trajeto, Veiculo veiculo) {
 		this.codigo = codigo;
 		this.inicio = inicio;

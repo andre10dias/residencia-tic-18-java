@@ -3,40 +3,46 @@ package Service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Factory.PassageiroFactory;
 import Model.Passageiro;
+import Util.ControllerUtil;
 
 public class PassageiroService implements IService<Passageiro> {
 	
 	private static final String PASSAGEIRO_PATH = PathService.PASSAGEIRO_PATH;
 	
-    public PassageiroService() {
+    public static PassageiroService getInstance() {
+    	return new PassageiroService();
 	}
 
     @Override
     public List<Passageiro> carregar() {
     	List<Passageiro> lista = new ArrayList<>();
+    	PassageiroFactory factory = PassageiroFactory.getInstance();
         File arquivo = new File(PASSAGEIRO_PATH);
         
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
-        for (String linha : dados) {
-        	String[] attr = linha.split(";");
-        	lista.add(new Passageiro(attr[0], attr[1]));
-        }
+        List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Passageiro());
+        JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, Passageiro.class, nomesAtributos);
+        
+        for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+            Passageiro passageiro = factory.criarObjetoDeJSONObject(objJson);
+            lista.add(passageiro);
+		}
 
         return lista;
     }
 
     @Override
     public void salvar(List<Passageiro> dados) {
-    	List<String> lista = new ArrayList<>();
     	File arquivo = new File(PASSAGEIRO_PATH);
     	
-    	for (Passageiro dado : dados) {
-			lista.add(dado.getNome() + ";" + dado.getNumeroCartao());
-		}
-    	
-    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Passageiro.class)) {
 			System.out.println("\nDados gravados com sucesso.");
 		}
     }

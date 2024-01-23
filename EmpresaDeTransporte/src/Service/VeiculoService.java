@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Model.Veiculo;
+import Util.ControllerUtil;
 
 public class VeiculoService implements IService<Veiculo> {
 	
@@ -18,7 +19,8 @@ public class VeiculoService implements IService<Veiculo> {
     	List<Veiculo> lista = new ArrayList<>();
         File arquivo = new File(VEICULO_PATH);
         
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Veiculo());
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Veiculo.class, nomesAtributos);
         for (String linha : dados) {
         	lista.add(new Veiculo(linha));
 		}
@@ -28,14 +30,14 @@ public class VeiculoService implements IService<Veiculo> {
 
     @Override
     public void salvar(List<Veiculo> dados) {
-    	List<String> lista = new ArrayList<>();
+//    	List<String> lista = new ArrayList<>();
     	File arquivo = new File(VEICULO_PATH);
     	
-    	for (Veiculo dado : dados) {
-			lista.add(dado.getNumero());
-		}
+//    	for (Veiculo dado : dados) {
+//			lista.add(dado.getNumero());
+//		}
     	
-    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Veiculo.class)) {
 			System.out.println("\nDados gravados com sucesso.");
 		}
     }

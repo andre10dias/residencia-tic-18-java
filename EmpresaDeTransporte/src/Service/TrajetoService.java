@@ -6,6 +6,7 @@ import java.util.List;
 
 import Model.Trajeto;
 import Model.Trecho;
+import Util.ControllerUtil;
 
 public class TrajetoService implements IService<Trajeto> {
 	
@@ -24,7 +25,8 @@ public class TrajetoService implements IService<Trajeto> {
         TrechoService trechoService = new TrechoService();
         List<Trecho> listaTrechos = trechoService.carregar();
 
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trajeto());
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trajeto.class, nomesAtributos);
         for (String linha : dados) {
         	List<Trecho> listaTT = new ArrayList<>();
         	Trecho trecho = null;
@@ -49,23 +51,23 @@ public class TrajetoService implements IService<Trajeto> {
 
 	@Override
 	public void salvar(List<Trajeto> dados) {
-		List<String> lista = new ArrayList<>();
+//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(TRAJETO_PATH);
     	
-		for (Trajeto dado : dados) {
-			String str = "";
-			str += dado.getCodigo().toString();
-			
-			for (Trecho tt : dado.getListaTrechos()) {
-				str += ";" + tt.getCodigo().toString();
-			}
-			
-			if (str != "") {
-				lista.add(str);
-			}
-		}
+//		for (Trajeto dado : dados) {
+//			String str = "";
+//			str += dado.getCodigo().toString();
+//			
+//			for (Trecho tt : dado.getListaTrechos()) {
+//				str += ";" + tt.getCodigo().toString();
+//			}
+//			
+//			if (str != "") {
+//				lista.add(str);
+//			}
+//		}
     	
-    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Trajeto.class)) {
 			System.out.println("\nDados gravados com sucesso.");
 		}
 	}

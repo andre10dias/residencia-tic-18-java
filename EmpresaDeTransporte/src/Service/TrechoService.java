@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Model.PontoParada;
-import Model.Trajeto;
 import Model.Trecho;
+import Util.ControllerUtil;
 
 public class TrechoService implements IService<Trecho> {
 	
@@ -27,7 +27,8 @@ public class TrechoService implements IService<Trecho> {
 		List<Trecho> lista = new ArrayList<>();
         File arquivo = new File(TRECHO_PATH);
 
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trecho());
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trecho.class, nomesAtributos);
         for (String linha : dados) {		
     		String[] attr = linha.split(";");
     		
@@ -44,16 +45,15 @@ public class TrechoService implements IService<Trecho> {
 
 	@Override
 	public void salvar(List<Trecho> dados) {
-		List<String> lista = new ArrayList<>();
+//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(TRECHO_PATH);
     	
-		for (Trecho dado : dados) {
-			
-			lista.add(dado.getCodigo() + ";" + dado.getOrigem().getNome() 
-					+ ";" + dado.getDestino().getNome() + ";" + dado.getIntervaloEstimado());
-		}
+//		for (Trecho dado : dados) {
+//			lista.add(dado.getCodigo() + ";" + dado.getOrigem().getNome() 
+//					+ ";" + dado.getDestino().getNome() + ";" + dado.getIntervaloEstimado());
+//		}
     	
-    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Trecho.class)) {
 			System.out.println("\nDados gravados com sucesso.");
 		}
 	}

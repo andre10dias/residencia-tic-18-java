@@ -8,6 +8,7 @@ import java.util.List;
 import Model.Checkpoint;
 import Model.PontoParada;
 import Model.Trajeto;
+import Util.ControllerUtil;
 import Util.ConversaoDeDatasUtil;
 
 public class CheckpointService implements IService<Checkpoint> {
@@ -25,8 +26,9 @@ public class CheckpointService implements IService<Checkpoint> {
 	public List<Checkpoint> carregar() {
 		List<Checkpoint> lista = new ArrayList<>();
         File arquivo = new File(CHECKPOINT_PATH);
-
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        
+        List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Checkpoint());
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Checkpoint.class, nomesAtributos);
         for (String linha : dados) {
         	String[] attr = linha.split(";");
 			
@@ -42,15 +44,15 @@ public class CheckpointService implements IService<Checkpoint> {
 
 	@Override
 	public void salvar(List<Checkpoint> dados) {
-		List<String> lista = new ArrayList<>();
+//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(CHECKPOINT_PATH);
     	
-		for (Checkpoint dado : dados) {
-			lista.add(dado.getTrajeto().getCodigo() + ";" + dado.getPontoDeParada().getNome() 
-					+ ";" + dado.getDataHoraFormatada());
-		}
+//		for (Checkpoint dado : dados) {
+//			lista.add(dado.getTrajeto().getCodigo() + ";" + dado.getPontoDeParada().getNome() 
+//					+ ";" + dado.getDataHoraFormatada());
+//		}
     	
-    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Checkpoint.class)) {
 			System.out.println("\nDados gravados com sucesso.");
 		}
 	}

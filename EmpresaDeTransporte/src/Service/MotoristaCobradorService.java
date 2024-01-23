@@ -6,6 +6,7 @@ import java.util.List;
 
 import Model.Jornada;
 import Model.MotoristaCobrador;
+import Util.ControllerUtil;
 
 public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 	
@@ -19,7 +20,8 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 		List<MotoristaCobrador> lista = new ArrayList<>();
         File arquivo = new File(MOTORISTA_COBRADOR_PATH);
         
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo);
+        List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new MotoristaCobrador());
+        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, MotoristaCobrador.class, nomesAtributos);
         for (String linha : dados) {
         	String[] attr = linha.split(";");
         	
@@ -36,15 +38,14 @@ public class MotoristaCobradorService implements IService<MotoristaCobrador> {
 
 	@Override
 	public void salvar(List<MotoristaCobrador> dados) {
-		List<String> lista = new ArrayList<>();
+//		List<String> lista = new ArrayList<>();
 		File arquivo = new File(MOTORISTA_COBRADOR_PATH);
     	
-    	for (MotoristaCobrador dado : dados) {
-//			lista.add(dado.getNome() + ";" + dado.getJornada().getCodigo());
-			lista.add(dado.getNome());
-		}
+//    	for (MotoristaCobrador dado : dados) {
+//			lista.add(dado.getNome());
+//		}
     	
-    	if (EmpresaDeTransporteService.gravarDados(arquivo, lista)) {
+    	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, MotoristaCobrador.class)) {
 			System.out.println("\nDados gravados com sucesso.");
 		}
 	}

@@ -12,6 +12,8 @@ public class Embarque {
     private String tipoCartao;
     private Date dataHora;
     
+    public Embarque() {}
+    
 	public Embarque(Passageiro passageiro, PontoParada pontoDeEmbarque, String tipoCartao, Date dataHora) {
 		this.passageiro = passageiro;
 		this.pontoDeEmbarque = pontoDeEmbarque;
