@@ -17,12 +17,7 @@ public class TrechoController implements IController<TrechoController> {
 	
 	public static List<Trecho> listaTrechos;
 	
-	private final TrechoService service = new TrechoService();
 	private Scanner entrada = new Scanner(System.in);
-
-//    public TrechoController() {
-//        this.service = new TrechoService();
-//    }
 	
 	public static TrechoController getInstance() {
 		return new TrechoController();
@@ -171,11 +166,13 @@ public class TrechoController implements IController<TrechoController> {
 	}
     
     public void carregar() {
+    	TrechoService service = TrechoService.getInstace();
     	listaTrechos = service.carregar();
     }
 	
 	public void salvar(Trecho trecho) {
 		try {
+			TrechoService service = TrechoService.getInstace();
 			service.adicionar(listaTrechos, trecho);
 			service.salvar(listaTrechos);
 		} catch (Exception e) {
@@ -184,10 +181,13 @@ public class TrechoController implements IController<TrechoController> {
 	}
 	
 	public Trecho buscar(Integer indice) {
+		TrechoService service = TrechoService.getInstace();
 		return service.buscar(listaTrechos, indice);
 	}
 	
 	public void atualizar(Integer indice, Trecho trecho) {
+		TrechoService service = TrechoService.getInstace();
+		
 		if (service.atualizar(listaTrechos, indice, trecho) != null) {
 			System.out.println("\nDados atualizados com sucesso.");
 		}
@@ -197,6 +197,8 @@ public class TrechoController implements IController<TrechoController> {
 	}
 	
 	public void excluir(Trecho trecho, List<Trecho> lista) {
+		TrechoService service = TrechoService.getInstace();
+		
 		if (lista.indexOf(trecho) != -1) {
 			service.excluir(listaTrechos, trecho);
 			System.out.println("\nDados atualizados com sucesso.");
@@ -229,9 +231,12 @@ public class TrechoController implements IController<TrechoController> {
     	List<PontoParada> listaPontoParadas = PontoParadaController.listaPontoParadas;
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(pontoParada);
 		
-		Integer indice = MenuUtil.menuSelecionarElemento(listaPontoParadas, nomesAtributos, texto);
+		if (!listaPontoParadas.isEmpty()) {			
+			Integer indice = MenuUtil.menuSelecionarElemento(listaPontoParadas, nomesAtributos, texto);
+			return listaPontoParadas.get(indice);
+		}
 		
-		return listaPontoParadas.get(indice);
+		return null;
 	}
 
 }

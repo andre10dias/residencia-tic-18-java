@@ -19,12 +19,6 @@ public class TrajetoController implements IController<TrajetoController> {
 	
 	public static List<Trajeto> listaTrajetos;
 	
-	private static TrajetoService service = new TrajetoService();
-
-//    public TrajetoController() {
-//        TrajetoController.service = new TrajetoService();
-//    }
-	
 	public static TrajetoController getInstance() {
 		return new TrajetoController();
 	}
@@ -151,10 +145,13 @@ public class TrajetoController implements IController<TrajetoController> {
 	}
     
     public void carregar() {
+    	TrajetoService service = TrajetoService.getInstance();
     	listaTrajetos = service.carregar();
     }
 	
 	public void salvar(Trajeto trajeto) {
+		TrajetoService service = TrajetoService.getInstance();
+		
 		try {
 			service.adicionar(listaTrajetos, trajeto);
 			service.salvar(listaTrajetos);
@@ -164,10 +161,13 @@ public class TrajetoController implements IController<TrajetoController> {
 	}
 	
 	public Trajeto buscar(Integer indice) {
+		TrajetoService service = TrajetoService.getInstance();
 		return service.buscar(listaTrajetos, indice);
 	}
 	
 	public void atualizar(Integer indice, Trajeto trajeto) {
+		TrajetoService service = TrajetoService.getInstance();
+		
 		if (service.atualizar(listaTrajetos, indice, trajeto) != null) {
 			System.out.println("\nDados atualizados com sucesso.");
 		}
@@ -177,6 +177,8 @@ public class TrajetoController implements IController<TrajetoController> {
 	}
 	
 	public void excluir(Trajeto trajeto) {
+		TrajetoService service = TrajetoService.getInstance();
+		
 		if (listaTrajetos.indexOf(trajeto) != -1) {
 			service.excluir(listaTrajetos, trajeto);
 			System.out.println("\nDados atualizados com sucesso.");

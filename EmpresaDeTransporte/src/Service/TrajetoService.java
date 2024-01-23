@@ -4,8 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Factory.EmpresaDeTransporteFactory;
 import Model.Trajeto;
-import Model.Trecho;
 import Util.ControllerUtil;
 
 public class TrajetoService implements IService<Trajeto> {
@@ -14,7 +17,8 @@ public class TrajetoService implements IService<Trajeto> {
 	
 	private static final String TRAJETO_PATH = PathService.TRAJETO_PATH;
 	
-    public TrajetoService() {
+    public static TrajetoService getInstance() {
+    	return new TrajetoService();
 	}
 
 	@Override
@@ -22,28 +26,16 @@ public class TrajetoService implements IService<Trajeto> {
 		List<Trajeto> lista = new ArrayList<>();
         File arquivo = new File(TRAJETO_PATH);
         
-        TrechoService trechoService = new TrechoService();
-        List<Trecho> listaTrechos = trechoService.carregar();
+//        TrechoService trechoService = new TrechoService();
+//        List<Trecho> listaTrechos = trechoService.carregar();
 
         List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trajeto());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trajeto.class, nomesAtributos);
-        for (String linha : dados) {
-        	List<Trecho> listaTT = new ArrayList<>();
-        	Trecho trecho = null;
-        	String[] attr = linha.split(";");
-    		
-    		Integer codigoTrajeto = Integer.valueOf(attr[0]);
-    		for (int i = 1; i < attr.length; i++) {
-				trecho = TrechoService.buscarTrechoPorCodigo(listaTrechos, Integer.valueOf(attr[i]));
-				listaTT.add(trecho);
-			}
-    		
-        	Trajeto trajeto = new Trajeto(codigoTrajeto, listaTT);
-			lista.add(trajeto);
-			
-//			List<Trecho> listaTrecho = EmpresaDeTransporteService
-//					.buscarTrechosPorCodigoTrajeto(trajeto.getCodigo());
-//			trajeto.setListaTrechos(listaTrecho);
+        JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trajeto.class, nomesAtributos);
+        
+        for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+            Trajeto trajeto = EmpresaDeTransporteFactory.criarTrajetoDeJSONObject(objJson);
+            lista.add(trajeto);
 		}
         
         return lista;
@@ -51,21 +43,7 @@ public class TrajetoService implements IService<Trajeto> {
 
 	@Override
 	public void salvar(List<Trajeto> dados) {
-//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(TRAJETO_PATH);
-    	
-//		for (Trajeto dado : dados) {
-//			String str = "";
-//			str += dado.getCodigo().toString();
-//			
-//			for (Trecho tt : dado.getListaTrechos()) {
-//				str += ";" + tt.getCodigo().toString();
-//			}
-//			
-//			if (str != "") {
-//				lista.add(str);
-//			}
-//		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Trajeto.class)) {
 			System.out.println("\nDados gravados com sucesso.");

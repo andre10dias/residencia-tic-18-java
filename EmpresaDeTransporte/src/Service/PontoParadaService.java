@@ -4,6 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Factory.EmpresaDeTransporteFactory;
 import Model.PontoParada;
 import Util.ControllerUtil;
 
@@ -11,7 +15,8 @@ public class PontoParadaService implements IService<PontoParada> {
 	
 	private static final String PONTO_PARADA_PATH = PathService.PONTO_PARADA_PATH;
 	
-    public PontoParadaService() {
+    public static PontoParadaService getInstance() {
+    	return new PontoParadaService();
 	}
 
 	@Override
@@ -20,9 +25,12 @@ public class PontoParadaService implements IService<PontoParada> {
         File arquivo = new File(PONTO_PARADA_PATH);
 
         List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new PontoParada());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, PontoParada.class, nomesAtributos);
-        for (String linha : dados) {
-        	lista.add(new PontoParada(linha));
+        JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, PontoParada.class, nomesAtributos);
+        
+        for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+        	PontoParada pontoParada = EmpresaDeTransporteFactory.criarPontoParadaDeJSONObject(objJson);
+            lista.add(pontoParada);
 		}
         
         return lista;
@@ -30,12 +38,7 @@ public class PontoParadaService implements IService<PontoParada> {
 
 	@Override
 	public void salvar(List<PontoParada> dados) {
-//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(PONTO_PARADA_PATH);
-    	
-//    	for (PontoParada dado : dados) {
-//			lista.add(dado.getNome());
-//		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, PontoParada.class)) {
 			System.out.println("\nDados gravados com sucesso.");

@@ -4,22 +4,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.PontoParada;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Factory.EmpresaDeTransporteFactory;
 import Model.Trecho;
 import Util.ControllerUtil;
 
 public class TrechoService implements IService<Trecho> {
 	
-	public static List<Trecho> listaTrechos;
-	
 	private static final String TRECHO_PATH = PathService.TRECHO_PATH;
 	
-	private final Integer CODIGO = 0;
-	private final Integer ORIGEM = 1;
-	private final Integer DESTINO = 2;
-	private final Integer INTERVALO = 3;
-	
-    public TrechoService() {
+    public static TrechoService getInstace() {
+    	return new TrechoService();
 	}
 
 	@Override
@@ -28,16 +25,12 @@ public class TrechoService implements IService<Trecho> {
         File arquivo = new File(TRECHO_PATH);
 
         List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trecho());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trecho.class, nomesAtributos);
-        for (String linha : dados) {		
-    		String[] attr = linha.split(";");
-    		
-    		Integer codigo = Integer.valueOf(attr[CODIGO]);
-    		PontoParada origem = new PontoParada(attr[ORIGEM]);
-    		PontoParada destino = new PontoParada(attr[DESTINO]);
-    		Integer intervaloEstimado = Integer.valueOf(attr[INTERVALO]);
-    		
-    		lista.add(new Trecho(codigo, origem, destino, intervaloEstimado));
+        JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trecho.class, nomesAtributos);
+        
+        for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+        	Trecho trecho = EmpresaDeTransporteFactory.criarTrechoDeJSONObject(objJson);
+            lista.add(trecho);
 		}
         
         return lista;
@@ -45,13 +38,7 @@ public class TrechoService implements IService<Trecho> {
 
 	@Override
 	public void salvar(List<Trecho> dados) {
-//		List<String> lista = new ArrayList<>();
     	File arquivo = new File(TRECHO_PATH);
-    	
-//		for (Trecho dado : dados) {
-//			lista.add(dado.getCodigo() + ";" + dado.getOrigem().getNome() 
-//					+ ";" + dado.getDestino().getNome() + ";" + dado.getIntervaloEstimado());
-//		}
     	
     	if (EmpresaDeTransporteService.gravarDados(arquivo, dados, Trecho.class)) {
 			System.out.println("\nDados gravados com sucesso.");

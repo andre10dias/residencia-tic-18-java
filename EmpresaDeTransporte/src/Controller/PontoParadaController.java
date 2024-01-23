@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import Menu.Menu;
 import Model.PontoParada;
-import Model.Trajeto;
 import Model.Trecho;
-import Model.PontoParada;
-import Model.PontoParada;
 import Service.EmpresaDeTransporteService;
 import Service.PontoParadaService;
 import Util.ControllerUtil;
@@ -19,12 +15,7 @@ public class PontoParadaController implements IController<PontoParadaController>
 	
 	public static List<PontoParada> listaPontoParadas;
 	
-	private final PontoParadaService service = new PontoParadaService();
 	private Scanner entrada = new Scanner(System.in);
-
-//    public PontoParadaController() {
-//        this.service = new PontoParadaService();
-//    }
 	
 	public static PontoParadaController getInstance() {
 		return new PontoParadaController();
@@ -38,7 +29,7 @@ public class PontoParadaController implements IController<PontoParadaController>
 	@Override
 	public void cadastrar() {
 		carregar();
-    	System.out.println("\n======================== Cadastrar pontoParada ========================");
+    	System.out.println("\n======================== Cadastrar ponto de parada ========================");
 		
 		System.out.print("\nNome: ");
 		String nome = entrada.nextLine();
@@ -50,7 +41,7 @@ public class PontoParadaController implements IController<PontoParadaController>
 	@Override
 	public void editar() {
 		carregar();
-    	System.out.println("\n======================== Editar pontoParadas ========================\n");
+    	System.out.println("\n======================== Editar ponto de parada ========================\n");
     	
     	PontoParada pontoParada = new PontoParada();
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(pontoParada);
@@ -93,12 +84,12 @@ public class PontoParadaController implements IController<PontoParadaController>
 		carregar();
 		List<PontoParada> listaPontoParadaSemTrechossAssociados = getListaPontoParadaSemTrechoAssociados();
 		
-    	System.out.println("\n======================== Remover pontoParadas ========================\n");
+    	System.out.println("\n======================== Remover ponto de parada ========================\n");
 		
 		if (!listaPontoParadaSemTrechossAssociados.isEmpty()) {			
 			PontoParada pontoParada = new PontoParada();
 			List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(pontoParada);
-			Integer indice = MenuUtil.menuSelecionarElemento(listaPontoParadaSemTrechossAssociados, nomesAtributos, "");
+			Integer indice = MenuUtil.menuSelecionarElemento(listaPontoParadaSemTrechossAssociados, nomesAtributos, "Pontos de parada sem trechos associados:");
 			pontoParada = listaPontoParadaSemTrechossAssociados.get(indice);
 			excluir(pontoParada, listaPontoParadaSemTrechossAssociados);
 		}
@@ -108,11 +99,13 @@ public class PontoParadaController implements IController<PontoParadaController>
 	}
     
     public void carregar() {
+    	PontoParadaService service = PontoParadaService.getInstance();
     	listaPontoParadas = service.carregar();
     }
 	
 	public void salvar(PontoParada pontoParada) {
 		try {
+			PontoParadaService service = PontoParadaService.getInstance();
 			service.adicionar(listaPontoParadas, pontoParada);
 			service.salvar(listaPontoParadas);
 		} catch (Exception e) {
@@ -121,10 +114,13 @@ public class PontoParadaController implements IController<PontoParadaController>
 	}
 	
 	public PontoParada buscar(Integer indice) {
+		PontoParadaService service = PontoParadaService.getInstance();
 		return service.buscar(listaPontoParadas, indice);
 	}
 	
 	public void atualizar(Integer indice, PontoParada pontoParada) {
+		PontoParadaService service = PontoParadaService.getInstance();
+		
 		if (service.atualizar(listaPontoParadas, indice, pontoParada) != null) {
 			System.out.println("\nDados atualizados com sucesso.");
 		}
@@ -134,6 +130,8 @@ public class PontoParadaController implements IController<PontoParadaController>
 	}
 	
 	public void excluir(PontoParada pontoParada, List<PontoParada> lista) {
+		PontoParadaService service = PontoParadaService.getInstance();
+		
 		if (lista.indexOf(pontoParada) != -1) {
 			service.excluir(listaPontoParadas, pontoParada);
 			System.out.println("\nDados atualizados com sucesso.");

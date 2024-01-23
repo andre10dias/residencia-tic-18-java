@@ -12,6 +12,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import Factory.EmpresaDeTransporteFactory;
+import Model.Passageiro;
 import Model.PontoParada;
 import Model.Trajeto;
 import Model.Trecho;
@@ -130,16 +132,12 @@ public class EmpresaDeTransporteService {
 		List<Trecho> listaTrecho = new ArrayList<>();
 		
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trecho());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trecho.class, nomesAtributos);
-		for (String linha : dados) {
-			String[] attr = linha.split(";");
-			
-			Integer codigoTrecho = Integer.valueOf(attr[CODIGO]);
-			PontoParada origem = new PontoParada(attr[ORIGEM]);
-			PontoParada destino = new PontoParada(attr[DESTINO]);
-			Integer intervalo = Integer.valueOf(attr[INTERVALO]);
-			
-			listaTrecho.add(new Trecho(codigoTrecho, origem, destino, intervalo));
+		JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trecho.class, nomesAtributos);
+		
+		for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+            Trecho trecho = EmpresaDeTransporteFactory.criarTrechoDeJSONObject(objJson);
+            listaTrecho.add(trecho);
 		}
 		
 		return listaTrecho;
@@ -147,26 +145,15 @@ public class EmpresaDeTransporteService {
 	
 	private static List<Trajeto> recuperaTrajeto() {
 		File arquivo = new File(TRAJETO_PATH);
-		List<Trecho> listaTrecho = recuperaTrecho();
 		List<Trajeto> listaTrajeto = new ArrayList<>();
 		
 		List<String> nomesAtributos = ControllerUtil.obterNomesAtributos(new Trajeto());
-        List<String> dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trajeto.class, nomesAtributos);
-		for (String linha : dados) {
-			List<Trecho> listaT = new ArrayList<>();
-			String[] attr = linha.split(";");
-			
-			String codigoTrajeto = attr[0];
-			
-			for (int i = 1; i < attr.length; i++) {
-				for (Trecho tt : listaTrecho) {
-					if (tt.getCodigo().equals(Integer.valueOf(attr[i]))) {
-						listaT.add(tt);
-					}
-				}
-			}
-			
-			listaTrajeto.add(new Trajeto(Integer.valueOf(codigoTrajeto), listaT));
+		JSONArray dados = EmpresaDeTransporteService.recuperarDados(arquivo, Trajeto.class, nomesAtributos);
+
+		for (int i = 0; i < dados.length(); i++) {
+        	JSONObject objJson = dados.getJSONObject(i);
+        	Trajeto trajeto = EmpresaDeTransporteFactory.criarTrajetoDeJSONObject(objJson);
+        	listaTrajeto.add(trajeto);
 		}
     	
     	return listaTrajeto;
