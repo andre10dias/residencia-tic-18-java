@@ -53,7 +53,7 @@ public class Mock {
 
         for (int i = 0; i < quantidade; i++) {
             Imovel imovel = imoveis.get(random.nextInt(imoveis.size()));
-            Fatura fatura = FaturaService.gerarFatura(imovel, random.nextInt(100));
+            Fatura fatura = FaturaService.registraLeitura(imovel, random.nextInt(100));
             FaturaService.addFatura(fatura);
         }
     }

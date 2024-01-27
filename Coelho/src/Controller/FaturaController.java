@@ -25,7 +25,7 @@ public class FaturaController {
 			System.out.print("\nValor da leitura: ");
 			int leitura = Util.stringToInt(entrada.nextLine());
 			
-			Fatura fatura = FaturaService.gerarFatura(imovelSelecionado, leitura);
+			Fatura fatura = FaturaService.registraLeitura(imovelSelecionado, leitura);
 			
 			System.out.println("\nImprimindo fatura...\n");
 			imprimeFatura(fatura);
