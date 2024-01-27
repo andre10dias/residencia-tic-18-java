@@ -22,7 +22,6 @@ public class PagamentoController {
 	public static void realizarPagamento() {
 		System.out.println("\n======================== Realizar Pagamento ========================");
 		
-		//Cliente clienteSelecionado = Menu.menuSelecionarCliente();
 		Imovel imovelSelecionado = Menu.menuSelecionarImovel(ImovelService.getImoveisComClientes());
 		
 		Set<Fatura> faturasPendentes = new HashSet<Fatura>(FaturaService.getFaturasPendentesByImovel(imovelSelecionado));
@@ -32,23 +31,7 @@ public class PagamentoController {
 			System.out.print("\nValor do pagamento: ");
 			double valor = Util.stringToDouble(entrada.nextLine());
 			
-			Pagamento pagamento = new Pagamento(faturaSelecionada, valor);
-			
-			List<Pagamento> pagamentosAnteriores = PagamentoService.getPagamentosByFatura(faturaSelecionada);
-			double valorPagamentosAnteriores = 0;
-			for (Pagamento p : pagamentosAnteriores) {
-				valorPagamentosAnteriores += p.getValor();
-			}
-			
-			if ((valorPagamentosAnteriores + valor) == pagamento.getFatura().getValorCalculado()) {
-				pagamento.getFatura().setQuitada(true);
-			}
-			else if ((valorPagamentosAnteriores + valor) > pagamento.getFatura().getValorCalculado()) {
-				pagamento.getFatura().setQuitada(true);
-				ReembolsoController.realizarReembolso(pagamento, (valor + valorPagamentosAnteriores));
-			}
-			
-			PagamentoService.addPagamento(pagamento);
+			PagamentoService.registraPagamento(faturaSelecionada, valor);
 		}
 		else {
 			System.out.println("\nNão existem dados para serem exibidos.");

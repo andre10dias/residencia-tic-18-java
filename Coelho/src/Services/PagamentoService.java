@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import Controller.ReembolsoController;
 import Models.Fatura;
 import Models.Pagamento;
 
@@ -18,6 +19,34 @@ public class PagamentoService {
 		}
 		
 		return pagamentos;
+	}
+	
+	public static void registraPagamento(Fatura faturaSelecionada, double valorPagamento) {
+		try {
+			if (faturaSelecionada.isQuitada()) {
+				throw new Exception("Não é permitido o pagamento de faturas quitadas.");
+			}
+			
+			Pagamento pagamento = new Pagamento(faturaSelecionada, valorPagamento);
+			List<Pagamento> pagamentosAnteriores = PagamentoService.getPagamentosByFatura(faturaSelecionada);
+			
+			double valorPagamentosAnteriores = 0;
+			for (Pagamento p : pagamentosAnteriores) {
+				valorPagamentosAnteriores += p.getValor();
+			}
+			
+			if ((valorPagamentosAnteriores + valorPagamento) == pagamento.getFatura().getValorCalculado()) {
+				pagamento.getFatura().setQuitada(true);
+			}
+			else if ((valorPagamentosAnteriores + valorPagamento) > pagamento.getFatura().getValorCalculado()) {
+				pagamento.getFatura().setQuitada(true);
+				ReembolsoController.realizarReembolso(pagamento, (valorPagamento + valorPagamentosAnteriores));
+			}
+			
+			PagamentoService.addPagamento(pagamento);
+		} catch (Exception e) {
+			e.getMessage();
+		}
 	}
 	
 	public static void addPagamento(Pagamento p) {
