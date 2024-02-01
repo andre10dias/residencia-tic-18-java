@@ -6,6 +6,7 @@ import Utils.Util;
 
 public class Fatura {
 	
+	private Integer id;
 	private Imovel imovel;
 	private Date dataEmissao;
 	private int leituraAnterior;
@@ -32,6 +33,14 @@ public class Fatura {
 		this.dataEmissao = new Date();
 		this.valorCalculado = 10 * leituraAtual;
 		this.quitada = false;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Imovel getImovel() {
@@ -92,7 +101,7 @@ public class Fatura {
 
     @Override
     public String toString() {
-        return imovel.getMatricula() + "\t" + getDataEmissaoFormatada() + "\t" + this.leituraAtual
+        return this.id + "\t" + imovel.getMatricula() + "\t" + getDataEmissaoFormatada() + "\t" + this.leituraAtual
                 + "\t\t" + this.valorCalculado + "\t" + isQuitadaPorExtenso();
     }
 

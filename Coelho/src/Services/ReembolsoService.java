@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Models.Fatura;
+import Models.Pagamento;
 import Models.Reembolso;
 
 public class ReembolsoService {
@@ -36,6 +37,10 @@ public class ReembolsoService {
 		}
 		
 		return reembolsosFatura;
+	}
+	
+	public static Reembolso getReembolsoById(Integer reembolsoId) {
+		return null;
 	}
 	
 }

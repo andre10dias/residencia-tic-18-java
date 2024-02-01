@@ -6,6 +6,7 @@ import Utils.Util;
 
 public class Reembolso {
 	
+	private Integer id;
 	private Pagamento pagamento;
 	private double valor;
 	private Date data;
@@ -18,6 +19,10 @@ public class Reembolso {
 		this.pagamento = pagamento;
 		this.valor = valorTodosPagamentos - getFatura().getValorCalculado();
 		this.data = new Date();
+	}
+	
+	public Integer getId() {
+		return id;
 	}
 
 	public Pagamento getPagamento() {

@@ -68,5 +68,9 @@ public class PagamentoService {
 		
 		return new ArrayList<Pagamento>(pagamentosFatura);
 	}
+	
+	public static Pagamento getPagamentoById(Integer pagamentoId) {
+		return null;
+	}
 
 }

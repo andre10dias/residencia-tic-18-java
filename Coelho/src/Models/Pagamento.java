@@ -6,6 +6,7 @@ import Utils.Util;
 
 public class Pagamento {
 	
+	private Integer id;
 	private Fatura fatura;
 	private double valor;
 	private Date data;
@@ -19,6 +20,10 @@ public class Pagamento {
         this.valor = valor;
         this.data = new Date();
     }
+	
+	public Integer getId() {
+		return id;
+	}
 
 	public Fatura getFatura() {
 		return fatura;
