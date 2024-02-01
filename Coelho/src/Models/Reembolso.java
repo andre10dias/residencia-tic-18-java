@@ -21,6 +21,12 @@ public class Reembolso {
 		this.data = new Date();
 	}
 	
+	public Reembolso(Pagamento pagamento, double valor, Date data) {
+		this.pagamento = pagamento;
+		this.valor = valor;
+		this.data = data;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

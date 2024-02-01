@@ -31,10 +31,12 @@ public class DAO {
         	Connection connection = DAO.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            int indexParam = 1;
-            for (Object param : params) {
-                statement.setObject(indexParam++, param);
-            }
+            if (params != null) {				
+            	int indexParam = 1;
+            	for (Object param : params) {
+            		statement.setObject(indexParam++, param);
+            	}
+			}
             
             System.err.println("Executando query...");
             return statement.executeQuery();
