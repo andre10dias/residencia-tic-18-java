@@ -13,7 +13,11 @@ public class DAO {
 	private static final String USER = "ulxk6mmvlglgqefb";
 	private static final String PASSWD = "auFekaDXaElVngMLQ6VV";
 	
-	private static Connection getConnection() {
+//	private static final String URL = "jdbc:mysql://localhost:3306/residencia_18";
+//	private static final String USER = "root";
+//	private static final String PASSWD = "1234";
+	
+	public static Connection getConnection() {
 		Connection connection = null;
 		
 		try {
@@ -26,9 +30,9 @@ public class DAO {
 		return connection;
 	}
 	
-	public static ResultSet executeQuery(String sql, List<Object> params) {
+	public static ResultSet executeQuery(Connection connection, String sql, List<Object> params) {
         try {
-        	Connection connection = DAO.getConnection();
+        	connection = DAO.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
 
             if (params != null) {				
@@ -48,9 +52,9 @@ public class DAO {
         }
     }
 
-    public static Integer executeUpdate(String sql, List<Object> params) {
+    public static Integer executeUpdate(Connection connection, String sql, List<Object> params) {
         try {
-        	Connection connection = DAO.getConnection();
+        	connection = DAO.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
 
             int indexParam = 1;
@@ -60,7 +64,6 @@ public class DAO {
             
             System.err.println("Executando query...");
             return statement.executeUpdate();
-
         } catch (SQLException e) {
         	System.err.println("Falha ao executar a query: " + e);
             e.printStackTrace();

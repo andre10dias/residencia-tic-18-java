@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -83,7 +85,13 @@ class PagamentoServiceTest {
 		Fatura fatura1 = new Fatura(imovel, 10);
 		Pagamento pagamento1 = new Pagamento(fatura1, 120);
 		PagamentoService.registraPagamento(fatura1, pagamento1.getValor());
-		List<Reembolso> reembolsos = ReembolsoService.getReembolsos();
+		List<Reembolso> reembolsos = new ArrayList<>();
+		try {
+			reembolsos = ReembolsoService.getReembolsos();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals(1, reembolsos.size());
 		
 		double valorFatura = fatura1.getValorCalculado();

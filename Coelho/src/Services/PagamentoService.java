@@ -1,27 +1,24 @@
 package Services;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import Controller.ReembolsoController;
+import DAO.PagamentoDAO;
 import Models.Fatura;
 import Models.Pagamento;
 
 public class PagamentoService {
 	
-	private static List<Pagamento> pagamentos;
-	
-	public static List<Pagamento> getPagamentos() {
-		if (pagamentos == null) {
-			pagamentos = new ArrayList<>();
-		}
-		
-		return pagamentos;
+	public static List<Pagamento> getPagamentos() throws SQLException {
+		return PagamentoDAO.getAll();
 	}
 	
-	public static void registraPagamento(Fatura faturaSelecionada, double valorPagamento) {
+	public static double registraPagamento(Fatura faturaSelecionada, double valorPagamento) {
+		double valorReembolso = 0;
+		
 		try {
 			if (faturaSelecionada.isQuitada()) {
 				throw new Exception("Não é permitido o pagamento de faturas quitadas.");
@@ -37,27 +34,30 @@ public class PagamentoService {
 			
 			if ((valorPagamentosAnteriores + valorPagamento) == pagamento.getFatura().getValorCalculado()) {
 				pagamento.getFatura().setQuitada(true);
+				PagamentoDAO.save(pagamento);
 			}
 			else if ((valorPagamentosAnteriores + valorPagamento) > pagamento.getFatura().getValorCalculado()) {
 				pagamento.getFatura().setQuitada(true);
-				ReembolsoController.realizarReembolso(pagamento, (valorPagamento + valorPagamentosAnteriores));
+				Integer rowsAffected = PagamentoDAO.save(pagamento);
+				
+				if (rowsAffected > 0) {	
+					Integer maxId = PagamentoDAO.getMaxIdPagamento();
+					pagamento = PagamentoDAO.getPagamentoById(maxId);
+					valorReembolso = ReembolsoService.reembolsar(pagamento, (valorPagamento + valorPagamentosAnteriores));
+				}
+			}
+			else {
+				PagamentoDAO.save(pagamento);
 			}
 			
-			PagamentoService.addPagamento(pagamento);
 		} catch (Exception e) {
 			e.getMessage();
 		}
-	}
-	
-	public static void addPagamento(Pagamento p) {
-		if (pagamentos == null) {
-			pagamentos = new ArrayList<>();
-		}
 		
-		pagamentos.add(p);
+		return valorReembolso;
 	}
 	
-	public static List<Pagamento> getPagamentosByFatura(Fatura f) {
+	public static List<Pagamento> getPagamentosByFatura(Fatura f) throws SQLException {
 		Set<Pagamento> pagamentosFatura = new HashSet<>();
 		
 		for (Pagamento pagamento : getPagamentos()) {
@@ -67,10 +67,6 @@ public class PagamentoService {
 		}
 		
 		return new ArrayList<Pagamento>(pagamentosFatura);
-	}
-	
-	public static Pagamento getPagamentoById(Integer pagamentoId) {
-		return null;
 	}
 
 }

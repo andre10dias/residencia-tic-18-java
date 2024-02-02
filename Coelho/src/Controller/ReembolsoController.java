@@ -1,9 +1,9 @@
 package Controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 
 import Menu.Menu;
@@ -15,26 +15,40 @@ import Services.ReembolsoService;
 
 public class ReembolsoController {
 	
-	private static Scanner entrada = new Scanner(System.in);
-
 	public static void realizarReembolso(Pagamento pagamento, double valorTodosPagamentos) {
-		Reembolso reembolso = new Reembolso(pagamento, valorTodosPagamentos);
-		System.out.print("\nEste pagamento gerou um reembolso no valor de: " + reembolso.getValor());
-		ReembolsoService.addReembolso(reembolso);
+		try {
+			double valorReembolso = ReembolsoService.reembolsar(pagamento, valorTodosPagamentos);
+			System.out.print("\nEste pagamento gerou um reembolso no valor de: " + valorReembolso);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void listarTodos() {
 		System.out.println("\n======================== Listar reembolsos ========================\n");
-		List<Reembolso> reembolsos = ReembolsoService.getReembolsos();
-		listar(reembolsos);
+		
+		try {
+			List<Reembolso> reembolsos = ReembolsoService.getReembolsos();
+			listar(reembolsos);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void consultarReembolsoFatura() {
 		System.out.println("\n======================== Listar reembolsos da fatura ========================\n");
 		Set<Fatura> faturas = new HashSet<>(FaturaService.getFaturas());
 		Fatura fatura = Menu.menuSelecionarFatura(new ArrayList<Fatura>(faturas));
-		List<Reembolso> reembolsos = ReembolsoService.getReembolsosByFatura(fatura);
-		listar(reembolsos);
+		
+		try {
+			List<Reembolso> reembolsos = ReembolsoService.getReembolsosByFatura(fatura);
+			listar(reembolsos);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private static void listar(List<Reembolso> reembolsos) {

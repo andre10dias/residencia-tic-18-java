@@ -1,33 +1,21 @@
 package Services;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import DAO.ReembolsoDAO;
 import Models.Fatura;
 import Models.Pagamento;
 import Models.Reembolso;
 
 public class ReembolsoService {
 	
-	private static List<Reembolso> reembolsos;
-	
-	public static List<Reembolso> getReembolsos() {
-		if (reembolsos == null) {
-			reembolsos = new ArrayList<>();
-		}
-		
-		return reembolsos;
+	public static List<Reembolso> getReembolsos() throws SQLException {
+		return ReembolsoDAO.getAll();
 	}
 	
-	public static void addReembolso(Reembolso p) {
-		if (reembolsos == null) {
-			reembolsos = new ArrayList<>();
-		}
-		
-		reembolsos.add(p);
-	}
-	
-	public static List<Reembolso> getReembolsosByFatura(Fatura f) {
+	public static List<Reembolso> getReembolsosByFatura(Fatura f) throws SQLException {
 		List<Reembolso> reembolsosFatura = new ArrayList<>();
 		
 		for (Reembolso reembolso : getReembolsos()) {
@@ -39,8 +27,10 @@ public class ReembolsoService {
 		return reembolsosFatura;
 	}
 	
-	public static Reembolso getReembolsoById(Integer reembolsoId) {
-		return null;
+	public static double reembolsar(Pagamento pagamento, double valorTodosPagamentos) throws SQLException {
+		Reembolso reembolso = new Reembolso(pagamento, valorTodosPagamentos);
+		ReembolsoDAO.save(reembolso);
+		return reembolso.getValor();
 	}
 	
 }

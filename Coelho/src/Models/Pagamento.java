@@ -21,10 +21,11 @@ public class Pagamento {
         this.data = new Date();
     }
 	
-	public Pagamento(Fatura fatura, double valor, Date data) {
+	public Pagamento(Integer id, Fatura fatura, double valor, Date data) {
         this.fatura = fatura;
         this.valor = valor;
         this.data = data;
+        this.id = id;
     }
 	
 	public Integer getId() {

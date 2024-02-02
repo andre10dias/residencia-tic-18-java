@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import Models.Cliente;
-import Models.Fatura;
 import Models.Imovel;
 import Services.ClienteService;
 import Services.FaturaService;
