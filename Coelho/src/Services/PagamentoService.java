@@ -42,7 +42,7 @@ public class PagamentoService {
 				
 				if (rowsAffected > 0) {	
 					Integer maxId = PagamentoDAO.getMaxIdPagamento();
-					pagamento = PagamentoDAO.getPagamentoById(maxId);
+					pagamento.setId(maxId);// = PagamentoDAO.getPagamentoById(maxId);
 					valorReembolso = ReembolsoService.reembolsar(pagamento, (valorPagamento + valorPagamentosAnteriores));
 				}
 			}

@@ -31,6 +31,10 @@ public class Pagamento {
 	public Integer getId() {
 		return id;
 	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public Fatura getFatura() {
 		return fatura;
