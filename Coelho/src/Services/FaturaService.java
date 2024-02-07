@@ -50,7 +50,7 @@ public class FaturaService {
 		return pendentes;
 	}
 	
-	public static Fatura registraLeitura(Imovel imovel, int leituraAtual) {
+	public static Fatura registraLeitura(Imovel imovel, Double leituraAtual) {
 		Fatura faturaAnterior = null;
 		Fatura f = null;
 		int idFatura = getFaturas().size()+1;

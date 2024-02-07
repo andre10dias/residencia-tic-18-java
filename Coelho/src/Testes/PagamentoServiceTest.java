@@ -28,8 +28,8 @@ class PagamentoServiceTest {
 		 * (considere a data atual do sistema). 
 		 * */
 		Imovel imovel = new Imovel("12345", "Rua XPO");
-		Fatura fatura = new Fatura(imovel, 100);
-		Pagamento pagamento = new Pagamento(fatura, 100);
+		Fatura fatura = new Fatura(imovel, 100d);
+		Pagamento pagamento = new Pagamento(fatura, 100d);
 		assertNotNull(pagamento.getValor());
 		assertNotNull(pagamento.getData());
 //		assertEquals(new Date(), pagamento.getData());
@@ -41,15 +41,15 @@ class PagamentoServiceTest {
 		 * registrado para uma mesma fatura, até que seu 
 		 * valor esteja integralmente cumprido. 
 		 * */
-		fatura = new Fatura(imovel, 30);
+		fatura = new Fatura(imovel, 30d);
 		
-		Pagamento pag1 = new Pagamento(fatura, 50);
+		Pagamento pag1 = new Pagamento(fatura, 50d);
 		PagamentoService.registraPagamento(fatura, pag1.getValor());
 		
-		Pagamento pag2 = new Pagamento(fatura, 100);
+		Pagamento pag2 = new Pagamento(fatura, 100d);
 		PagamentoService.registraPagamento(fatura, pag2.getValor());
 		
-		Pagamento pag3 = new Pagamento(fatura, 150);
+		Pagamento pag3 = new Pagamento(fatura, 150d);
 		PagamentoService.registraPagamento(fatura, pag3.getValor());
 		
 		double pagamentos = pag1.getValor() + pag2.getValor() + pag3.getValor();
@@ -68,7 +68,7 @@ class PagamentoServiceTest {
 		 * faturas já quitadas.
 		 * */
 		try {
-			Pagamento pag4 = new Pagamento(fatura, 30);
+			Pagamento pag4 = new Pagamento(fatura, 30d);
 			PagamentoService.registraPagamento(fatura, pag4.getValor());
 		}catch(Exception e) {
 			assertEquals("Não é permitido o pagamento de faturas quitadas.", e.getMessage());
@@ -82,8 +82,8 @@ class PagamentoServiceTest {
 		 * registrado na data atual do sistema, no 
 		 * momento do pagamento.
 		 * */
-		Fatura fatura1 = new Fatura(imovel, 10);
-		Pagamento pagamento1 = new Pagamento(fatura1, 120);
+		Fatura fatura1 = new Fatura(imovel, 10d);
+		Pagamento pagamento1 = new Pagamento(fatura1, 120d);
 		PagamentoService.registraPagamento(fatura1, pagamento1.getValor());
 		List<Reembolso> reembolsos = new ArrayList<>();
 		try {
@@ -102,18 +102,18 @@ class PagamentoServiceTest {
 		Date dataAtual = new Date();
 		//assertEquals(dataAtual, reembolsos.get(0).getData());
 		
-		Fatura fatura2 = new Fatura(imovel, 100);
+		Fatura fatura2 = new Fatura(imovel, 100d);
 		
-		Pagamento pagt1 = new Pagamento(fatura2, 520);
+		Pagamento pagt1 = new Pagamento(fatura2, 520d);
 		PagamentoService.registraPagamento(fatura2, pagt1.getValor());
 		
-		Pagamento pagt2 = new Pagamento(fatura2, 280);
+		Pagamento pagt2 = new Pagamento(fatura2, 280d);
 		PagamentoService.registraPagamento(fatura2, pagt2.getValor());
 		
-		Pagamento pagt3 = new Pagamento(fatura2, 150);
+		Pagamento pagt3 = new Pagamento(fatura2, 150d);
 		PagamentoService.registraPagamento(fatura2, pagt3.getValor());
 		
-		Pagamento pagt4 = new Pagamento(fatura2, 150);
+		Pagamento pagt4 = new Pagamento(fatura2, 150d);
 		PagamentoService.registraPagamento(fatura2, pagt4.getValor());
 		
 		assertEquals(2, reembolsos.size());

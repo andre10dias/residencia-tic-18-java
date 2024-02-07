@@ -4,8 +4,8 @@ public class Imovel {
 	
 	private String matricula;
 	private String endereco;
-	private int leituraAnterior;
-	private int leituraAtual;
+	private Double leituraAnterior;
+	private Double leituraAtual;
 
 	public Imovel() {
 		// TODO Auto-generated constructor stub
@@ -32,19 +32,19 @@ public class Imovel {
 		this.endereco = endereco;
 	}
 
-	public int getLeituraAnterior() {
+	public Double getLeituraAnterior() {
 		return leituraAnterior;
 	}
 
-	public void setLeituraAnterior(int leituraAnterior) {
+	public void setLeituraAnterior(Double leituraAnterior) {
 		this.leituraAnterior = leituraAnterior;
 	}
 
-	public int getLeituraAtual() {
+	public Double getLeituraAtual() {
 		return leituraAtual;
 	}
 
-	public void setLeituraAtual(int leituraAtual) {
+	public void setLeituraAtual(Double leituraAtual) {
 		this.leituraAtual = leituraAtual;
 	}
 	

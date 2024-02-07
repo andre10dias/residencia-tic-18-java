@@ -8,20 +8,20 @@ public class Reembolso {
 	
 	private Integer id;
 	private Pagamento pagamento;
-	private double valor;
+	private Double valor;
 	private Date data;
 
 	public Reembolso() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Reembolso(Pagamento pagamento, double valorTodosPagamentos) {
+	public Reembolso(Pagamento pagamento, Double valorTodosPagamentos) {
 		this.pagamento = pagamento;
 		this.valor = valorTodosPagamentos - getFatura().getValorCalculado();
 		this.data = new Date();
 	}
 	
-	public Reembolso(Pagamento pagamento, double valor, Date data) {
+	public Reembolso(Pagamento pagamento, Double valor, Date data) {
 		this.pagamento = pagamento;
 		this.valor = valor;
 		this.data = data;
@@ -39,11 +39,11 @@ public class Reembolso {
 		this.pagamento = pagamento;
 	}
 
-	public double getValor() {
+	public Double getValor() {
 		return valor;
 	}
 
-	public void setValor(double valor) {
+	public void setValor(Double valor) {
 		this.valor = valor;
 	}
 

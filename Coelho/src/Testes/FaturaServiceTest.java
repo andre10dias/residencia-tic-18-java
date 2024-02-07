@@ -23,7 +23,7 @@ class FaturaServiceTest {
 		 * atual seja apresentado ao sistema. 
 		 * */
 		Imovel imovel = new Imovel("12345", "Rua XPO");
-		Fatura fatura = new Fatura(imovel, 100);
+		Fatura fatura = new Fatura(imovel, 100d);
 		assertNotNull(imovel.getMatricula());
 		assertNotNull(fatura.getLeituraAtual());
 		
@@ -34,7 +34,7 @@ class FaturaServiceTest {
 		 * é registrado como "Última Leitura". 
 		 * */
 		Fatura faturaAnterior = fatura;
-		Fatura faturaAtual = new Fatura(imovel, 50, faturaAnterior.getLeituraAtual());
+		Fatura faturaAtual = new Fatura(imovel, 50d, faturaAnterior.getLeituraAtual());
 		assertEquals(faturaAnterior.getLeituraAtual(), faturaAtual.getLeituraAnterior());
 		assertEquals(faturaAtual.getLeituraAtual(), faturaAtual.getLeituraAtual());
 		

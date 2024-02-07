@@ -8,20 +8,20 @@ public class Pagamento {
 	
 	private Integer id;
 	private Fatura fatura;
-	private double valor;
+	private Double valor;
 	private Date data;
 
 	public Pagamento() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Pagamento(Fatura fatura, double valor) {
+	public Pagamento(Fatura fatura, Double valor) {
         this.fatura = fatura;
         this.valor = valor;
         this.data = new Date();
     }
 	
-	public Pagamento(Integer id, Fatura fatura, double valor, Date data) {
+	public Pagamento(Integer id, Fatura fatura, Double valor, Date data) {
         this.fatura = fatura;
         this.valor = valor;
         this.data = data;
@@ -44,11 +44,11 @@ public class Pagamento {
 		this.fatura = fatura;
 	}
 
-	public double getValor() {
+	public Double getValor() {
 		return valor;
 	}
 
-	public void setValor(double valor) {
+	public void setValor(Double valor) {
 		this.valor = valor;
 	}
 

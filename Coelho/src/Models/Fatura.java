@@ -9,16 +9,16 @@ public class Fatura {
 	private Integer id;
 	private Imovel imovel;
 	private Date dataEmissao;
-	private int leituraAnterior;
-	private int leituraAtual;
-	private double valorCalculado;
-	private boolean quitada;
+	private Double leituraAnterior;
+	private Double leituraAtual;
+	private Double valorCalculado;
+	private Boolean quitada;
 
 	public Fatura() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Fatura(Imovel imovel, int leituraAtual) {
+	public Fatura(Imovel imovel, Double leituraAtual) {
         this.imovel = imovel;
         this.leituraAtual = leituraAtual;
         this.dataEmissao = new Date();
@@ -26,7 +26,7 @@ public class Fatura {
         this.quitada = false;
     }
 	
-	public Fatura(Imovel imovel, int leituraAtual, int leituraAnterior) {
+	public Fatura(Imovel imovel, Double leituraAtual, Double leituraAnterior) {
 		this.imovel = imovel;
 		this.leituraAtual = leituraAtual;
 		this.leituraAnterior = leituraAnterior;
@@ -59,35 +59,35 @@ public class Fatura {
 		this.dataEmissao = dataEmissao;
 	}
 
-	public int getLeituraAnterior() {
+	public Double getLeituraAnterior() {
 		return leituraAnterior;
 	}
 
-	public void setLeituraAnterior(int leituraAnterior) {
+	public void setLeituraAnterior(Double leituraAnterior) {
 		this.leituraAnterior = leituraAnterior;
 	}
 
-	public int getLeituraAtual() {
+	public Double getLeituraAtual() {
 		return leituraAtual;
 	}
 
-	public void setLeituraAtual(int leituraAtual) {
+	public void setLeituraAtual(Double leituraAtual) {
 		this.leituraAtual = leituraAtual;
 	}
 
-	public double getValorCalculado() {
+	public Double getValorCalculado() {
 		return valorCalculado;
 	}
 
-	public void setValorCalculado(double valorCalculado) {
+	public void setValorCalculado(Double valorCalculado) {
 		this.valorCalculado = valorCalculado;
 	}
 
-	public boolean isQuitada() {
+	public Boolean isQuitada() {
 		return quitada;
 	}
 
-	public void setQuitada(boolean quitada) {
+	public void setQuitada(Boolean quitada) {
 		this.quitada = quitada;
 	}
 	

@@ -52,7 +52,7 @@ public class Mock {
 
         for (int i = 0; i < quantidade; i++) {
             Imovel imovel = imoveis.get(random.nextInt(imoveis.size()));
-            FaturaService.registraLeitura(imovel, random.nextInt(100));
+            FaturaService.registraLeitura(imovel, random.nextDouble(100));
         }
     }
 

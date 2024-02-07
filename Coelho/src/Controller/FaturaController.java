@@ -23,7 +23,7 @@ public class FaturaController {
 		
 		if (imovelSelecionado != null) {			
 			System.out.print("\nValor da leitura: ");
-			int leitura = Util.stringToInt(entrada.nextLine());
+			Double leitura = Util.stringToDouble(entrada.nextLine());
 			
 			Fatura fatura = FaturaService.registraLeitura(imovelSelecionado, leitura);
 			
