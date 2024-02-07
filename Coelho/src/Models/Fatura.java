@@ -1,18 +1,48 @@
 package Models;
 
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import Utils.Util;
 
+@Entity
 public class Fatura {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idImovel", referencedColumnName = "id", nullable = false)
 	private Imovel imovel;
+	
+	@Column(name = "dataEmissao", nullable = false)
 	private Date dataEmissao;
+	
+	@Column(name = "leituraAnterior", nullable = false)
 	private Double leituraAnterior;
+	
+	@Column(name = "leituraAtual", nullable = false)
 	private Double leituraAtual;
+	
+	@Column(name = "valorCalculado", nullable = false)
 	private Double valorCalculado;
+	
+	@Column(nullable = false)
 	private Boolean quitada;
+	
+	@OneToMany(mappedBy = "fatura", fetch = FetchType.LAZY)
+	private List<Pagamento> pagamentos;
 
 	public Fatura() {
 		// TODO Auto-generated constructor stub

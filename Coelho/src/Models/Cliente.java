@@ -3,10 +3,28 @@ package Models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Cliente {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+	
+	@Column(nullable = false)
 	private String nome;
+	
+	@Column(unique = true, nullable = false)
 	private String cpf;
+	
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
 	private List<Imovel> imoveis;
 
 	public Cliente() {

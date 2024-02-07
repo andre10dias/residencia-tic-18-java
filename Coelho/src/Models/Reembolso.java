@@ -2,13 +2,32 @@ package Models;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import Utils.Util;
 
+@Entity
 public class Reembolso {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idPagamento", referencedColumnName = "id", nullable = false)
 	private Pagamento pagamento;
+	
+	@Column(nullable = false)
 	private Double valor;
+	
+	@Column(nullable = false)
 	private Date data;
 
 	public Reembolso() {
