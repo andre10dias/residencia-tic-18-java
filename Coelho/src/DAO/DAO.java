@@ -9,13 +9,13 @@ import java.util.List;
 
 public class DAO {
 	
-	private static final String URL = "JDBC:mysql://ulxk6mmvlglgqefb:auFekaDXaElVngMLQ6VV@bipmbrzaglwxmdvfn104-mysql.services.clever-cloud.com:3306/bipmbrzaglwxmdvfn104";
-	private static final String USER = "ulxk6mmvlglgqefb";
-	private static final String PASSWD = "auFekaDXaElVngMLQ6VV";
+//	private static final String URL = "JDBC:mysql://ulxk6mmvlglgqefb:auFekaDXaElVngMLQ6VV@bipmbrzaglwxmdvfn104-mysql.services.clever-cloud.com:3306/bipmbrzaglwxmdvfn104";
+//	private static final String USER = "ulxk6mmvlglgqefb";
+//	private static final String PASSWD = "auFekaDXaElVngMLQ6VV";
 	
-//	private static final String URL = "jdbc:mysql://localhost:3306/residencia_18";
-//	private static final String USER = "root";
-//	private static final String PASSWD = "1234";
+	private static final String URL = "jdbc:mysql://localhost:3306/residencia_18";
+	private static final String USER = "root";
+	private static final String PASSWD = "1234";
 	
 	public static Connection getConnection() {
 		Connection connection = null;
