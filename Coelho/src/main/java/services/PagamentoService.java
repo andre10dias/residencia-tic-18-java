@@ -1,11 +1,11 @@
 package services;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import dao.FaturaDAO;
 import dao.PagamentoDAO;
 import models.Fatura;
 import models.Pagamento;
@@ -33,12 +33,18 @@ public class PagamentoService {
 			}
 			
 			if ((valorPagamentosAnteriores + valorPagamento) == pagamento.getFatura().getValorCalculado()) {
-				pagamento.getFatura().setQuitada(true);
+				Fatura fatura = pagamento.getFatura();
+				fatura.setQuitada(true);
+				
+				FaturaDAO.update(fatura);
 				PagamentoDAO.save(pagamento);
 			}
 			else if ((valorPagamentosAnteriores + valorPagamento) > pagamento.getFatura().getValorCalculado()) {
-				pagamento.getFatura().setQuitada(true);
-				pagamento = PagamentoDAO.save(pagamento);
+				Fatura fatura = pagamento.getFatura();
+				fatura.setQuitada(true);
+				
+				PagamentoDAO.save(pagamento);
+				FaturaDAO.update(fatura);
 				
 				if (pagamento.getId() != null) {	
 					valorReembolso = ReembolsoService.reembolsar(pagamento, (valorPagamento + valorPagamentosAnteriores));
@@ -55,16 +61,8 @@ public class PagamentoService {
 		return valorReembolso;
 	}
 	
-	public static List<Pagamento> getPagamentosByFatura(Fatura f) throws SQLException {
-		Set<Pagamento> pagamentosFatura = new HashSet<>();
-		
-		for (Pagamento pagamento : getPagamentos()) {
-			if (pagamento.getFatura().equals(f)) {
-				pagamentosFatura.add(pagamento);
-			}
-		}
-		
-		return new ArrayList<Pagamento>(pagamentosFatura);
+	public static List<Pagamento> getPagamentosByFatura(Fatura f) {
+		return PagamentoDAO.getPagamentosByFatura(f);
 	}
 
 }

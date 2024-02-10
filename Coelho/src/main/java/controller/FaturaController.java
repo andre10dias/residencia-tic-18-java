@@ -37,9 +37,10 @@ public class FaturaController {
 	
 	public static void listarFaturas(boolean isQuitada) {
 		String titulo = isQuitada ? "quitadas" : "";
+		List<Fatura> faturas = isQuitada ? FaturaService.getFaturasQuitadas() : FaturaService.getFaturas();
+		
 		System.out.println("\n======================== Listar faturas " + titulo +" ========================\n");
 		
-		List<Fatura> faturas = isQuitada ? FaturaService.getFaturasQuitadas() : FaturaService.getFaturas();
 		if (!faturas.isEmpty()) {
 			System.out.println("Imóvel \t\t Data Emissão \t Consumo \t Valor \t Quitada");
 			System.out.println("-----------------------------------------------------------------");

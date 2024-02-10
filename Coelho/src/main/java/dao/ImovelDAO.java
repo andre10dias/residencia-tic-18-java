@@ -43,7 +43,7 @@ public class ImovelDAO {
         GenericDAO<Imovel> dao = new GenericDAO<>(em);
         
         String jpql = "SELECT i FROM Imovel i "
-        		+ "WHERE i.idCliente IS NOT NULL";
+        		+ "WHERE i.cliente IS NOT NULL";
         List<Imovel> imovels = dao.executeQuery(jpql, Imovel.class);
         
         em.close();

@@ -1,6 +1,5 @@
 package controller;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,39 +15,24 @@ import services.ReembolsoService;
 public class ReembolsoController {
 	
 	public static void realizarReembolso(Pagamento pagamento, double valorTodosPagamentos) {
-		try {
-			double valorReembolso = ReembolsoService.reembolsar(pagamento, valorTodosPagamentos);
-			System.out.print("\nEste pagamento gerou um reembolso no valor de: " + valorReembolso);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		double valorReembolso = ReembolsoService.reembolsar(pagamento, valorTodosPagamentos);
+		System.out.print("\nEste pagamento gerou um reembolso no valor de: " + valorReembolso);
 	}
 
 	public static void listarTodos() {
+		List<Reembolso> reembolsos = ReembolsoService.getReembolsos();
 		System.out.println("\n======================== Listar reembolsos ========================\n");
 		
-		try {
-			List<Reembolso> reembolsos = ReembolsoService.getReembolsos();
-			listar(reembolsos);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		listar(reembolsos);
 	}
 
 	public static void consultarReembolsoFatura() {
-		System.out.println("\n======================== Listar reembolsos da fatura ========================\n");
 		Set<Fatura> faturas = new HashSet<>(FaturaService.getFaturas());
+		System.out.println("\n======================== Listar reembolsos da fatura ========================\n");
 		Fatura fatura = Menu.menuSelecionarFatura(new ArrayList<Fatura>(faturas));
 		
-		try {
-			List<Reembolso> reembolsos = ReembolsoService.getReembolsosByFatura(fatura);
-			listar(reembolsos);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		List<Reembolso> reembolsos = ReembolsoService.getReembolsosByFatura(fatura);
+		listar(reembolsos);
 	}
 	
 	private static void listar(List<Reembolso> reembolsos) {

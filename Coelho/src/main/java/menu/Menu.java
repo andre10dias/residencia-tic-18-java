@@ -20,7 +20,7 @@ import services.ImovelService;
 public class Menu {
 	
 	public static void menuPrincipal() {
-		List<String> itens = new ArrayList<>(Arrays.asList("[ 1 ] Imóvel", "[ 2 ] Cliente"));
+		List<String> itens = new ArrayList<>(Arrays.asList("[ 1 ] Cliente", "[ 2 ] Imóvel"));
 		int opcao = -1;
 		
 		if (!ImovelService.getImoveis().isEmpty() && !ClienteService.getClientes().isEmpty()) {
@@ -41,12 +41,12 @@ public class Menu {
 				
 				switch (opcao) {
 				case 1:
-					menuImovel();
+					menuCliente();
 					opcao = 0;
 					break;
 					
 				case 2:
-					menuCliente();
+					menuImovel();
 					opcao = 0;
 					break;
 					
@@ -183,7 +183,7 @@ public class Menu {
 		int opcao;
 		
 		do {
-			MenuUtil.montaMenu(itens, "Menu Fatura");
+			MenuUtil.montaMenu(itens, "Menu Pagamento");
 			opcao = MenuUtil.obterOpcao(itens.size());
 			
 			switch (opcao) {

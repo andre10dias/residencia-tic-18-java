@@ -20,7 +20,7 @@ public class Reembolso {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idPagamento", referencedColumnName = "id", nullable = false)
 	private Pagamento pagamento;
 	
@@ -78,13 +78,27 @@ public class Reembolso {
 		return this.pagamento.getFatura();
 	}
 	
+	public Double getValorPagamento() {
+		Double valorPagamento = this.getFatura().getValorCalculado() + this.valor;
+		return valorPagamento;
+	}
+	
 	public String getDataFormatada() {
 		return Util.formatDate(data);
 	}
 	
+	public String getValorFormatado() {
+		return Util.formatCurrency(this.valor);
+	}
+	
+	public String getValorPagamentoFormatado() {
+		return Util.formatCurrency(getValorPagamento());
+	}
+	
 	@Override
 	public String toString() {
-		return getDataFormatada() + "\t" + this.getFatura().getValorCalculado() 
-				+ "\t\t" + (this.getFatura().getValorCalculado()+this.valor) + "\t" + this.valor;
+		return getDataFormatada() + "\t" + this.getFatura().getValorCalculadoFormatado() 
+				+ "\t\t" + getValorPagamentoFormatado() 
+				+ "\t" + getValorFormatado();
 	}
 }

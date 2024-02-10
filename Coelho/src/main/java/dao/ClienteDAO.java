@@ -44,8 +44,8 @@ public class ClienteDAO {
         GenericDAO<Cliente> dao = new GenericDAO<>(em);
         
         String jpql = "SELECT c FROM Cliente c "
-        		+ "INNER JOIN Imovel i ON c.id = i.idCliente "
-        		+ "WHERE i.id = ?";
+        		+ "INNER JOIN Imovel i ON c.id = i.cliente.id "
+        		+ "WHERE i.id = ?1";
         
         List<Cliente> clientes = dao.executeQuery(jpql, Cliente.class, imovel.getId());
         

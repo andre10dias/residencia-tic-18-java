@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -61,5 +62,16 @@ public class GenericDAO<T> {
         
         return query.getResultList();
     }
+    
+    protected List<T> executeQueryParams(String jpql, Class<T> clazz, Map<String, Object> parametros) {
+        TypedQuery<T> query = entityManager.createQuery(jpql, clazz);
+        
+        for (Map.Entry<String, Object> entry : parametros.entrySet()) {
+            query.setParameter(entry.getKey(), entry.getValue());
+        }
+        
+        return query.getResultList();
+    }
+
 
 }

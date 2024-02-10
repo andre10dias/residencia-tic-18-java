@@ -3,6 +3,7 @@ package services;
 import java.util.List;
 
 import dao.FaturaDAO;
+import dao.ImovelDAO;
 import models.Fatura;
 import models.Imovel;
 
@@ -20,22 +21,30 @@ public class FaturaService {
 		return FaturaDAO.getFaturasQuitadas(false);
 	}
 	
+	public static List<Fatura> getFaturasByImovel(Imovel imovel, Boolean isFaturaQuitada) {
+		return FaturaDAO.getFaturasByImovel(imovel, isFaturaQuitada);
+	}
+	
 	public static Fatura registraLeitura(Imovel imovel, Double leituraAtual) {
 		Fatura faturaAnterior = null;
 		Fatura f = null;
-		int idFatura = getFaturas().size()+1;
+		List<Fatura> faturas = getFaturasByImovel(imovel, null);
 		
-		if (!getFaturas().isEmpty()) {
-			faturaAnterior = getFaturas().get((getFaturas().size()-1));
+		if (!faturas.isEmpty()) {
+			faturaAnterior = faturas.get((faturas.size()-1));
+			
+			imovel.setLeituraAnterior(faturaAnterior.getLeituraAtual());
+			imovel.setLeituraAtual(leituraAtual);
+			
 			f = new Fatura(imovel, leituraAtual, faturaAnterior.getLeituraAtual());
-			f.setId(idFatura);
 		}
 		else {
 			f = new Fatura(imovel, leituraAtual);
-			f.setId(idFatura);
+			imovel.setLeituraAtual(leituraAtual);
 		}
 		
 		Fatura fatura = FaturaDAO.save(f);
+		ImovelDAO.update(imovel);
 		return fatura;
 	}
 	

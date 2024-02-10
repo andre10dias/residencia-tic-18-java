@@ -1,15 +1,12 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import Utils.Util;
-import menu.Menu;
 import models.Cliente;
 import models.Imovel;
 import services.ClienteService;
-import services.ImovelService;
 
 public class ClienteController {
 	
@@ -18,8 +15,8 @@ public class ClienteController {
 	public static void cadastrarCliente() {		
 		System.out.println("\n======================== Cadastrar cliente ========================");
 		
-		if (!ImovelService.getImoveis().isEmpty()) {	
-			List<Imovel> imoveis = new ArrayList<>();
+//		if (!ImovelService.getImoveis().isEmpty()) {	
+//			List<Imovel> imoveis = new ArrayList<>();
 			
 			System.out.print("\nNome: ");
 			String nome = entrada.nextLine();
@@ -27,17 +24,17 @@ public class ClienteController {
 			System.out.print("\nCPF: ");
 			String cpf = entrada.nextLine();
 			
-			Imovel imovel = Menu.menuSelecionarImovel(ImovelService.getImoveis());
-			imoveis.add(imovel);
+//			Imovel imovel = Menu.menuSelecionarImovel(ImovelService.getImoveis());
+//			imoveis.add(imovel);
 			
 			Cliente cliente = new Cliente(nome, cpf);
-			cliente.setImoveis(imoveis);
+			//cliente.setImoveis(imoveis);
 			
 			ClienteService.salvarCliente(cliente);
-		}
-		else {
-			System.out.println("\\nNão existem dados para serem exibidos.");
-		}
+//		}
+//		else {
+//			System.out.println("\\nNão existem dados para serem exibidos.");
+//		}
 	}
 
 	public static void removerCliente() {
@@ -46,7 +43,7 @@ public class ClienteController {
 
 		if (!clientes.isEmpty()) {
 			for (int i = 0; i < clientes.size(); i++) {
-				System.out.println((i + 1) + ". " + clientes.get(i).getNome());
+				System.out.println("[ " + (i + 1) + " ] " + clientes.get(i).getNome());
 			}
 
 			System.out.print("Qual cliente deseja selecionar? Escolha pelo número de cada um: ");

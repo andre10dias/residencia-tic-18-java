@@ -22,14 +22,14 @@ public class Fatura {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idImovel", referencedColumnName = "id", nullable = false)
 	private Imovel imovel;
 	
 	@Column(name = "dataEmissao", nullable = false)
 	private Date dataEmissao;
 	
-	@Column(name = "leituraAnterior", nullable = false)
+	@Column(name = "leituraAnterior")
 	private Double leituraAnterior;
 	
 	@Column(name = "leituraAtual", nullable = false)
@@ -125,14 +125,26 @@ public class Fatura {
         return Util.formatDate(dataEmissao);
     }
 	
+	public String getValorCalculadoFormatado() {
+		return Util.formatCurrency(this.valorCalculado);
+	}
+	
 	public String isQuitadaPorExtenso() {
 		return this.quitada ? "Sim" : "Não";
+	}
+	
+	public String getLeituraAtualFormatada() {
+		return Util.formatReadingValue(this.leituraAtual);
+	}
+	
+	public String getLeituraAnteriorFormatada() {
+		return Util.formatReadingValue(this.leituraAnterior);
 	}
 
     @Override
     public String toString() {
-        return this.id + "\t" + imovel.getMatricula() + "\t" + getDataEmissaoFormatada() + "\t" + this.leituraAtual
-                + "\t\t" + this.valorCalculado + "\t" + isQuitadaPorExtenso();
+        return imovel.getMatricula() + "\t" + getDataEmissaoFormatada() + "\t" + getLeituraAtualFormatada()
+                + "\t\t" + getValorCalculadoFormatado() + "\t" + isQuitadaPorExtenso();
     }
 
 }

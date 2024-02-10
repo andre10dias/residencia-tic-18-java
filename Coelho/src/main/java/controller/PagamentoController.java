@@ -1,6 +1,5 @@
 package controller;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -34,7 +33,7 @@ public class PagamentoController {
 			
 			double valorReembolso = PagamentoService.registraPagamento(faturaSelecionada, valor);
 			if (valorReembolso > 0) {				
-				System.out.print("\nEste pagamento gerou um reembolso no valor de: " + valorReembolso);
+				System.out.print("\nEste pagamento gerou um reembolso no valor de: " + Util.formatCurrency(valorReembolso));
 			}
 		}
 		else {
@@ -44,24 +43,19 @@ public class PagamentoController {
 	}
 
 	public static void listarTodos() {
-		System.out.println("\n======================== Listar pagamentos ========================\n");
-		
 		List<Pagamento> pagamentos = PagamentoService.getPagamentos();
+		
+		System.out.println("\n======================== Listar pagamentos ========================\n");
 		listar(pagamentos);
 	}
 
 	public static void consultarPagFatura() {
-		System.out.println("\n======================== Listar pagamentos da fatura ========================\n");
 		Set<Fatura> faturas = new HashSet<Fatura>(FaturaService.getFaturas());
 		Fatura fatura = Menu.menuSelecionarFatura(new ArrayList<Fatura>(faturas));
 		
-		try {
-			List<Pagamento> pagamentos = PagamentoService.getPagamentosByFatura(fatura);
-			listar(pagamentos);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		List<Pagamento> pagamentos = PagamentoService.getPagamentosByFatura(fatura);
+		System.out.println("\n======================== Listar pagamentos da fatura ========================\n");
+		listar(pagamentos);
 	}
 	
 	private static void listar(List<Pagamento> pagamentos) {

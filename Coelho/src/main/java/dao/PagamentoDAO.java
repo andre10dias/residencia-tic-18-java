@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import models.Fatura;
 import models.Pagamento;
 
 public class PagamentoDAO {
@@ -36,6 +37,23 @@ public class PagamentoDAO {
         emf.close();
 		
 		return pagamento;
+	}
+	
+	public static List<Pagamento> getPagamentosByFatura(Fatura f) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory(GenericDAO.PERSISTENCE_UNIT);
+        EntityManager em = emf.createEntityManager();
+        GenericDAO<Pagamento> dao = new GenericDAO<>(em);
+        
+        String jpql = "SELECT p FROM Pagamento p "
+        		+ "INNER JOIN Fatura f ON p.fatura.id = f.id "
+        		+ "WHERE f.id = ?1";
+        
+        List<Pagamento> pagamentos = dao.executeQuery(jpql, Pagamento.class, f.getId());
+        
+        em.close();
+        emf.close();
+		
+		return pagamentos;
 	}
 	
 	public static Pagamento save(Pagamento p) {

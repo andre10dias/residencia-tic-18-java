@@ -3,7 +3,10 @@ package controller;
 import java.util.List;
 import java.util.Scanner;
 
+import menu.Menu;
+import models.Cliente;
 import models.Imovel;
+import services.ClienteService;
 import services.ImovelService;
 
 public class ImovelController {
@@ -11,16 +14,24 @@ public class ImovelController {
 	private static Scanner entrada = new Scanner(System.in);
 
 	public static void cadastrarImovel() {
-		System.out.println("\n======================== Cadastrar imóvel ========================");
 		
-		System.out.print("\nMatrícula: ");
-		String matricula = entrada.nextLine();
-		
-		System.out.print("\nEndereço: ");
-		String endereco = entrada.nextLine();
-		
-		Imovel imovel = new Imovel(matricula, endereco);
-		ImovelService.salvarImovel(imovel);
+		if (!ClienteService.getClientes().isEmpty()) {			
+			System.out.println("\n======================== Cadastrar imóvel ========================");
+			
+			System.out.print("\nMatrícula: ");
+			String matricula = entrada.nextLine();
+			
+			System.out.print("\nEndereço: ");
+			String endereco = entrada.nextLine();
+			
+			Cliente cliente = Menu.menuSelecionarCliente();
+			
+			Imovel imovel = new Imovel(matricula, endereco, cliente);
+			ImovelService.salvarImovel(imovel);
+		}
+		else {
+			System.err.println("\\nRealize o cadastro de clientes.");
+		}
 	}
 	
 	public static void listarImoveis() {

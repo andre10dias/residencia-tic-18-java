@@ -30,6 +30,10 @@ public class ClienteService {
     	
         ClienteDAO.update(cliente);
     }
+    
+    public static Cliente getClienteById(Integer id) {
+    	return ClienteDAO.getClienteById(id);
+    }
 	
 	public static Cliente getClienteByImovel(Imovel i) {
 		return ClienteDAO.getClienteByImovel(i);
@@ -37,8 +41,9 @@ public class ClienteService {
 	
 	public static List<Cliente> retornaClientesComImovel() {
 		Set<Cliente> lista = new HashSet<>();
+		List<Cliente> clientes = getClientes(); 
 		
-		for (Cliente cliente : getClientes()) {
+		for (Cliente cliente : clientes) {
 			if (!cliente.getImoveis().isEmpty()) {
 				lista.add(cliente);
 			}

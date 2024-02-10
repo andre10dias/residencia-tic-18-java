@@ -24,7 +24,7 @@ public class Cliente {
 	@Column(unique = true, nullable = false)
 	private String cpf;
 	
-	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
 	private List<Imovel> imoveis;
 
 	public Cliente() {

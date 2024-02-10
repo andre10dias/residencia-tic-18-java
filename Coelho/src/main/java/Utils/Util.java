@@ -31,6 +31,7 @@ public class Util {
         if (date == null) {
             return "";
         }
+        
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(date);
     }
@@ -39,5 +40,9 @@ public class Util {
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         return currencyFormat.format(amount);
     }
+	
+	public static String formatReadingValue(double invoiceValue) {
+		return invoiceValue + " kwh";
+	}
 	
 }

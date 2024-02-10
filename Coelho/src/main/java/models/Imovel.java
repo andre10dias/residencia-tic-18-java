@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import Utils.Util;
+
 @Entity
 public class Imovel {
 	
@@ -36,9 +38,10 @@ public class Imovel {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Imovel(String matricula, String endereco) {
+	public Imovel(String matricula, String endereco, Cliente cliente) {
 		this.matricula = matricula;
 		this.endereco = endereco;
+		this.cliente = cliente;
 	}
 	
 	public Integer getId() {
@@ -83,6 +86,14 @@ public class Imovel {
 
 	public void setLeituraAtual(Double leituraAtual) {
 		this.leituraAtual = leituraAtual;
+	}
+	
+	public String getLeituraAtualFormatada() {
+		return Util.formatReadingValue(this.leituraAtual);
+	}
+	
+	public String getLeituraAnteriorFormatada() {
+		return Util.formatReadingValue(this.leituraAnterior);
 	}
 	
 	@Override

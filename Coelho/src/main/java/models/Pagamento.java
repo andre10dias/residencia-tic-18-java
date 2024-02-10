@@ -20,7 +20,7 @@ public class Pagamento {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idFatura", referencedColumnName = "id", nullable = false)
 	private Fatura fatura;
 	
@@ -82,10 +82,15 @@ public class Pagamento {
 	public String getDataFormatada() {
         return Util.formatDate(this.data);
     }
+	
+	public String getValorFormatado() {
+		return Util.formatCurrency(this.valor);
+	}
+	
     @Override
     public String toString() {
         return fatura.getImovel().getMatricula() + "\t" + getDataFormatada() 
-        + "\t" + fatura.getValorCalculado() + "\t" + this.valor 
+        + "\t" + fatura.getValorCalculadoFormatado() + "\t" + getValorFormatado()
         + "\t" + fatura.isQuitadaPorExtenso();
     }
 }

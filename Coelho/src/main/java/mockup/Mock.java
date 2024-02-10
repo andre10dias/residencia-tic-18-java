@@ -28,10 +28,16 @@ public class Mock {
 	}
 
     private static void gerarImoveisAleatorios(int quantidade) {
+		Random random = new Random();
+		
         for (int i = 0; i < quantidade; i++) {
             String matricula = "Matricula" + i;
             String endereco = "Endereco" + i;
-            ImovelService.salvarImovel(new Imovel(matricula, endereco));
+            
+            Cliente cliente = ClienteService.getClientes()
+            		.get(random.nextInt(ClienteService.getClientes().size()));
+            
+            ImovelService.salvarImovel(new Imovel(matricula, endereco, cliente));
         }
     }
 	
