@@ -22,12 +22,12 @@ public class DAO {
 			String[] dados = pilotos.get(i).split(";");
 			
 			String pais = dados[0];
-			String nome = dados[1];
+			String nomePiloto = dados[1];
 			String vitorias = dados[2].replace("\n", "");
 			
 			Piloto piloto = new Piloto(
 					pais,
-					nome,
+					nomePiloto,
 					Integer.valueOf(vitorias)
 			);
 			
