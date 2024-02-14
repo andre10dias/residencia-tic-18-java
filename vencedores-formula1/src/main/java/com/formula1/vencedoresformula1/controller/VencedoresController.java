@@ -36,5 +36,10 @@ public class VencedoresController {
 	public Map<String, List<Piloto>> listarVitoriasPorPais() {
 		return VencedoresService.getVitoriasPorPais();
 	}
+	
+	@GetMapping("/mediaporpais")
+	public Map<String, Double> listarMediaVitoriasPorPais() {
+		return VencedoresService.getMediaVitoriasByPais();
+	}
 
 }

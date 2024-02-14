@@ -3,7 +3,7 @@ package com.formula1.vencedoresformula1.service;
 import java.util.List;
 import java.util.Map;
 
-import com.formula1.vencedoresformula1.DAO.DAO;
+import com.formula1.vencedoresformula1.dao.DAO;
 import com.formula1.vencedoresformula1.model.Piloto;
 
 public class VencedoresService {
@@ -26,6 +26,10 @@ public class VencedoresService {
 	
 	public static Map<String, List<Piloto>> getVitoriasPorPais() {
 		return DAO.getNumerosVitoriasByPais();
+	}
+	
+	public static Map<String, Double> getMediaVitoriasByPais() {
+		return DAO.getMediaVitoriasByPais();
 	}
 
 }

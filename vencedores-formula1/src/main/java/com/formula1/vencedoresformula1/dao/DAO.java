@@ -1,4 +1,4 @@
-package com.formula1.vencedoresformula1.DAO;
+package com.formula1.vencedoresformula1.dao;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,24 +78,45 @@ public class DAO {
 		return listaVitoriasPorPais;
 	}
 	
-	private static List<String> getPaisesOrdenados(List<Piloto> listaPilotos) {
-		List<String> listaPaises = new ArrayList<>();
+	public static Map<String, Double> getMediaVitoriasByPais() {
+		Map<String, List<Piloto>> listaVitoriasPorPais = DAO.getNumerosVitoriasByPais();
+		Map<String, Double> mediaVitoriasPorPais = new HashMap<>();
+		Map<String, Double> mediaVitoriasPorPaisOrdenado = new LinkedHashMap<>();
 		
-		for (Piloto piloto : listaPilotos) {
-			listaPaises.add(piloto.getPais());
+		for (Map.Entry<String, List<Piloto>> entry : listaVitoriasPorPais.entrySet()) {
+			String key = entry.getKey();
+			List<Piloto> val = entry.getValue();
+			
+			Integer soma = 0;
+			for (Piloto piloto : val) {
+				soma += piloto.getVitorias();
+			}
+			
+			Double media = (double) (soma / val.size());
+			mediaVitoriasPorPais.put(key, media);
+			
+			// Convertendo um map em um list
+			List<Map.Entry<String, Double>> listaEntries = new ArrayList<>(mediaVitoriasPorPais.entrySet());
+			
+			// Ordenando pela media de vitórias decrescente
+			Collections.sort(listaEntries, (entry1, entry2) -> 
+			    entry2.getValue().compareTo(entry1.getValue()));
+			
+			/*
+			 * Inserindo os dados da lista ordenada num LinkedHashMap, 
+			 * o qual mantém a ordem de inserção
+			 * */
+			mediaVitoriasPorPaisOrdenado = new LinkedHashMap<>();
+			for (Map.Entry<String, Double> e : listaEntries) {
+			    mediaVitoriasPorPaisOrdenado.put(e.getKey(), e.getValue());
+			}
 		}
 		
-		Collections.sort(listaPaises, (p1, p2) -> p1.compareTo(p2));
-		return listaPaises;
+		return mediaVitoriasPorPaisOrdenado;
 	}
 	
 	private static List<Piloto> ordenaPorNumerosVitoriasDescrescente(List<Piloto> listaPilotos) {
 		Collections.sort(listaPilotos, (p1, p2) -> p2.getVitorias().compareTo(p1.getVitorias()));
-		return listaPilotos;
-	}
-	
-	private static List<Piloto> ordenaPorNumerosVitoriasCrescente(List<Piloto> listaPilotos) {
-		Collections.sort(listaPilotos, (p1, p2) -> p1.getVitorias().compareTo(p2.getVitorias()));
 		return listaPilotos;
 	}
 	
