@@ -1,11 +1,11 @@
 package com.formula1.vencedoresformula1.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.formula1.vencedoresformula1.dto.VitoriasPorPaisDTO;
 import com.formula1.vencedoresformula1.model.Piloto;
 import com.formula1.vencedoresformula1.service.VencedoresService;
 
@@ -33,12 +33,12 @@ public class VencedoresController {
 	}
 	
 	@GetMapping("/porpais")
-	public Map<String, List<Piloto>> listarVitoriasPorPais() {
+	public List<VitoriasPorPaisDTO> listarVitoriasPorPais() {
 		return VencedoresService.getVitoriasPorPais();
 	}
 	
 	@GetMapping("/mediaporpais")
-	public Map<String, Double> listarMediaVitoriasPorPais() {
+	public List<VitoriasPorPaisDTO> listarMediaVitoriasPorPais() {
 		return VencedoresService.getMediaVitoriasByPais();
 	}
 
