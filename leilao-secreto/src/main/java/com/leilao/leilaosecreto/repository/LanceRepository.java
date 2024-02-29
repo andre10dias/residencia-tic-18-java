@@ -23,7 +23,7 @@ public interface LanceRepository extends JpaRepository<Lance, Long> {
 	@Query("SELECT COUNT(l) > 0 FROM Lance l WHERE l.concorrente.id = :concorrenteId")
 	public Boolean concorrenteExists(@Param("concorrenteId") Long concorrenteId);
 	
-	@Query("SELECT l.leilao.fechado FROM Lance l WHERE l.leilao.id = :leilaoId")
+	@Query("SELECT l.leilao.status FROM Lance l WHERE l.leilao.id = :leilaoId AND l.leilao.status = 'FECHADO'")
 	public Boolean isLeilaoFechado(@Param("leilaoId") Long leilaoId);
 	
 	void deleteById(Long id);
