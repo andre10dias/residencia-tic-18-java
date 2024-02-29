@@ -5,6 +5,15 @@ import com.leilao.leilaosecreto.model.Lance;
 import com.leilao.leilaosecreto.model.Leilao;
 import com.leilao.leilaosecreto.repository.LanceRepository;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LanceForm {
 	private Leilao leilao;
 	private Concorrente concorrente;
@@ -15,7 +24,7 @@ public class LanceForm {
 	}
 	
 	public Lance atualizar(Long id, LanceRepository repository) {
-		com.leilao.leilaosecreto.model.Lance lance = repository.getReferenceById(id);
+		Lance lance = repository.getReferenceById(id);
 		lance.setLeilao(this.leilao);
 		lance.setConcorrente(this.concorrente);
 		lance.setValor(this.valor);

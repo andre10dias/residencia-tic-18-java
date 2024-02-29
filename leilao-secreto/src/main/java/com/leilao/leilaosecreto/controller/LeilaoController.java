@@ -86,6 +86,35 @@ public class LeilaoController {
 		return ResponseEntity.notFound().build();
 	}
 	
+//	@GetMapping("/{id}")
+//	public ResponseEntity<VencedorLeilaoDTO> vencedorLeilao(@PathVariable Long id) {
+//		// Verificar se o ID do leilão foi fornecido
+//	    if (id == null) {
+//	        return ResponseEntity.badRequest().build();
+//	    }
+//
+//	    // Verificar se o leilão existe
+//	    Optional<Leilao> optional = repository.findById(id);
+//	    if (optional.isEmpty()) {
+//	        return ResponseEntity.notFound().build();
+//	    }
+//
+//	    // Verificar se o leilão está fechado
+//	    Leilao leilao = optional.get();
+//	    if ("Fechado".equals(leilao.getStatus())) {
+//	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//	    }
+//
+//	    // Obter o vencedor do leilão
+//	    List<VencedorLeilaoDTO> resultados = repository.getVencedorLeilao(id);
+//	    if (!resultados.isEmpty()) {
+//	        VencedorLeilaoDTO resultado = resultados.get(0); // Pegar o primeiro resultado, assumindo que apenas um é retornado
+//	        return ResponseEntity.ok(resultado);
+//	    }
+//
+//	    return ResponseEntity.notFound().build();
+//	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<VencedorLeilaoDTO> vencedorLeilao(@PathVariable Long id) {
 		// Verificar se o ID do leilão foi fornecido
@@ -106,10 +135,13 @@ public class LeilaoController {
 	    }
 
 	    // Obter o vencedor do leilão
-	    List<VencedorLeilaoDTO> resultados = repository.getVencedorLeilao(id);
+	    List<Leilao> resultados = repository.getVencedorLeilao(id);
 	    if (!resultados.isEmpty()) {
-	        VencedorLeilaoDTO resultado = resultados.get(0); // Pegar o primeiro resultado, assumindo que apenas um é retornado
-	        return ResponseEntity.ok(resultado);
+	        Leilao resultado = resultados.get(0); // Pegar o primeiro resultado, assumindo que apenas um é retornado
+	        
+	        VencedorLeilaoDTO vencedor = new VencedorLeilaoDTO(resultado);
+	        
+	        return ResponseEntity.ok(vencedor);
 	    }
 
 	    return ResponseEntity.notFound().build();

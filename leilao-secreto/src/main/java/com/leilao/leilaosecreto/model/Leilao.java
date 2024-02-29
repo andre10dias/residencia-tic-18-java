@@ -2,6 +2,7 @@ package com.leilao.leilaosecreto.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +24,10 @@ public class Leilao {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String descricao;
+	
+	@Column(name = "valor_minimo")
 	private Double valorMinimo;
+	
 	private String status;
 	
 	@OneToMany(mappedBy = "leilao", fetch = FetchType.LAZY)

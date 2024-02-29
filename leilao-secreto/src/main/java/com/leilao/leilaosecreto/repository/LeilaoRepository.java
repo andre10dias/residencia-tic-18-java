@@ -13,11 +13,11 @@ public interface LeilaoRepository extends JpaRepository<Leilao, Long> {
 	@Query("""
 			   SELECT le, max(la.valor) as valor_max_lance, co
 				FROM Leilao le
-				INNER JOIN Lance la ON le.id = la.idLeilao
-				INNER JOIN Concorrente co ON la.idConcorrente = co.id
+				INNER JOIN Lance la ON le.id = la.id_leilao
+				INNER JOIN Concorrente co ON la.id_concorrente = co.id
 				WHERE le.id = :leilaoId
 				GROUP BY le.id, le.descricao, le.valorMinimo, le.status, co.id, co.nome, co.cpf
             """)
-	List<VencedorLeilaoDTO> getVencedorLeilao(Long leilaoId);
+	List<Leilao> getVencedorLeilao(Long leilaoId);
 
 }
