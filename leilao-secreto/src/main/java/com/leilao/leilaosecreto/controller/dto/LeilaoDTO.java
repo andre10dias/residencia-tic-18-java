@@ -1,20 +1,27 @@
 package com.leilao.leilaosecreto.controller.dto;
 
-import jakarta.persistence.Entity;
+import com.leilao.leilaosecreto.model.Leilao;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class LeilaoDTO {
 	private Long id;
 	private String descricao;
 	private Double valorMinimo;
 	private String status;
+	
+	public LeilaoDTO(Leilao leilao) {
+		this.id = leilao.getId();
+		this.descricao = leilao.getDescricao();
+		this.valorMinimo = leilao.getValorMinimo();
+		this.status = leilao.getStatus();
+	}
 
 }
