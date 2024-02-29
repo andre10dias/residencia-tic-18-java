@@ -22,11 +22,11 @@ public class Lance {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_leilao", referencedColumnName = "id", nullable = false)
+	@JoinColumn(name = "idLeilao", referencedColumnName = "id", nullable = false)
 	private Leilao leilao;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_concorrente", referencedColumnName = "id", nullable = false)
+	@JoinColumn(name = "idConcorrente", referencedColumnName = "id", nullable = false)
 	private Concorrente concorrente;
 	
 	private Double valor;

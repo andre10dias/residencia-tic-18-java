@@ -24,7 +24,7 @@ import com.leilao.leilaosecreto.repository.ConcorrenteRepository;
 import jakarta.transaction.Transactional;
 
 @RestController
-@RequestMapping("/concorrentes")
+@RequestMapping("/concorrente")
 public class ConcorrenteController {
 	
 	@Autowired

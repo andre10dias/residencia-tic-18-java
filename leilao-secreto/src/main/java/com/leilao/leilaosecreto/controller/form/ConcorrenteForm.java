@@ -17,7 +17,7 @@ public class ConcorrenteForm {
 	private String cpf;
 	
 	public Concorrente toConcorrente() {
-		return new Concorrente(null, nome, cpf);
+		return new Concorrente(null, nome, cpf, null);
 	}
 	
 	public Concorrente atualizar(Long id, ConcorrenteRepository repository) {

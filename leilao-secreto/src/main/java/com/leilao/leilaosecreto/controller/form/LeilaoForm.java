@@ -18,7 +18,7 @@ public class LeilaoForm {
 	private String status;
 	
 	public Leilao toLeilao() {
-		return new Leilao(null, descricao, valorMinimo, status);
+		return new Leilao(null, descricao, valorMinimo, status, null);
 	}
 	
 	public Leilao atualizar(Long id, LeilaoRepository repository) {

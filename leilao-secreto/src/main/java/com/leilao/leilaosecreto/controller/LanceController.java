@@ -24,7 +24,7 @@ import com.leilao.leilaosecreto.repository.LanceRepository;
 import jakarta.transaction.Transactional;
 
 @RestController
-@RequestMapping("/lances")
+@RequestMapping("/lance")
 public class LanceController {
 	
 	@Autowired

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.leilao.leilaosecreto.controller.dto.LeilaoDTO;
+import com.leilao.leilaosecreto.controller.dto.VencedorLeilaoDTO;
 import com.leilao.leilaosecreto.controller.form.LeilaoForm;
 import com.leilao.leilaosecreto.model.Leilao;
 import com.leilao.leilaosecreto.repository.LeilaoRepository;
@@ -24,7 +26,7 @@ import com.leilao.leilaosecreto.repository.LeilaoRepository;
 import jakarta.transaction.Transactional;
 
 @RestController
-@RequestMapping("/leiloes")
+@RequestMapping("/leilao")
 public class LeilaoController {
 	
 	@Autowired
@@ -82,6 +84,35 @@ public class LeilaoController {
 		}
 		
 		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<VencedorLeilaoDTO> vencedorLeilao(@PathVariable Long id) {
+		// Verificar se o ID do leilão foi fornecido
+	    if (id == null) {
+	        return ResponseEntity.badRequest().build();
+	    }
+
+	    // Verificar se o leilão existe
+	    Optional<Leilao> optional = repository.findById(id);
+	    if (optional.isEmpty()) {
+	        return ResponseEntity.notFound().build();
+	    }
+
+	    // Verificar se o leilão está fechado
+	    Leilao leilao = optional.get();
+	    if ("Fechado".equals(leilao.getStatus())) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	    }
+
+	    // Obter o vencedor do leilão
+	    List<VencedorLeilaoDTO> resultados = repository.getVencedorLeilao(id);
+	    if (!resultados.isEmpty()) {
+	        VencedorLeilaoDTO resultado = resultados.get(0); // Pegar o primeiro resultado, assumindo que apenas um é retornado
+	        return ResponseEntity.ok(resultado);
+	    }
+
+	    return ResponseEntity.notFound().build();
 	}
 	
 }
